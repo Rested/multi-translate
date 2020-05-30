@@ -1,0 +1,108 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "multi-translate.fullname" . }}
+  labels:
+    {{- include "multi-translate.labels" . | nindent 4 }}
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      {{- include "multi-translate.selectorLabels" . | nindent 6 }}
+  template:
+    metadata:
+      labels:
+        {{- include "multi-translate.selectorLabels" . | nindent 8 }}
+    spec:
+    {{- with .Values.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+    {{- end }}
+      serviceAccountName: {{ include "multi-translate.serviceAccountName" . }}
+      securityContext:
+        {{- toYaml .Values.podSecurityContext | nindent 8 }}
+      containers:
+        - name: {{ .Chart.Name }}
+          securityContext:
+            {{- toYaml .Values.securityContext | nindent 12 }}
+          image: "{{ .Values.image }}"
+          imagePullPolicy: {{ .Values.imagePullPolicy }}
+          env:
+            {{- if .Values.config.microsoftTranslatorUsingVirtualNetwork }}
+            - name: MICROSOFT_TRANSLATOR_USING_VIRTUAL_NETWORK
+              value: "{{ .Values.config.microsoftTranslatorUsingVirtualNetwork }}"
+            {{- end }}
+            {{- if .Values.config.microsoftTranslatorRegion }}
+            - name: MICROSOFT_TRANSLATOR_REGION
+              value: "{{ .Values.config.microsoftTranslatorRegion }}"
+            {{- end }}
+            {{- if .Values.config.microsoftTranslatorEndpoint }}
+            - name: MICROSOFT_TRANSLATOR_ENDPOINT
+              value: "{{ .Values.config.microsoftTranslatorEndpoint }}"
+            {{- end }}
+            {{- if .Values.config.secrets.microsoftTranslatorSubscriptionKey.name }}
+            - name: MICROSOFT_TRANSLATOR_SUBSCRIPTION_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: "{{ .Values.config.secrets.microsoftTranslatorSubscriptionKey.name }}"
+                  key: "{{ .Values.config.secrets.microsoftTranslatorSubscriptionKey.key }}"
+            {{- end }}
+            {{- if .Values.config.logLevel }}
+            - name: LOG_LEVEL
+              value: "{{ .Values.config.logLevel }}"
+            {{- end }}
+            {{- if .Values.postgresql.enabled }}
+            - name: DATABASE_HOST
+              value: "{{ include "postgresql.fullname" . }}-postgresql-headless"
+            - name: DATABASE_PORT
+              value: "5432"
+            - name: DATABASE_USER
+              value: "{{ .Values.postgresql.postgresqlUsername }}"
+            - name: DATABASE_DB
+              value: "{{ .Values.postgresql.postgresqlDatabase }}"
+            {{- if .Values.postgresql.existingSecret }}
+            - name: DATABASE_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.postgresql.existingSecret }}
+                  key: {{ .Values.postgresql.existingSecretKey }}
+            {{- else }}
+            - name: DATABASE_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: {{ include "postgresql.fullname" . }}-postgresql
+                  key: postgresql-password
+            {{- end }}
+            {{- end }}
+            - name: POSTGRES_DSN
+              value: postgresql://$(DATABASE_USER):$(DATABASE_PASSWORD)@$(DATABASE_HOST):$(DATABASE_PORT)/$(DATABASE_DB)
+          ports:
+            - name: http
+              containerPort: 80
+              protocol: TCP
+          livenessProbe:
+            httpGet:
+              path: /
+              port: http
+          readinessProbe:
+            httpGet:
+              path: /
+              port: http
+          resources:
+            {{- toYaml .Values.resources | nindent 12 }}
+      {{- with .Values.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      dnsConfig:
+        nameservers:
+          - 1.1.1.1
+          - 8.8.8.8
+    {{- with .Values.affinity }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
+    {{- end }}
+    {{- with .Values.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+    {{- end }}

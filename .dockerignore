@@ -1,0 +1,10 @@
+functional_tests
+charts
+**/tests
+skaffold.yaml
+dev-start.sh
+Dockerfile
+*git*
+__pycache__
+.pytest_cache
+secret_values.yaml
