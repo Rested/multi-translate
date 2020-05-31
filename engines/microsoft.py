@@ -108,6 +108,7 @@ class MicrosoftEngine(BaseTranslationEngine):
         from_language: Optional[str] = None,
         with_alignment: Optional[bool] = False,
     ) -> TranslationResponse:
+        # todo: handle lists of source text
         if with_alignment:
             alignment_status = _is_alignment_supported(
                 to_language=to_language, from_language=from_language
