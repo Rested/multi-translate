@@ -46,3 +46,18 @@ def test_translate_google_detection():
         "detected_language_confidence": None,
         "alignment": None,
     }
+
+
+def test_translate_google_alignment():
+    request_data = {
+        "to_language": "es",
+        "source_text": "hello",
+        "preferred_engine": "google",
+        "with_alignment": True,
+    }
+    resp = httpx.get(translate_url(), params=request_data)
+    assert resp.status_code == 400
+    result = resp.json()
+    assert result == {
+        "detail": "google (3) does not support alignment",
+    }

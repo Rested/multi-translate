@@ -1,30 +1,40 @@
-class TranslationEngineNotConfiguredError(BaseException):
+from typing import Optional
+
+from fastapi import HTTPException
+
+
+class BaseMultiTranslateError(HTTPException):
+    def __init__(self, detail: Optional[str] = None):
+        super().__init__(status_code=400, detail=detail, headers={})
+
+
+class TranslationEngineNotConfiguredError(BaseMultiTranslateError):
     """A problem with the configuration of the translation engine"""
 
 
-class DetectionError(BaseException):
+class DetectionError(BaseMultiTranslateError):
     """A problem detecting the language of an empty from request"""
 
 
-class TranslationError(BaseException):
+class TranslationError(BaseMultiTranslateError):
     """A problem performing or parsing the translation"""
 
 
-class EngineApiError(BaseException):
+class EngineApiError(BaseMultiTranslateError):
     """An error reported by an api service"""
 
 
-class UnsupportedLanguagePairError(BaseException):
+class UnsupportedLanguagePairError(BaseMultiTranslateError):
     """The from to language pair is not supported"""
 
 
-class InvalidISO6391CodeError(BaseException):
+class InvalidISO6391CodeError(BaseMultiTranslateError):
     """Is not a valid iso-639-1 code"""
 
 
-class AlignmentNotSupportedError(BaseException):
+class AlignmentNotSupportedError(BaseMultiTranslateError):
     """Alignment is not supported for this language combination"""
 
 
-class AlignmentError(BaseException):
+class AlignmentError(BaseMultiTranslateError):
     """Alignment failed despite being supported"""

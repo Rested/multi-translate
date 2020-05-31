@@ -74,3 +74,19 @@ def test_translate_microsoft_alignment():
             }
         ],
     }
+
+
+def test_translate_microsoft_alignment_with_bad_pair():
+    request_data = {
+        "from_language": "es",
+        "to_language": "fr",
+        "source_text": "hola",
+        "preferred_engine": "microsoft",
+        "with_alignment": True,
+    }
+    resp = httpx.get(translate_url(), params=request_data)
+    assert resp.status_code == 400
+    result = resp.json()
+    assert result == {
+        "detail": "microsoft (3.0) engine does not support alignment between es and fr"
+    }
