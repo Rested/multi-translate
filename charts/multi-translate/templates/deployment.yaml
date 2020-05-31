@@ -47,6 +47,18 @@ spec:
                   name: "{{ .Values.config.secrets.microsoftTranslatorSubscriptionKey.name }}"
                   key: "{{ .Values.config.secrets.microsoftTranslatorSubscriptionKey.key }}"
             {{- end }}
+            {{- if .Values.config.googleParentPath }}
+            - name: GOOGLE_PARENT_PATH
+              value: "{{ .Values.config.googleParentPath }}"
+            {{- end }}
+            {{- if .Values.config.googleEndpoint }}
+            - name: GOOGLE_ENDPOINT
+              value: "{{ .Values.config.googleEndpoint }}"
+            {{- end }}
+            {{- if .Values.config.secrets.googleServiceAccount.name }}
+            - name: GOOGLE_SVC_ACCOUNT_JSON_PATH
+              value: "/etc/google-svc-acc/google-svc-acc.json"
+            {{- end }}
             {{- if .Values.config.logLevel }}
             - name: LOG_LEVEL
               value: "{{ .Values.config.logLevel }}"
@@ -90,6 +102,12 @@ spec:
               port: http
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
+          volumeMounts:
+            {{- if .Values.config.secrets.googleServiceAccount.name }}
+            - name: google-svc-acc
+              mountPath: "/etc/google-svc-acc"
+              readOnly: true
+            {{- end }}
       {{- with .Values.nodeSelector }}
       nodeSelector:
         {{- toYaml . | nindent 8 }}
@@ -105,4 +123,13 @@ spec:
     {{- with .Values.tolerations }}
       tolerations:
         {{- toYaml . | nindent 8 }}
+    {{- end }}
+      volumes:
+    {{- if .Values.config.secrets.googleServiceAccount.name }}
+        - name: google-svc-acc
+          secret:
+            secretName: "{{ .Values.config.secrets.googleServiceAccount.name }}"
+            items:
+              - key: "{{ .Values.config.secrets.googleServiceAccount.key }}"
+                path: google-svc-acc.json
     {{- end }}

@@ -18,6 +18,10 @@ class UnsupportedLanguagePairError(BaseException):
     """The from to language pair is not supported"""
 
 
+class InvalidISO6391CodeError(BaseException):
+    """Is not a valid iso-639-1 code"""
+
+
 class AlignmentNotSupportedError(BaseException):
     """Alignment is not supported for this language combination"""
 

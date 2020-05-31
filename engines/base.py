@@ -19,9 +19,6 @@ class BaseTranslationEngine:
     def get_supported_translations(self):
         raise NotImplementedError("get supported translations must be implemented")
 
-    def handle_api_error(self, response_json: Dict):
-        raise NotImplementedError("handle api error must be implemented")
-
     def is_language_pair_supported(
         self, from_language: Optional[str], to_language: str
     ):

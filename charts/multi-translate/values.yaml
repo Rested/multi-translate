@@ -18,10 +18,20 @@ config:
   microsoftTranslatorEndpoint:
   microsoftTranslatorUsingVirtualNetwork:
   microsoftTranslatorRegion:
+  # google translator
+  googleEndpoint:
+  googleParentPath:
   # secrets
   secrets:
     # microsoft
     microsoftTranslatorSubscriptionKey:
+      name:
+      key:
+    # google
+    # the name of the configmap containing the service account json
+    # todo: googleServiceAccountConfigMapName:
+    # secret containing the service account json in a key
+    googleServiceAccount:
       name:
       key:
 

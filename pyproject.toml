@@ -13,6 +13,7 @@ databases = {extras = ["postgresql"], version = "^0.3.2"}
 graphene = "^2.1.8"
 httpx = "^0.13.1"
 uvicorn = "^0.11.5"
+google-cloud-translate = "^2.0.1"
 
 [tool.poetry.dev-dependencies]
 pytest = "^5.4.2"

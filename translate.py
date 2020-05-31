@@ -119,7 +119,7 @@ async def translate(
             source_text=source_text,
             from_language=from_language,
             to_language=to_language,
-            with_alignment=False,
+            with_alignment=with_alignment,
         )
         # save translation_result
         return translation_result
