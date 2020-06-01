@@ -13,7 +13,11 @@ class TranslationEngineNotConfiguredError(BaseMultiTranslateError):
 
 
 class DetectionError(BaseMultiTranslateError):
-    """A problem detecting the language of an empty from request"""
+    """A problem detecting the language of an empty from_language request"""
+
+
+class DetectionNotSupportedError(BaseMultiTranslateError):
+    """Detection is not supported for this engine"""
 
 
 class TranslationError(BaseMultiTranslateError):

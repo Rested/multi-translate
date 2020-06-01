@@ -21,6 +21,9 @@ config:
   # google translator
   googleEndpoint:
   googleParentPath:
+  # amazon
+  amazonRegion:
+
   # secrets
   secrets:
     # microsoft
@@ -32,6 +35,13 @@ config:
     # todo: googleServiceAccountConfigMapName:
     # secret containing the service account json in a key
     googleServiceAccount:
+      name:
+      key:
+    # amazon
+    awsAccessKeyId:
+      name:
+      key:
+    awsSecretAccessKey:
       name:
       key:
 

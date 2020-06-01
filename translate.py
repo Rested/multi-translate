@@ -9,6 +9,7 @@ from fastapi import FastAPI, Query
 from pydantic import BaseModel, validator
 
 from engines import BEST, SUPPORTED_ENGINES, get_engine
+from errors import BaseMultiTranslateError
 from models import TranslationResponse, TranslationRequest
 from settings import Settings, DatabaseSettings
 
@@ -70,11 +71,11 @@ async def ready():
 
 @app.get("/translate", response_model=TranslationResponse)
 async def translate(
-    source_text: str,
-    to_language: str = Query(..., max_length=2),
-    from_language: str = Query(None, max_length=2),
-    preferred_engine: str = "best",
-    with_alignment: bool = False,
+        source_text: str,
+        to_language: str = Query(..., max_length=2),
+        from_language: str = Query(None, max_length=2),
+        preferred_engine: str = "best",
+        with_alignment: bool = False,
 ):
     additional_conditions = []
     if with_alignment:
@@ -115,11 +116,15 @@ async def translate(
             )
 
         result = get_engine(preferred_engine)
-        translation_result = await result.translate(
-            source_text=source_text,
-            from_language=from_language,
-            to_language=to_language,
-            with_alignment=with_alignment,
-        )
+        try:
+            translation_result = await result.translate(
+                source_text=source_text,
+                from_language=from_language,
+                to_language=to_language,
+                with_alignment=with_alignment,
+            )
+        except BaseMultiTranslateError as e:
+            _logger.debug("%s", e.detail, exc_info=True)
+            raise e
         # save translation_result
         return translation_result

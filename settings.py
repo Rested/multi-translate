@@ -36,6 +36,9 @@ class Settings(pydantic.BaseSettings):
     )
     # yandex
     # papago
-    # amazon transcribe
+    # amazon
+    amazon_region: Optional[str] = None
+    aws_access_key_id: Optional[str] = None
+    aws_secret_access_key: Optional[str] = None
     # ibm watson
     # deep L

@@ -59,6 +59,24 @@ spec:
             - name: GOOGLE_SVC_ACCOUNT_JSON_PATH
               value: "/etc/google-svc-acc/google-svc-acc.json"
             {{- end }}
+            {{- if .Values.config.amazonRegion }}
+            - name: AMAZON_REGION
+              value: "{{ .Values.config.amazonRegion }}"
+            {{- end }}
+            {{- if .Values.config.secrets.awsAccessKeyId.name }}
+            - name: AWS_ACCESS_KEY_ID
+              valueFrom:
+                secretKeyRef:
+                  name: "{{ .Values.config.secrets.awsAccessKeyId.name }}"
+                  key: "{{ .Values.config.secrets.awsAccessKeyId.key }}"
+            {{- end }}
+            {{- if .Values.config.secrets.awsSecretAccessKey.name }}
+            - name: AWS_SECRET_ACCESS_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: "{{ .Values.config.secrets.awsSecretAccessKey.name }}"
+                  key: "{{ .Values.config.secrets.awsSecretAccessKey.key }}"
+            {{- end }}
             {{- if .Values.config.logLevel }}
             - name: LOG_LEVEL
               value: "{{ .Values.config.logLevel }}"

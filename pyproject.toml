@@ -14,6 +14,8 @@ graphene = "^2.1.8"
 httpx = "^0.13.1"
 uvicorn = "^0.11.5"
 google-cloud-translate = "^2.0.1"
+boto3 = "^1.13.19"
+grpcio = "^1.29.0"
 
 [tool.poetry.dev-dependencies]
 pytest = "^5.4.2"

@@ -46,6 +46,8 @@ class GoogleEngine(BaseTranslationEngine):
     def __init__(self):
         settings = Settings()
         self._logger = logging.getLogger(__name__)
+        self._logger.setLevel(settings.log_level.value)
+        # todo: use endpoint with client options kwarg in initialization of client
         self.endpoint = settings.google_endpoint
         if settings.google_svc_account_json_path is None:
             raise TranslationEngineNotConfiguredError(
