@@ -43,6 +43,8 @@ class GoogleEngine(BaseTranslationEngine):
     NAME = "google"
     VERSION = "3"
 
+    supports_detection = True
+
     def __init__(self):
         settings = Settings()
         self._logger = logging.getLogger(__name__)
@@ -92,10 +94,8 @@ class GoogleEngine(BaseTranslationEngine):
         from_language: Optional[str] = None,
         with_alignment: Optional[bool] = False,
     ) -> TranslationResponse:
-        if with_alignment:
-            raise AlignmentNotSupportedError(
-                f"{self.name_ver} does not support alignment"
-            )
+        await super().translate(source_text=source_text, to_language=to_language, from_language=from_language,
+                                with_alignment=with_alignment)
         # todo: support other mime types
         try:
             translated_text: TranslateTextResponse = self.client.translate_text(

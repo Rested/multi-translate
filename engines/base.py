@@ -1,11 +1,14 @@
 from typing import Optional, Dict, List
 
-from errors import UnsupportedLanguagePairError
+from errors import UnsupportedLanguagePairError, AlignmentNotSupportedError, DetectionNotSupportedError
 
 
 class BaseTranslationEngine:
     NAME: str = "base"
     VERSION: str = ""
+
+    supports_alignment: bool = False
+    supports_detection: bool = False
 
     @property
     def name_ver(self):
@@ -42,4 +45,10 @@ class BaseTranslationEngine:
         to_language: str,
         with_alignment: Optional[bool] = False,
     ):
-        raise NotImplementedError("translate must be implemented")
+        if not from_language and not self.supports_detection:
+            raise DetectionNotSupportedError(f"{self.name_ver} engine does not support detection, please specify "
+                                             f"from_language")
+        if with_alignment and not self.supports_alignment:
+            raise AlignmentNotSupportedError(
+                f"{self.name_ver} does not support alignment"
+            )

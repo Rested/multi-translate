@@ -50,13 +50,8 @@ class AmazonEngine(BaseTranslationEngine):
             to_language: str,
             with_alignment: Optional[bool] = False,
     ) -> TranslationResponse:
-        if not from_language:
-            raise DetectionNotSupportedError(f"{self.name_ver} engine does not support detection, please specify "
-                                             f"from_language")
-        if with_alignment:
-            raise AlignmentNotSupportedError(
-                f"{self.name_ver} does not support alignment"
-            )
+        await super().translate(source_text=source_text, to_language=to_language, from_language=from_language,
+                                with_alignment=with_alignment)
 
         try:
             result = self.client.translate_text(Text=source_text,

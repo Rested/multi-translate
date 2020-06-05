@@ -77,6 +77,20 @@ spec:
                   name: "{{ .Values.config.secrets.awsSecretAccessKey.name }}"
                   key: "{{ .Values.config.secrets.awsSecretAccessKey.key }}"
             {{- end }}
+            {{- if .Values.config.secrets.papagoClientId.name }}
+            - name: PAPAGO_CLIENT_ID
+              valueFrom:
+                secretKeyRef:
+                  name: "{{ .Values.config.secrets.papagoClientId.name }}"
+                  key: "{{ .Values.config.secrets.papagoClientId.key }}"
+            {{- end }}
+            {{- if .Values.config.secrets.papagoClientSecret.name }}
+            - name: PAPAGO_CLIENT_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: "{{ .Values.config.secrets.papagoClientSecret.name }}"
+                  key: "{{ .Values.config.secrets.papagoClientSecret.key }}"
+            {{- end }}
             {{- if .Values.config.logLevel }}
             - name: LOG_LEVEL
               value: "{{ .Values.config.logLevel }}"

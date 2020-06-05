@@ -36,6 +36,12 @@ class Settings(pydantic.BaseSettings):
     )
     # yandex
     # papago
+    # is it using Naver cloud (True) or Naver Developers (False)
+    papago_naver_cloud: Optional[bool] = False
+    papago_endpoint: Optional[pydantic.HttpUrl] = pydantic.parse_obj_as(pydantic.HttpUrl,
+                                                                        "https://openapi.naver.com/v1/papago/n2mt")
+    papago_client_id: Optional[str] = None
+    papago_client_secret: Optional[str] = None
     # amazon
     amazon_region: Optional[str] = None
     aws_access_key_id: Optional[str] = None
