@@ -77,6 +77,14 @@ spec:
                   name: "{{ .Values.config.secrets.awsSecretAccessKey.name }}"
                   key: "{{ .Values.config.secrets.awsSecretAccessKey.key }}"
             {{- end }}
+            {{- if .Values.config.papagoNaverCloud }}
+            - name: PAPAGO_NAVER_CLOUD
+              value: "{{ .Values.config.papagoNaverCloud }}"
+            {{- end }}
+            {{- if .Values.config.papagoEndpoint }}
+            - name: PAPAGO_ENDPOINT
+              value: "{{ .Values.config.papagoEndpoint }}"
+            {{- end }}
             {{- if .Values.config.secrets.papagoClientId.name }}
             - name: PAPAGO_CLIENT_ID
               valueFrom:
@@ -90,6 +98,17 @@ spec:
                 secretKeyRef:
                   name: "{{ .Values.config.secrets.papagoClientSecret.name }}"
                   key: "{{ .Values.config.secrets.papagoClientSecret.key }}"
+            {{- end }}
+            {{- if .Values.config.deepLEndpoint }}
+            - name: DEEP_L_ENDPOINT
+              value: "{{ .Values.config.deepLEndpoint }}"
+            {{- end }}
+            {{- if .Values.config.secrets.deepLAuthKey.name }}
+            - name: DEEP_L_AUTH_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: "{{ .Values.config.secrets.deepLAuthKey.name }}"
+                  key: "{{ .Values.config.secrets.deepLAuthKey.key }}"
             {{- end }}
             {{- if .Values.config.logLevel }}
             - name: LOG_LEVEL

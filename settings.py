@@ -48,3 +48,6 @@ class Settings(pydantic.BaseSettings):
     aws_secret_access_key: Optional[str] = None
     # ibm watson
     # deep L
+    deep_l_endpoint: Optional[pydantic.HttpUrl] = pydantic.parse_obj_as(pydantic.HttpUrl,
+                                                                        "https://api.deepl.com/v2/")
+    deep_l_auth_key: Optional[str] = None

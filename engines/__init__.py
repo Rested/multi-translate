@@ -1,5 +1,6 @@
 from engines.amazon import AmazonEngine
 from engines.base import BaseTranslationEngine
+from engines.deep_l import DeepLEngine
 from engines.google import GoogleEngine
 from engines.microsoft import MicrosoftEngine
 from engines.papago import PapagoEngine
@@ -12,7 +13,8 @@ SUPPORTED_ENGINES = (
     GoogleEngine.NAME,
     AmazonEngine.NAME,
     PapagoEngine.NAME,
-)  # YANDEX, PAPAGO, IBM, DEEP_L)
+    DeepLEngine.NAME,
+)  # YANDEX, IBM
 
 
 # todo: make this a controller with proper handling of best
@@ -21,6 +23,6 @@ def get_engine(engine_name: str) -> BaseTranslationEngine:
         # determine best
         return MicrosoftEngine()
 
-    for e in (MicrosoftEngine, GoogleEngine, AmazonEngine, PapagoEngine):
+    for e in (MicrosoftEngine, GoogleEngine, AmazonEngine, PapagoEngine, DeepLEngine):
         if e.NAME == engine_name:
             return e()
