@@ -28,6 +28,8 @@ config:
   papagoEndpoint:
   # Deep L
   deepLEndpoint:
+  # yandex
+  yandexEndpoint:
   # secrets
   secrets:
     # microsoft
@@ -55,7 +57,12 @@ config:
     papagoClientSecret:
       name:
       key:
+    # deep L
     deepLAuthKey:
+      name:
+      key:
+    # yandex
+    yandexIAMToken:
       name:
       key:
 

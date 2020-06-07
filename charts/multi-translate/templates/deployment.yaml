@@ -110,6 +110,21 @@ spec:
                   name: "{{ .Values.config.secrets.deepLAuthKey.name }}"
                   key: "{{ .Values.config.secrets.deepLAuthKey.key }}"
             {{- end }}
+            {{- if .Values.config.yandexEndpoint }}
+            - name: YANDEX_ENDPOINT
+              value: "{{ .Values.config.yandexEndpoint }}"
+            {{- end }}
+            {{- if .Values.config.yandexFolderId }}
+            - name: YANDEX_FOLDER_ID
+              value: "{{ .Values.config.yandexFolderId }}"
+            {{- end }}
+            {{- if .Values.config.secrets.yandexIAMToken.name }}
+            - name: YANDEX_IAM_TOKEN
+              valueFrom:
+                secretKeyRef:
+                  name: "{{ .Values.config.secrets.yandexIAMToken.name }}"
+                  key: "{{ .Values.config.secrets.yandexIAMToken.key }}"
+            {{- end }}
             {{- if .Values.config.logLevel }}
             - name: LOG_LEVEL
               value: "{{ .Values.config.logLevel }}"

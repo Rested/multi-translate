@@ -35,6 +35,12 @@ class Settings(pydantic.BaseSettings):
         pydantic.HttpUrl, "https://translation.googleapis.com"
     )
     # yandex
+    yandex_endpoint: Optional[pydantic.HttpUrl] = pydantic.parse_obj_as(
+        pydantic.HttpUrl, "https://translate.api.cloud.yandex.net/translate/v2/"
+    )
+    yandex_iam_token: Optional[str] = None
+    # applicable if using a yandex cloud user account to authorize
+    yandex_folder_id: Optional[str] = None
     # papago
     # is it using Naver cloud (True) or Naver Developers (False)
     papago_naver_cloud: Optional[bool] = False
