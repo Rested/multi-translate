@@ -2,34 +2,56 @@
 # This is a YAML-formatted file.
 # Declare variables to be passed into your templates.
 
+# replicaCount -- The number of replicas of the application to create
 replicaCount: 1
 
+# image -- The application docker image
 image: docker.io/restd/multi-translate:latest
+# imagePullPolicy -- The pull policy for the application docker image
 imagePullPolicy: IfNotPresent
-
+# imagePullSecrets -- Any pull secrets required to pull the application, initContainers, or sidecars
 imagePullSecrets: []
 nameOverride: ""
 fullnameOverride: ""
 
+# config -- Multi-Translate configuration
 config:
-  # Python log level
+  # config.logLevel -- Which python log level to use DEBUG being the most verbose. INFO is recommended
   logLevel:
-  # microsoft translator see https://docs.microsoft.com/en-us/azure/cognitive-services/translator/reference/v3-0-reference#virtual-network-support
-  microsoftTranslatorEndpoint:
-  microsoftTranslatorUsingVirtualNetwork:
-  microsoftTranslatorRegion:
-  # google translator
-  googleEndpoint:
-  googleParentPath:
-  # amazon
-  amazonRegion:
-  # papago
-  papagoNaverCloud:
-  papagoEndpoint:
-  # Deep L
-  deepLEndpoint:
-  # yandex
-  yandexEndpoint:
+  # config.microsoft -- Configuration related to the microsoft translator engine
+  microsoft:
+    # config.microsoft.endpoint -- The HTTP endpoint for requests to the microsoft translator service
+    endpoint:
+    # config.microsoft.usingVirtualNetwork -- See docs for relevance (values are true or false) https://docs.microsoft.com/en-us/azure/cognitive-services/translator/reference/v3-0-reference#virtual-network-support:
+    usingVirtualNetwork: false
+    # config.microsoft.region -- Which region the microsoft translator service is in
+    region: global
+  # config.google -- Configuration related to google translate
+  google:
+    # config.google.endpoint --
+    endpoint: "https://translation.googleapis.com"
+    # config.google.parentPath -- See https://cloud.google.com/translate/docs/migrate-to-v3#resources_projects_and_locations for details
+    parentPath:
+  # config.amazon -- Configuration related to amazon translate
+  amazon:
+    # config.amazon.region -- The aws region your amazon translate service belongs to
+    region:
+  # config.papago -- Configuration related to Naver's Papago translate
+  papago:
+    # config.papago.naverCloud -- boolean indicating whether the service is from Naver Cloud (true) or Naver Developers (false)
+    naverCloud: false
+    # config.papago.endpoint -- The papago HTTP endpoint
+    endpoint: "https://openapi.naver.com/v1/papago/n2mt"
+  # config.deepL -- Configuration related to the Deep L Translation service
+  deepL:
+    # config.deepL.endpoint -- The deepL HTTP endpoint
+    endpoint: "https://api.deepl.com/v2/"
+  # config.yandex -- Configuration related to the Yandex Translation service
+  yandex:
+    # config.yandex.endpoint -- The Yandex translation HTTP endpoint
+    endpoint: "https://translate.api.cloud.yandex.net/translate/v2/"
+    # config.yandex.folderId -- The Yandex Cloud folder ID if a UserAccount is used for authentication
+    folderId:
   # secrets
   secrets:
     # microsoft

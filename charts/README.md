@@ -1,2 +1,0 @@
-# Rekon Multi-Translate
-

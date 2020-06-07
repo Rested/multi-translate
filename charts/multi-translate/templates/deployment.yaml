@@ -28,17 +28,17 @@ spec:
           image: "{{ .Values.image }}"
           imagePullPolicy: {{ .Values.imagePullPolicy }}
           env:
-            {{- if .Values.config.microsoftTranslatorUsingVirtualNetwork }}
+            {{- if .Values.config.microsoft.usingVirtualNetwork }}
             - name: MICROSOFT_TRANSLATOR_USING_VIRTUAL_NETWORK
-              value: "{{ .Values.config.microsoftTranslatorUsingVirtualNetwork }}"
+              value: "{{ .Values.config.microsoft.usingVirtualNetwork }}"
             {{- end }}
-            {{- if .Values.config.microsoftTranslatorRegion }}
+            {{- if .Values.config.microsoft.region }}
             - name: MICROSOFT_TRANSLATOR_REGION
-              value: "{{ .Values.config.microsoftTranslatorRegion }}"
+              value: "{{ .Values.config.microsoft.region }}"
             {{- end }}
-            {{- if .Values.config.microsoftTranslatorEndpoint }}
+            {{- if .Values.config.microsoft.endpoint }}
             - name: MICROSOFT_TRANSLATOR_ENDPOINT
-              value: "{{ .Values.config.microsoftTranslatorEndpoint }}"
+              value: "{{ .Values.config.microsoft.endpoint }}"
             {{- end }}
             {{- if .Values.config.secrets.microsoftTranslatorSubscriptionKey.name }}
             - name: MICROSOFT_TRANSLATOR_SUBSCRIPTION_KEY
@@ -47,21 +47,21 @@ spec:
                   name: "{{ .Values.config.secrets.microsoftTranslatorSubscriptionKey.name }}"
                   key: "{{ .Values.config.secrets.microsoftTranslatorSubscriptionKey.key }}"
             {{- end }}
-            {{- if .Values.config.googleParentPath }}
+            {{- if .Values.config.google.parentPath }}
             - name: GOOGLE_PARENT_PATH
-              value: "{{ .Values.config.googleParentPath }}"
+              value: "{{ .Values.config.google.parentPath }}"
             {{- end }}
-            {{- if .Values.config.googleEndpoint }}
+            {{- if .Values.config.google.endpoint }}
             - name: GOOGLE_ENDPOINT
-              value: "{{ .Values.config.googleEndpoint }}"
+              value: "{{ .Values.config.google.endpoint }}"
             {{- end }}
             {{- if .Values.config.secrets.googleServiceAccount.name }}
             - name: GOOGLE_SVC_ACCOUNT_JSON_PATH
               value: "/etc/google-svc-acc/google-svc-acc.json"
             {{- end }}
-            {{- if .Values.config.amazonRegion }}
+            {{- if .Values.config.amazon.region }}
             - name: AMAZON_REGION
-              value: "{{ .Values.config.amazonRegion }}"
+              value: "{{ .Values.config.amazon.region }}"
             {{- end }}
             {{- if .Values.config.secrets.awsAccessKeyId.name }}
             - name: AWS_ACCESS_KEY_ID
@@ -77,13 +77,13 @@ spec:
                   name: "{{ .Values.config.secrets.awsSecretAccessKey.name }}"
                   key: "{{ .Values.config.secrets.awsSecretAccessKey.key }}"
             {{- end }}
-            {{- if .Values.config.papagoNaverCloud }}
+            {{- if .Values.config.papago.naverCloud }}
             - name: PAPAGO_NAVER_CLOUD
               value: "{{ .Values.config.papagoNaverCloud }}"
             {{- end }}
-            {{- if .Values.config.papagoEndpoint }}
+            {{- if .Values.config.papago.endpoint }}
             - name: PAPAGO_ENDPOINT
-              value: "{{ .Values.config.papagoEndpoint }}"
+              value: "{{ .Values.config.papago.endpoint }}"
             {{- end }}
             {{- if .Values.config.secrets.papagoClientId.name }}
             - name: PAPAGO_CLIENT_ID
@@ -99,9 +99,9 @@ spec:
                   name: "{{ .Values.config.secrets.papagoClientSecret.name }}"
                   key: "{{ .Values.config.secrets.papagoClientSecret.key }}"
             {{- end }}
-            {{- if .Values.config.deepLEndpoint }}
+            {{- if .Values.config.deepL.endpoint }}
             - name: DEEP_L_ENDPOINT
-              value: "{{ .Values.config.deepLEndpoint }}"
+              value: "{{ .Values.config.deepL.endpoint }}"
             {{- end }}
             {{- if .Values.config.secrets.deepLAuthKey.name }}
             - name: DEEP_L_AUTH_KEY
@@ -110,13 +110,13 @@ spec:
                   name: "{{ .Values.config.secrets.deepLAuthKey.name }}"
                   key: "{{ .Values.config.secrets.deepLAuthKey.key }}"
             {{- end }}
-            {{- if .Values.config.yandexEndpoint }}
+            {{- if .Values.config.yandex.endpoint }}
             - name: YANDEX_ENDPOINT
-              value: "{{ .Values.config.yandexEndpoint }}"
+              value: "{{ .Values.config.yandex.endpoint }}"
             {{- end }}
-            {{- if .Values.config.yandexFolderId }}
+            {{- if .Values.config.yandex.folderId }}
             - name: YANDEX_FOLDER_ID
-              value: "{{ .Values.config.yandexFolderId }}"
+              value: "{{ .Values.config.yandex.folderId }}"
             {{- end }}
             {{- if .Values.config.secrets.yandexIAMToken.name }}
             - name: YANDEX_IAM_TOKEN
