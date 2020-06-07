@@ -15,10 +15,12 @@ nameOverride: ""
 fullnameOverride: ""
 
 # config -- Multi-Translate configuration
+# @default -- see below
 config:
   # config.logLevel -- Which python log level to use DEBUG being the most verbose. INFO is recommended
   logLevel:
   # config.microsoft -- Configuration related to the microsoft translator engine
+  # @default -- see below
   microsoft:
     # config.microsoft.endpoint -- The HTTP endpoint for requests to the microsoft translator service
     endpoint:
@@ -27,26 +29,31 @@ config:
     # config.microsoft.region -- Which region the microsoft translator service is in
     region: global
   # config.google -- Configuration related to google translate
+  # @default -- see below
   google:
     # config.google.endpoint --
     endpoint: "https://translation.googleapis.com"
     # config.google.parentPath -- See https://cloud.google.com/translate/docs/migrate-to-v3#resources_projects_and_locations for details
     parentPath:
   # config.amazon -- Configuration related to amazon translate
+  # @default -- see below
   amazon:
     # config.amazon.region -- The aws region your amazon translate service belongs to
     region:
   # config.papago -- Configuration related to Naver's Papago translate
+  # @default -- see below
   papago:
     # config.papago.naverCloud -- boolean indicating whether the service is from Naver Cloud (true) or Naver Developers (false)
     naverCloud: false
     # config.papago.endpoint -- The papago HTTP endpoint
     endpoint: "https://openapi.naver.com/v1/papago/n2mt"
   # config.deepL -- Configuration related to the Deep L Translation service
+  # @default -- see below
   deepL:
     # config.deepL.endpoint -- The deepL HTTP endpoint
     endpoint: "https://api.deepl.com/v2/"
   # config.yandex -- Configuration related to the Yandex Translation service
+  # @default -- see below
   yandex:
     # config.yandex.endpoint -- The Yandex translation HTTP endpoint
     endpoint: "https://translate.api.cloud.yandex.net/translate/v2/"

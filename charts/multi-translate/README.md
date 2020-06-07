@@ -17,22 +17,22 @@ Current chart version is `0.1.0`
 | Key | Type | Default | Description |
 |-----|------|---------|-------------|
 | affinity | object | `{}` |  |
-| config | object | `{"amazon":{"region":null},"deepL":{"endpoint":"https://api.deepl.com/v2/"},"google":{"endpoint":"https://translation.googleapis.com","parentPath":null},"logLevel":null,"microsoft":{"endpoint":null,"region":"global","usingVirtualNetwork":false},"papago":{"endpoint":"https://openapi.naver.com/v1/papago/n2mt","naverCloud":false},"secrets":{"awsAccessKeyId":{"key":null,"name":null},"awsSecretAccessKey":{"key":null,"name":null},"deepLAuthKey":{"key":null,"name":null},"googleServiceAccount":{"key":null,"name":null},"microsoftTranslatorSubscriptionKey":{"key":null,"name":null},"papagoClientId":{"key":null,"name":null},"papagoClientSecret":{"key":null,"name":null},"yandexIAMToken":{"key":null,"name":null}},"yandex":{"endpoint":"https://translate.api.cloud.yandex.net/translate/v2/","folderId":null}}` | Multi-Translate configuration |
-| config.amazon | object | `{"region":null}` | Configuration related to amazon translate |
+| config | object | see below | Multi-Translate configuration |
+| config.amazon | object | see below | Configuration related to amazon translate |
 | config.amazon.region | string | `nil` | The aws region your amazon translate service belongs to |
-| config.deepL | object | `{"endpoint":"https://api.deepl.com/v2/"}` | Configuration related to the Deep L Translation service |
+| config.deepL | object | see below | Configuration related to the Deep L Translation service |
 | config.deepL.endpoint | string | `"https://api.deepl.com/v2/"` | The deepL HTTP endpoint |
-| config.google | object | `{"endpoint":"https://translation.googleapis.com","parentPath":null}` | Configuration related to google translate |
+| config.google | object | see below | Configuration related to google translate |
 | config.google.parentPath | string | `nil` | See https://cloud.google.com/translate/docs/migrate-to-v3#resources_projects_and_locations for details |
 | config.logLevel | string | `nil` | Which python log level to use DEBUG being the most verbose. INFO is recommended |
-| config.microsoft | object | `{"endpoint":null,"region":"global","usingVirtualNetwork":false}` | Configuration related to the microsoft translator engine |
+| config.microsoft | object | see below | Configuration related to the microsoft translator engine |
 | config.microsoft.endpoint | string | `nil` | The HTTP endpoint for requests to the microsoft translator service |
 | config.microsoft.region | string | `"global"` | Which region the microsoft translator service is in |
 | config.microsoft.usingVirtualNetwork | bool | `false` | See docs for relevance (values are true or false) https://docs.microsoft.com/en-us/azure/cognitive-services/translator/reference/v3-0-reference#virtual-network-support: |
-| config.papago | object | `{"endpoint":"https://openapi.naver.com/v1/papago/n2mt","naverCloud":false}` | Configuration related to Naver's Papago translate |
+| config.papago | object | see below | Configuration related to Naver's Papago translate |
 | config.papago.endpoint | string | `"https://openapi.naver.com/v1/papago/n2mt"` | The papago HTTP endpoint |
 | config.papago.naverCloud | bool | `false` | boolean indicating whether the service is from Naver Cloud (true) or Naver Developers (false) |
-| config.yandex | object | `{"endpoint":"https://translate.api.cloud.yandex.net/translate/v2/","folderId":null}` | Configuration related to the Yandex Translation service |
+| config.yandex | object | see below | Configuration related to the Yandex Translation service |
 | config.yandex.endpoint | string | `"https://translate.api.cloud.yandex.net/translate/v2/"` | The Yandex translation HTTP endpoint |
 | config.yandex.folderId | string | `nil` | The Yandex Cloud folder ID if a UserAccount is used for authentication |
 | fullnameOverride | string | `""` |  |
