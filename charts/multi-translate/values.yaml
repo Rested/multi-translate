@@ -28,6 +28,11 @@ config:
     usingVirtualNetwork: false
     # config.microsoft.region -- Which region the microsoft translator service is in
     region: global
+    subscriptionKeySecret:
+      # config.microsoft.subscriptionKeySecret.name -- The name of the k8s secret containing the microsoft subscription key
+      name:
+      # config.microsoft.subscriptionKeySecret.key -- The secret key containing your microsoft subscription key
+      key:
   # config.google -- Configuration related to google translate
   # @default -- see below
   google:
@@ -35,11 +40,26 @@ config:
     endpoint: "https://translation.googleapis.com"
     # config.google.parentPath -- See https://cloud.google.com/translate/docs/migrate-to-v3#resources_projects_and_locations for details
     parentPath:
+    serviceAccountSecret:
+      # config.google.serviceAccountSecret.name -- The name of the k8s secret containing the service account json
+      name:
+      # config.google.serviceAccountSecret.key -- The key of the k8s secret containing the service account json
+      key:
   # config.amazon -- Configuration related to amazon translate
   # @default -- see below
   amazon:
     # config.amazon.region -- The aws region your amazon translate service belongs to
     region:
+    awsAccessKeyIdSecret:
+      # config.amazon.awsAccessKeyIdSecret.name -- The name of the k8s secret containing the aws access key id
+      name:
+      # config.amazon.awsAccessKeyIdSecret.key -- The key of the k8s secret containing the aws access key id
+      key:
+    awsSecretAccessKeySecret:
+      # config.amazon.awsSecretAccessKeySecret.name -- The name of the k8s secret containing the aws secret access key
+      name:
+      # config.amazon.awsSecretAccessKeySecret.key -- The name of the k8s secret containing the aws secret access key
+      key:
   # config.papago -- Configuration related to Naver's Papago translate
   # @default -- see below
   papago:
@@ -47,11 +67,26 @@ config:
     naverCloud: false
     # config.papago.endpoint -- The papago HTTP endpoint
     endpoint: "https://openapi.naver.com/v1/papago/n2mt"
+    clientIdSecret:
+      # config.papago.clientIdSecret.name --  The name of the k8s secret containing the papago client id
+      name:
+      # config.papago.clientIdSecret.key --  The key of the k8s secret containing the papago client id
+      key:
+    clientSecretSecret:
+      # config.papago.clientSecretSecret.name --  The name of the k8s secret containing the papago client secret
+      name:
+      # config.papago.clientSecretSecret.key --  The key of the k8s secret containing the papago client secret
+      key:
   # config.deepL -- Configuration related to the Deep L Translation service
   # @default -- see below
   deepL:
     # config.deepL.endpoint -- The deepL HTTP endpoint
     endpoint: "https://api.deepl.com/v2/"
+    authKeySecret:
+      # config.deepL.authKeySecret.name -- The name of the k8s secret containing the deepL auth key
+      name:
+      # config.deepL.authKeySecret.key -- The key of the k8s secret containing the deepL auth key
+      key:
   # config.yandex -- Configuration related to the Yandex Translation service
   # @default -- see below
   yandex:
@@ -59,40 +94,10 @@ config:
     endpoint: "https://translate.api.cloud.yandex.net/translate/v2/"
     # config.yandex.folderId -- The Yandex Cloud folder ID if a UserAccount is used for authentication
     folderId:
-  # secrets
-  secrets:
-    # microsoft
-    microsoftTranslatorSubscriptionKey:
+    IAMTokenSecret:
+      # config.deepL.IAMTokenSecret.name -- The name of the k8s secret containing the Yandex IAM token
       name:
-      key:
-    # google
-    # the name of the configmap containing the service account json
-    # todo: googleServiceAccountConfigMapName:
-    # secret containing the service account json in a key
-    googleServiceAccount:
-      name:
-      key:
-    # amazon
-    awsAccessKeyId:
-      name:
-      key:
-    awsSecretAccessKey:
-      name:
-      key:
-    # papago
-    papagoClientId:
-      name:
-      key:
-    papagoClientSecret:
-      name:
-      key:
-    # deep L
-    deepLAuthKey:
-      name:
-      key:
-    # yandex
-    yandexIAMToken:
-      name:
+      # config.deepL.IAMTokenSecret.key -- The key of the k8s secret containing the Yandex IAM token
       key:
 
 serviceAccount:

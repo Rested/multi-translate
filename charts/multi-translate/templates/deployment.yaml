@@ -40,12 +40,12 @@ spec:
             - name: MICROSOFT_TRANSLATOR_ENDPOINT
               value: "{{ .Values.config.microsoft.endpoint }}"
             {{- end }}
-            {{- if .Values.config.secrets.microsoftTranslatorSubscriptionKey.name }}
+            {{- if .Values.config.microsoft.subscriptionKeySecret.name }}
             - name: MICROSOFT_TRANSLATOR_SUBSCRIPTION_KEY
               valueFrom:
                 secretKeyRef:
-                  name: "{{ .Values.config.secrets.microsoftTranslatorSubscriptionKey.name }}"
-                  key: "{{ .Values.config.secrets.microsoftTranslatorSubscriptionKey.key }}"
+                  name: "{{ .Values.config.microsoft.subscriptionKeySecret.name }}"
+                  key: "{{ .Values.config.microsoft.subscriptionKeySecret.key }}"
             {{- end }}
             {{- if .Values.config.google.parentPath }}
             - name: GOOGLE_PARENT_PATH
@@ -55,7 +55,7 @@ spec:
             - name: GOOGLE_ENDPOINT
               value: "{{ .Values.config.google.endpoint }}"
             {{- end }}
-            {{- if .Values.config.secrets.googleServiceAccount.name }}
+            {{- if .Values.config.google.serviceAccountSecret.name }}
             - name: GOOGLE_SVC_ACCOUNT_JSON_PATH
               value: "/etc/google-svc-acc/google-svc-acc.json"
             {{- end }}
@@ -63,19 +63,19 @@ spec:
             - name: AMAZON_REGION
               value: "{{ .Values.config.amazon.region }}"
             {{- end }}
-            {{- if .Values.config.secrets.awsAccessKeyId.name }}
+            {{- if .Values.config.amazon.awsAccessKeyIdSecret.name }}
             - name: AWS_ACCESS_KEY_ID
               valueFrom:
                 secretKeyRef:
-                  name: "{{ .Values.config.secrets.awsAccessKeyId.name }}"
-                  key: "{{ .Values.config.secrets.awsAccessKeyId.key }}"
+                  name: "{{ .Values.config.amazon.awsAccessKeyIdSecret.name }}"
+                  key: "{{ .Values.config.amazon.awsAccessKeyIdSecret.key }}"
             {{- end }}
-            {{- if .Values.config.secrets.awsSecretAccessKey.name }}
+            {{- if .Values.config.amazon.awsSecretAccessKeySecret.name }}
             - name: AWS_SECRET_ACCESS_KEY
               valueFrom:
                 secretKeyRef:
-                  name: "{{ .Values.config.secrets.awsSecretAccessKey.name }}"
-                  key: "{{ .Values.config.secrets.awsSecretAccessKey.key }}"
+                  name: "{{ .Values.config.amazon.awsSecretAccessKeySecret.name }}"
+                  key: "{{ .Values.config.amazon.awsSecretAccessKeySecret.key }}"
             {{- end }}
             {{- if .Values.config.papago.naverCloud }}
             - name: PAPAGO_NAVER_CLOUD
@@ -85,30 +85,30 @@ spec:
             - name: PAPAGO_ENDPOINT
               value: "{{ .Values.config.papago.endpoint }}"
             {{- end }}
-            {{- if .Values.config.secrets.papagoClientId.name }}
+            {{- if .Values.config.papago.clientIdSecret.name }}
             - name: PAPAGO_CLIENT_ID
               valueFrom:
                 secretKeyRef:
-                  name: "{{ .Values.config.secrets.papagoClientId.name }}"
-                  key: "{{ .Values.config.secrets.papagoClientId.key }}"
+                  name: "{{ .Values.config.papago.clientIdSecret.name }}"
+                  key: "{{ .Values.config.papago.clientIdSecret.key }}"
             {{- end }}
-            {{- if .Values.config.secrets.papagoClientSecret.name }}
+            {{- if .Values.config.papago.clientSecretSecret.name }}
             - name: PAPAGO_CLIENT_SECRET
               valueFrom:
                 secretKeyRef:
-                  name: "{{ .Values.config.secrets.papagoClientSecret.name }}"
-                  key: "{{ .Values.config.secrets.papagoClientSecret.key }}"
+                  name: "{{ .Values.config.papago.clientSecretSecret.name }}"
+                  key: "{{ .Values.config.papago.clientSecretSecret.key }}"
             {{- end }}
             {{- if .Values.config.deepL.endpoint }}
             - name: DEEP_L_ENDPOINT
               value: "{{ .Values.config.deepL.endpoint }}"
             {{- end }}
-            {{- if .Values.config.secrets.deepLAuthKey.name }}
+            {{- if .Values.config.deepL.authKeySecret.name }}
             - name: DEEP_L_AUTH_KEY
               valueFrom:
                 secretKeyRef:
-                  name: "{{ .Values.config.secrets.deepLAuthKey.name }}"
-                  key: "{{ .Values.config.secrets.deepLAuthKey.key }}"
+                  name: "{{ .Values.config.deepL.authKeySecret.name }}"
+                  key: "{{ .Values.config.deepL.authKeySecret.key }}"
             {{- end }}
             {{- if .Values.config.yandex.endpoint }}
             - name: YANDEX_ENDPOINT
@@ -118,12 +118,12 @@ spec:
             - name: YANDEX_FOLDER_ID
               value: "{{ .Values.config.yandex.folderId }}"
             {{- end }}
-            {{- if .Values.config.secrets.yandexIAMToken.name }}
+            {{- if .Values.config.yandex.IAMTokenSecret.name }}
             - name: YANDEX_IAM_TOKEN
               valueFrom:
                 secretKeyRef:
-                  name: "{{ .Values.config.secrets.yandexIAMToken.name }}"
-                  key: "{{ .Values.config.secrets.yandexIAMToken.key }}"
+                  name: "{{ .Values.config.yandex.IAMTokenSecret.name }}"
+                  key: "{{ .Values.config.yandex.IAMTokenSecret.key }}"
             {{- end }}
             {{- if .Values.config.logLevel }}
             - name: LOG_LEVEL
@@ -169,7 +169,7 @@ spec:
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
           volumeMounts:
-            {{- if .Values.config.secrets.googleServiceAccount.name }}
+            {{- if .Values.config.google.serviceAccountSecret.name }}
             - name: google-svc-acc
               mountPath: "/etc/google-svc-acc"
               readOnly: true
@@ -191,11 +191,11 @@ spec:
         {{- toYaml . | nindent 8 }}
     {{- end }}
       volumes:
-    {{- if .Values.config.secrets.googleServiceAccount.name }}
+    {{- if .Values.config.google.serviceAccountSecret.name }}
         - name: google-svc-acc
           secret:
-            secretName: "{{ .Values.config.secrets.googleServiceAccount.name }}"
+            secretName: "{{ .Values.config.google.serviceAccountSecret.name }}"
             items:
-              - key: "{{ .Values.config.secrets.googleServiceAccount.key }}"
+              - key: "{{ .Values.config.google.serviceAccountSecret.key }}"
                 path: google-svc-acc.json
     {{- end }}

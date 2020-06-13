@@ -1,5 +1,14 @@
 # Multi-Translate
 
+## Installation
+
+### Helm Chart
+
+```bash
+helm repo add rekon http://charts.rekon.uk
+helm repo update
+helm upgrade --install multi-translate rekon/multi-translate
+``` 
 
 
 ## Development

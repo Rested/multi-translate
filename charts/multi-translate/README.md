@@ -19,17 +19,31 @@ Current chart version is `0.1.0`
 | affinity | object | `{}` |  |
 | config | object | see below | Multi-Translate configuration |
 | config.amazon | object | see below | Configuration related to amazon translate |
+| config.amazon.awsAccessKeyIdSecret.key | string | `nil` | The key of the k8s secret containing the aws access key id |
+| config.amazon.awsAccessKeyIdSecret.name | string | `nil` | The name of the k8s secret containing the aws access key id |
+| config.amazon.awsSecretAccessKeySecret.key | string | `nil` | The name of the k8s secret containing the aws secret access key |
+| config.amazon.awsSecretAccessKeySecret.name | string | `nil` | The name of the k8s secret containing the aws secret access key |
 | config.amazon.region | string | `nil` | The aws region your amazon translate service belongs to |
 | config.deepL | object | see below | Configuration related to the Deep L Translation service |
+| config.deepL.authKeySecret.key | string | `nil` | The key of the k8s secret containing the deepL auth key |
+| config.deepL.authKeySecret.name | string | `nil` | The name of the k8s secret containing the deepL auth key |
 | config.deepL.endpoint | string | `"https://api.deepl.com/v2/"` | The deepL HTTP endpoint |
 | config.google | object | see below | Configuration related to google translate |
 | config.google.parentPath | string | `nil` | See https://cloud.google.com/translate/docs/migrate-to-v3#resources_projects_and_locations for details |
+| config.google.serviceAccountSecret.key | string | `nil` | The key of the k8s secret containing the service account json |
+| config.google.serviceAccountSecret.name | string | `nil` | The name of the k8s secret containing the service account json |
 | config.logLevel | string | `nil` | Which python log level to use DEBUG being the most verbose. INFO is recommended |
 | config.microsoft | object | see below | Configuration related to the microsoft translator engine |
 | config.microsoft.endpoint | string | `nil` | The HTTP endpoint for requests to the microsoft translator service |
 | config.microsoft.region | string | `"global"` | Which region the microsoft translator service is in |
+| config.microsoft.subscriptionKeySecret.key | string | `nil` | The secret key containing your microsoft subscription key |
+| config.microsoft.subscriptionKeySecret.name | string | `nil` | The name of the k8s secret containing the microsoft subscription key |
 | config.microsoft.usingVirtualNetwork | bool | `false` | See docs for relevance (values are true or false) https://docs.microsoft.com/en-us/azure/cognitive-services/translator/reference/v3-0-reference#virtual-network-support: |
 | config.papago | object | see below | Configuration related to Naver's Papago translate |
+| config.papago.clientIdSecret.key | string | `nil` |  The key of the k8s secret containing the papago client id |
+| config.papago.clientIdSecret.name | string | `nil` |  The name of the k8s secret containing the papago client id |
+| config.papago.clientSecretSecret.key | string | `nil` |  The key of the k8s secret containing the papago client secret |
+| config.papago.clientSecretSecret.name | string | `nil` |  The name of the k8s secret containing the papago client secret |
 | config.papago.endpoint | string | `"https://openapi.naver.com/v1/papago/n2mt"` | The papago HTTP endpoint |
 | config.papago.naverCloud | bool | `false` | boolean indicating whether the service is from Naver Cloud (true) or Naver Developers (false) |
 | config.yandex | object | see below | Configuration related to the Yandex Translation service |
