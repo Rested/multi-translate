@@ -3,9 +3,10 @@ from typing import List, Optional, Dict
 
 import databases
 import sqlalchemy
+from databases.backends.postgres import Record
 from sqlalchemy import UniqueConstraint
 from sqlalchemy.sql import and_
-from fastapi import FastAPI, Query
+from fastapi import FastAPI, Query, BackgroundTasks, Response
 from pydantic import BaseModel, validator
 
 from engines import BEST, SUPPORTED_ENGINES, get_engine
@@ -32,16 +33,18 @@ translations = sqlalchemy.Table(
     ),  # iso 639-1 2 letter code
     sqlalchemy.Column("source_text", sqlalchemy.String, nullable=False),
     sqlalchemy.Column("translated_text", sqlalchemy.String, nullable=False),
-    sqlalchemy.Column("translation_engine_is_best", sqlalchemy.Boolean, nullable=False),
     sqlalchemy.Column("translation_engine", sqlalchemy.String, nullable=False),
     sqlalchemy.Column("translation_engine_version", sqlalchemy.String, nullable=False),
+    sqlalchemy.Column("has_alignment_info", sqlalchemy.Boolean, nullable=False),
     sqlalchemy.Column("alignment", sqlalchemy.JSON, nullable=True),
+    sqlalchemy.Column("detection_confidence", sqlalchemy.Float, nullable=True),
     UniqueConstraint(
         "from_language",
         "to_language",
         "source_text",
         "translation_engine",
         "translation_engine_version",
+        "has_alignment_info",
         name="unique_translation_constraint",
     ),
 )
@@ -69,9 +72,28 @@ async def ready():
     return "ready"
 
 
+async def save_translation(translation_result: TranslationResponse, from_was_specified: bool):
+    statement = translations.insert().values(
+        from_was_specified=from_was_specified,
+        from_language=translation_result.from_language,
+        to_language=translation_result.to_language,
+        source_text=translation_result.source_text,
+        translated_text=translation_result.translated_text,
+        translation_engine=translation_result.engine,
+        translation_engine_version=translation_result.engine_version,
+        has_alignment_info=translation_result.alignment is not None,
+        alignment=translation_result.alignment,
+        detection_confidence=translation_result.detected_language_confidence
+    )
+    result = await database.execute(statement)
+    _logger.debug("insertion result %s", result)
+
+
 @app.get("/translate", response_model=TranslationResponse)
 async def translate(
         source_text: str,
+        background_tasks: BackgroundTasks,
+        response: Response,
         to_language: str = Query(..., max_length=2),
         from_language: str = Query(None, max_length=2),
         preferred_engine: str = "best",
@@ -79,11 +101,9 @@ async def translate(
 ):
     additional_conditions = []
     if with_alignment:
-        additional_conditions.append(translations.c.alignment != None)
+        additional_conditions.append(translations.c.has_alignment_info == True)
 
-    if preferred_engine == BEST:
-        additional_conditions.append(translations.c.translation_engine_is_best == True)
-    else:
+    if preferred_engine != BEST:
         additional_conditions.append(
             translations.c.translation_engine == preferred_engine
         )
@@ -102,9 +122,8 @@ async def translate(
             *additional_conditions
         )
     )
-
     _logger.debug("querying database for previous translation result with %s", query)
-    result = await database.fetch_one(query)
+    result: Record = await database.fetch_one(query)
     _logger.debug("Got result from database: %s", result)
 
     if result is None:
@@ -115,9 +134,9 @@ async def translate(
                 SUPPORTED_ENGINES,
             )
 
-        result = get_engine(preferred_engine)
+        engine = get_engine(preferred_engine)
         try:
-            translation_result = await result.translate(
+            translation_result = await engine.translate(
                 source_text=source_text,
                 from_language=from_language,
                 to_language=to_language,
@@ -127,4 +146,18 @@ async def translate(
             _logger.debug("%s", e.detail, exc_info=True)
             raise e
         # save translation_result
+        background_tasks.add_task(save_translation, translation_result, from_language is not None)
+        response.headers["X-Translation-Source"] = "api"
         return translation_result
+
+    response.headers["X-Translation-Source"] = "database"
+    return TranslationResponse(
+        engine=result["translation_engine"],
+        engine_version=result["translation_engine_version"],
+        detection_confidence=result["detection_confidence"],
+        from_language=result["from_language"],
+        to_language=result["to_language"],
+        source_text=result["source_text"],
+        translated_text=result["translated_text"],
+        alignment=result["alignment"] if with_alignment else None,
+    )
