@@ -1,8 +1,11 @@
 import pytest
 import yaml
-
+import pytablewriter
 from errors import InvalidLanguagePreferencesError
-from engines.controller import _load_language_preferences, _best_engine_by_language, ENGINE_NAME_MAP
+from engines.controller import _load_language_preferences, _best_engine_by_language, ENGINE_NAME_MAP, \
+    default_language_preferences, default_ordering
+
+from itertools import product
 
 
 def test_load_language_preferences_with_non_existent_file():
@@ -176,7 +179,7 @@ def test_best_engine_by_language_uses_preferences_when_both_to_and_from_specifie
     assert ENGINE_NAME_MAP["papago"] == best_engine
 
 
-def test_best_engine_by_language_falls_back_to_default_to_lang_prefs():
+def test_best_engine_by_language_falls_back_to_default_to_lang_preferences():
     ordering = list(ENGINE_NAME_MAP.keys())
     preferences = {
         "xx": {
@@ -193,3 +196,40 @@ def test_best_engine_by_language_falls_back_to_default_to_lang_prefs():
                                            language_preferences=preferences, base_ordering=ordering)
 
     assert ENGINE_NAME_MAP["yandex"] == best_engine
+
+
+def test_best_md_table():
+    writer = pytablewriter.MarkdownTableWriter()
+    writer.headers = ["From", "To", "Engine Ordering"]
+
+    all_specified_languages = {k for k in default_language_preferences.keys()}.union({k for v in
+                                                                                      default_language_preferences.values()
+                                                                                      for k in v.keys()})
+    writer.value_matrix = []
+    for from_lang, to_lang in product(all_specified_languages, repeat=2):
+        if from_lang == to_lang and from_lang != "xx":
+            continue
+
+        name_map_copy = ENGINE_NAME_MAP.copy()
+        best_list = []
+        while len(name_map_copy) != 0:
+            print(name_map_copy)
+            best = _best_engine_by_language(engines=name_map_copy, from_language=from_lang, to_language=to_lang,
+                                            language_preferences=default_language_preferences,
+                                            base_ordering=default_ordering)
+            del name_map_copy[best.NAME]
+            best_list.append(best.NAME)
+
+        writer.value_matrix.append([from_lang, to_lang, ", ".join(best_list)])
+
+    writer.value_matrix.sort(key=lambda x: x[0] + x[1])
+
+    writer.write_table()
+
+    try:
+        # raise FileNotFoundError() # uncomment to write snapshot
+        with open("default_preferred.md", "r") as f:
+            assert writer.dumps() == f.read()
+    except FileNotFoundError:
+        with open("default_preferred.md", "w") as f:
+            writer.dump(f)

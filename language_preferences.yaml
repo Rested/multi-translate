@@ -19,6 +19,27 @@ xx:
   en:
     - deepl
 
+  fr:
+    - deepl
+
+  es:
+    - deepl
+
+  de:
+    - deepl
+
+  pt:
+    - deepl
+
+  nl:
+    - deepl
+
+  it:
+    - deepl
+
+  pl:
+    - deepl
+
 ko:
   xx:
     - papago
@@ -40,3 +61,69 @@ en:
     - yandex
   ko:
     - papago
+
+fr:
+  xx:
+    - deepl
+
+  ko:
+    - papago
+
+  ru:
+    - yandex
+
+es:
+  xx:
+    - deepl
+
+  ko:
+    - papago
+
+  ru:
+    - yandex
+
+
+de:
+  xx:
+    - deepl
+
+  ko:
+    - papago
+
+  ru:
+    - yandex
+
+pt:
+  xx:
+    - deepl
+
+  ko:
+    - papago
+
+  ru:
+    - yandex
+
+it:
+  xx:
+    - deepl
+
+  ko:
+    - papago
+
+  ru:
+    - yandex
+
+nl:
+  xx:
+    - deepl
+
+  ru:
+    - yandex
+
+pl:
+  xx:
+    - deepl
+
+  ru:
+    - yandex
+

@@ -90,3 +90,32 @@ def test_translate_microsoft_alignment_with_bad_pair():
     assert result == {
         "detail": "microsoft (3.0) engine does not support alignment between es and fr"
     }
+
+
+def test_falls_back_when_alignment_required_even_though_not_best():
+    request_data = {
+        "from_language": "en",
+        "to_language": "ko",
+        "source_text": "hello",
+        "fallback": True,
+        "with_alignment": True,
+    }
+    resp = httpx.get(translate_url(), params=request_data)
+    assert resp.status_code == 200
+    result = resp.json()
+
+    assert result == {
+        "translated_text": "안녕하세요",
+        "engine": "microsoft",
+        "engine_version": "3.0",
+        "from_language": "en",
+        "to_language": "ko",
+        "source_text": "hello",
+        "detected_language_confidence": None,
+        "alignment": [
+            {
+                "dest": {"end": "4", "start": "0", "text": "안녕하세요"},
+                "src": {"end": "4", "start": "0", "text": "hello"},
+            }
+        ],
+    }

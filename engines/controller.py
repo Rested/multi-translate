@@ -58,6 +58,7 @@ def _best_engine_by_language(engines: Dict[str, BaseTranslationEngine], from_lan
 
     filled_ordering = specified_ordering + [engine_name for engine_name in default_from_language_ordering if
                                             engine_name not in specified_ordering]
+    filled_ordering += [engine_name for engine_name in base_ordering if engine_name not in filled_ordering]
 
     return next(engines[engine_name] for engine_name in filled_ordering if engine_name in engines)
 
