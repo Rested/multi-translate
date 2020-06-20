@@ -11,7 +11,7 @@ def test_saves_repeated_request():
         "from_language": "en",
         "to_language": "es",
         "source_text": f"hello {rand_num}",
-        "preferred_engine": "amazon",
+        "preferred_engine": "google",
         "with_alignment": False,
     }
     resp = httpx.get(translate_url(), params=request_data)
@@ -20,8 +20,8 @@ def test_saves_repeated_request():
 
     expected_result = {
         "translated_text": f"hola {rand_num}",
-        "engine": "amazon",
-        "engine_version": "2020-04-30",
+        "engine": "google",
+        "engine_version": "3",
         "from_language": "en",
         "to_language": "es",
         "source_text": f"hello {rand_num}",

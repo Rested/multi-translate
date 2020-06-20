@@ -1,0 +1,42 @@
+xx:
+  xx:
+    - google
+    - microsoft
+    - yandex
+    - amazon
+    - deepl
+    - papago
+
+  ko:
+    - papago
+    - google
+    - microsoft
+
+  ru:
+    - yandex
+    - deepl
+
+  en:
+    - deepl
+
+ko:
+  xx:
+    - papago
+    - google
+    - microsoft
+
+  ru:
+    - yandex
+
+
+ru:
+  xx:
+    - yandex
+
+en:
+  xx:
+    - deepl
+  ru:
+    - yandex
+  ko:
+    - papago

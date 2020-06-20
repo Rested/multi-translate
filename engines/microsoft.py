@@ -11,7 +11,7 @@ from errors import (
     TranslationError,
     EngineApiError,
     AlignmentError,
-    AlignmentNotSupportedError,
+    AlignmentNotSupportedError, TranslationEngineNotConfiguredError,
 )
 from models import TranslationResponse, Alignment
 from settings import Settings
@@ -76,8 +76,11 @@ class MicrosoftEngine(BaseTranslationEngine):
         settings = Settings()
         self._logger = logging.getLogger(__name__)
         self._logger.setLevel(settings.log_level.value)
-
         self.subscription_key = settings.microsoft_translator_subscription_key
+        if self.subscription_key is None:
+            raise TranslationEngineNotConfiguredError(
+                f"{self.name_ver} engine: no subscription key configured"
+            )
         self.endpoint = settings.microsoft_translator_endpoint
         self.region_headers = (
             {}

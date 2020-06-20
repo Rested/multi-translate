@@ -26,7 +26,7 @@ class BaseTranslationEngine:
         self, from_language: Optional[str], to_language: str
     ):
         if from_language is None:
-            if to_language in sum(self.supported_translations.values(), []):
+            if to_language in {to_l for list_of_to_l in self.supported_translations.values() for to_l in list_of_to_l}:
                 return
         else:
             try:
@@ -45,6 +45,7 @@ class BaseTranslationEngine:
         to_language: str,
         with_alignment: Optional[bool] = False,
     ):
+        self.is_language_pair_supported(from_language=from_language, to_language=to_language)
         if not from_language and not self.supports_detection:
             raise DetectionNotSupportedError(f"{self.name_ver} engine does not support detection, please specify "
                                              f"from_language")

@@ -7,10 +7,8 @@ from databases.backends.postgres import Record
 from sqlalchemy import UniqueConstraint
 from sqlalchemy.sql import and_
 from fastapi import FastAPI, Query, BackgroundTasks, Response
-from pydantic import BaseModel, validator
-
-from engines import BEST, SUPPORTED_ENGINES, get_engine
-from errors import BaseMultiTranslateError
+from engines.controller import EngineController, BEST
+from errors import BaseMultiTranslateError, NoValidEngineConfiguredError
 from models import TranslationResponse, TranslationRequest
 from settings import Settings, DatabaseSettings
 
@@ -51,15 +49,21 @@ translations = sqlalchemy.Table(
 
 app = FastAPI()
 
+controller = EngineController()
+
 
 @app.on_event("startup")
 async def startup():
+    # logging
     log_level = Settings().log_level.name
     logging.basicConfig(level=log_level)
     _logger.setLevel(level=log_level)
+    # database
     await database.connect()
     engine = sqlalchemy.create_engine(DatabaseSettings().postgres_dsn)
     metadata.create_all(engine)
+    # controller
+    controller.get_available_engines()
 
 
 @app.on_event("shutdown")
@@ -96,17 +100,13 @@ async def translate(
         response: Response,
         to_language: str = Query(..., max_length=2),
         from_language: str = Query(None, max_length=2),
-        preferred_engine: str = "best",
+        preferred_engine: str = BEST,
         with_alignment: bool = False,
+        fallback: bool = False,
 ):
     additional_conditions = []
     if with_alignment:
         additional_conditions.append(translations.c.has_alignment_info == True)
-
-    if preferred_engine != BEST:
-        additional_conditions.append(
-            translations.c.translation_engine == preferred_engine
-        )
 
     if from_language is None:
         # we need this since specifying a from language will influence which engine is used and the output if
@@ -115,49 +115,62 @@ async def translate(
     else:
         additional_conditions.append(translations.c.from_language == from_language)
 
-    query = translations.select().where(
-        and_(
-            translations.c.to_language == to_language,
-            translations.c.source_text == source_text,
-            *additional_conditions
+    excluded_engines = []
+    use_engine = preferred_engine
+    translation_result = None
+    while True:
+        engine = controller.get_engine(name=use_engine, needs_alignment=with_alignment,
+                                       needs_detection=from_language is None, from_language=from_language,
+                                       to_language=to_language, exclude_engines=excluded_engines)
+        additional_conditions.append(
+            translations.c.translation_engine == engine.NAME
         )
-    )
-    _logger.debug("querying database for previous translation result with %s", query)
-    result: Record = await database.fetch_one(query)
-    _logger.debug("Got result from database: %s", result)
 
-    if result is None:
-        if preferred_engine not in SUPPORTED_ENGINES:
-            raise ValueError(
-                "engine %s not supported try one of %s",
-                preferred_engine,
-                SUPPORTED_ENGINES,
+        query = translations.select().where(
+            and_(
+                translations.c.to_language == to_language,
+                translations.c.source_text == source_text,
+                *additional_conditions
+            )
+        )
+        _logger.debug("querying database for previous translation result with %s", query)
+        result: Optional[Record] = await database.fetch_one(query)
+        _logger.debug("Got result from database: %s", result)
+        if result is None:
+            try:
+                translation_result = await engine.translate(
+                    source_text=source_text,
+                    from_language=from_language,
+                    to_language=to_language,
+                    with_alignment=with_alignment,
+                )
+            except BaseMultiTranslateError as e:
+                _logger.debug("%s", e.detail, exc_info=True)
+                if fallback:
+                    # if an engine was specified we switch to fallback if the preferred failed
+                    use_engine = BEST
+                    excluded_engines.append(engine.NAME)
+                    continue
+                raise e
+            break
+        else:
+            response.headers["X-Translation-Source"] = "database"
+            return TranslationResponse(
+                engine=result["translation_engine"],
+                engine_version=result["translation_engine_version"],
+                detection_confidence=result["detection_confidence"],
+                from_language=result["from_language"],
+                to_language=result["to_language"],
+                source_text=result["source_text"],
+                translated_text=result["translated_text"],
+                alignment=result["alignment"] if with_alignment else None,
             )
 
-        engine = get_engine(preferred_engine)
-        try:
-            translation_result = await engine.translate(
-                source_text=source_text,
-                from_language=from_language,
-                to_language=to_language,
-                with_alignment=with_alignment,
-            )
-        except BaseMultiTranslateError as e:
-            _logger.debug("%s", e.detail, exc_info=True)
-            raise e
+    if translation_result:
         # save translation_result
         background_tasks.add_task(save_translation, translation_result, from_language is not None)
         response.headers["X-Translation-Source"] = "api"
         return translation_result
 
-    response.headers["X-Translation-Source"] = "database"
-    return TranslationResponse(
-        engine=result["translation_engine"],
-        engine_version=result["translation_engine_version"],
-        detection_confidence=result["detection_confidence"],
-        from_language=result["from_language"],
-        to_language=result["to_language"],
-        source_text=result["source_text"],
-        translated_text=result["translated_text"],
-        alignment=result["alignment"] if with_alignment else None,
-    )
+    raise Exception("no translation result or exception raised - this should never happen")
+

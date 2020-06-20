@@ -49,7 +49,8 @@ def test_with_documentation_example():
     ]
 
 
-def test_retrieve_supported_languages():
+def test_retrieve_supported_languages(monkeypatch):
+    monkeypatch.setenv("microsoft_translator_subscription_key", "doesnt matter here")
     m = MicrosoftEngine()
     assert "en" in m.supported_translations and "es" in m.supported_translations["en"]
     assert "es" in m.supported_translations and "en" in m.supported_translations["en"]

@@ -42,3 +42,15 @@ class AlignmentNotSupportedError(BaseMultiTranslateError):
 
 class AlignmentError(BaseMultiTranslateError):
     """Alignment failed despite being supported"""
+
+
+class InvalidEngineNameError(BaseMultiTranslateError):
+    """Invalid engine name"""
+
+
+class NoValidEngineConfiguredError(BaseMultiTranslateError):
+    """No valid engine is configured"""
+
+
+class InvalidLanguagePreferencesError(BaseMultiTranslateError):
+    """Invalid language preferences"""
