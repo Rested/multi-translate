@@ -5,7 +5,7 @@ import httpx
 import logging
 from engines import BaseTranslationEngine
 from errors import TranslationEngineNotConfiguredError, EngineApiError, DetectionError, TranslationError
-from models import TranslationResponse
+from models.response import TranslationResponse
 from settings import Settings
 
 

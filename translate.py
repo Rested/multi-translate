@@ -6,6 +6,7 @@ import graphene
 import sqlalchemy
 from databases.backends.postgres import Record
 from graphql.execution.executors.asyncio import AsyncioExecutor
+from pydantic import BaseModel
 from sqlalchemy import UniqueConstraint
 from sqlalchemy.sql import and_
 from fastapi import FastAPI, Query, BackgroundTasks, Response
@@ -13,7 +14,8 @@ from starlette.graphql import GraphQLApp
 
 from engines.controller import EngineController, BEST, ENGINE_NAME_MAP
 from errors import BaseMultiTranslateError, NoValidEngineConfiguredError
-from models import TranslationResponse, GQLTranslationResponse, AlignmentSection, AlignmentTextPos
+from models.response import TranslationResponse, GQLTranslationResponse, AlignmentSection, AlignmentTextPos
+from models.request import TranslationRequest
 from settings import Settings, DatabaseSettings
 
 _logger = logging.getLogger(__name__)
@@ -95,6 +97,15 @@ async def save_translation(translation_result: TranslationResponse, from_was_spe
     )
     result = await database.execute(statement)
     _logger.debug("insertion result %s", result)
+
+
+@app.post("/translate", response_model=TranslationResponse)
+async def translate_post(background_tasks: BackgroundTasks,
+                         response: Response, translation_request: TranslationRequest):
+    return await translate(background_tasks, response, source_text=translation_request.source_text,
+                           to_language=translation_request.to_language, from_language=translation_request.from_language,
+                           preferred_engine=translation_request.preferred_engine,
+                           with_alignment=translation_request.with_alignment, fallback=translation_request.fallback)
 
 
 @app.get("/translate", response_model=TranslationResponse)

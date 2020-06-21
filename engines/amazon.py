@@ -6,7 +6,7 @@ from botocore.exceptions import ClientError
 from engines.base import BaseTranslationEngine
 from errors import DetectionNotSupportedError, TranslationEngineNotConfiguredError, AlignmentNotSupportedError, \
     TranslationError, EngineApiError
-from models import TranslationResponse
+from models.response import TranslationResponse
 from settings import Settings
 
 

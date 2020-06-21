@@ -1,37 +1,9 @@
-from typing import Dict, Optional, Union, List
+from typing import List, Dict, Union, Optional
 
 import graphene
-from fastapi import Query
-from pydantic import BaseModel, validator
-
-# from engines.controller import BEST, ENGINE_NAME_MAP
+from pydantic import BaseModel
 
 Alignment = List[Dict[str, Dict[str, Union[str, int]]]]
-
-
-# class TranslationRequest(BaseModel):
-#     source_text: str = Query(..., description="The text to be translated"),
-#     to_language: str = Query(..., max_length=2,
-#                              description="The ISO-639-1 code of the language to translate the text to"),
-#     from_language: str = Query(None, max_length=2,
-#                                description="The ISO-639-1 code of the language to translate the text from - if not"
-#                                            "specified then detection will be attempted"),
-#     preferred_engine: str = Query(BEST,
-#                                   description=f"Which translation engine to use. Choices are "
-#                                               f"{', '.join(list(ENGINE_NAME_MAP.keys()))} and {BEST}"),
-#     with_alignment: bool = Query(False, description="Whether to return word alignment information or not"),
-#     fallback: bool = Query(False, description="Whether to fallback to the best available engine if the preferred "
-#                                               "engine does not succeed"),
-#
-#     @validator("from_language", "to_language")
-#     def name_must_contain_space(cls, v):
-#         if v is None:
-#             return v
-#
-#         if len(v) != 2:
-#             raise ValueError("must be a 2 letter ISO 639-1 code")
-#
-#         return v
 
 
 class AlignmentTextPos(graphene.ObjectType):

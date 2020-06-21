@@ -42,7 +42,7 @@ best valid engine in the list will be chosen.
 
 ### REST
 
-The core `translate` endpoint can be found at `GET /translate`. Documentation is available in `swagger` and `redoc` 
+The core `translate` endpoint can be found at `GET /translate` or `POST /translate`. Documentation is available in `swagger` and `redoc` 
 style at `/docs` and `/redoc` respectively.
 
 #### Example (python)
@@ -55,10 +55,13 @@ request_data = {
     "with_alignment": True,
 }
 resp = httpx.get("http://localhost:8080/translate", params=request_data)
-assert resp.status_code == 200
-result = resp.json()
+post_resp = httpx.post("http://localhost:8080/translate", json=request_data)
 
-assert result == {
+assert resp.status_code == post_resp.status_code == 200
+result = resp.json()
+post_result = post_resp.json()
+
+assert result == post_result == {
     "translated_text": "¿Cómo estás?",
     "engine": "microsoft",
     "engine_version": "3.0",

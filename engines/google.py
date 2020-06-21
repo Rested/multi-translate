@@ -21,7 +21,7 @@ from errors import (
     DetectionError,
     TranslationError,
 )
-from models import TranslationResponse
+from models.response import TranslationResponse
 from settings import Settings
 
 

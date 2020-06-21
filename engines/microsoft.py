@@ -13,7 +13,7 @@ from errors import (
     AlignmentError,
     AlignmentNotSupportedError, TranslationEngineNotConfiguredError,
 )
-from models import TranslationResponse, Alignment
+from models.response import TranslationResponse, Alignment
 from settings import Settings
 
 
