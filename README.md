@@ -2,11 +2,12 @@
 
 ## What is it?
 
-Multi-translate is a unified interface on top of various translate APIs providing optimal translations, persistence, fallback.
+Multi-translate is a unified interface on top of various translate APIs providing optimal translations :star:, 
+persistence :floppy_disk:, fallback :recycle:.
 
-### Features
+## Features
 
-#### Optimal Translations
+#### Optimal Translations :star:
 
 Multi-translate aims to provide optimal translations for the given language pair. It does this by combining the
 strengths of the `Amazon`, `Deep L`, `Google`, `Microsoft`, `Naver Papago`, and `Yandex` translation APIs.
@@ -23,13 +24,13 @@ The controller will use then [language_preferences.yaml](language_preferences.ya
 the best translation engine for the from/to language combination based on the remaining languages. The default 
 preferences are listed in [default_preferred.md](default_preferred.md).
 
-#### Persistence  
+#### Persistence :floppy_disk:
 
 When a result is fetched for a particular engine, language, feature, and source text, it will be stored in a 
 `postgres` database, if it has been fetched before, it will be retrieved from the database instead to avoid unnecessary
-usage charges. 
+usage charges. The write to the database takes place after the response is returned to keep responses fast :zap:.
 
-#### Fallback
+#### Fallback :recycle:
 
 The `fallback` option can be used so that if a result fails for the specified engine, for whatever reason, then the next
 best valid engine in the list will be chosen.
