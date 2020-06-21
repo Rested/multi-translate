@@ -2,14 +2,18 @@ import logging
 from typing import List, Optional, Dict
 
 import databases
+import graphene
 import sqlalchemy
 from databases.backends.postgres import Record
+from graphql.execution.executors.asyncio import AsyncioExecutor
 from sqlalchemy import UniqueConstraint
 from sqlalchemy.sql import and_
 from fastapi import FastAPI, Query, BackgroundTasks, Response
+from starlette.graphql import GraphQLApp
+
 from engines.controller import EngineController, BEST, ENGINE_NAME_MAP
 from errors import BaseMultiTranslateError, NoValidEngineConfiguredError
-from models import TranslationResponse, TranslationRequest
+from models import TranslationResponse, GQLTranslationResponse, AlignmentSection, AlignmentTextPos
 from settings import Settings, DatabaseSettings
 
 _logger = logging.getLogger(__name__)
@@ -179,3 +183,55 @@ async def translate(
         return translation_result
 
     raise Exception("no translation result or exception raised - this should never happen")
+
+
+class GQLQuery(graphene.ObjectType):
+    translation = graphene.Field(GQLTranslationResponse,
+                                 source_text=graphene.String(description="The text to be translated", required=True),
+                                 to_language=graphene.String(
+                                     description="The ISO-639-1 code of the language to translate the text to",
+                                     required=True),
+                                 from_language=graphene.String(
+                                     description="The ISO-639-1 code of the language to translate the text from - if not"
+                                                 "specified then detection will be attempted"),
+                                 preferred_engine=graphene.String(
+                                     description=f"Which translation engine to use. Choices are "
+                                                 f"{', '.join(list(ENGINE_NAME_MAP.keys()))} and {BEST}"),
+                                 with_alignment=graphene.Boolean(
+                                     description="Whether to return word alignment information or not"),
+                                 fallback=graphene.Boolean(
+                                     description="Whether to fallback to the best available engine if the preferred "
+                                                 "engine does not succeed"))
+
+    async def resolve_translation(self, info, source_text, to_language, from_language=None, preferred_engine=BEST,
+                                  with_alignment=False,
+                                  fallback=False):
+        bg_tasks = BackgroundTasks()
+        result = await translate(bg_tasks, Response(), source_text, to_language, from_language,
+                                 preferred_engine,
+                                 with_alignment,
+                                 fallback)
+
+        alignment = None
+        if result.alignment:
+            alignment = [AlignmentSection(
+                dest=AlignmentTextPos(end=sect["dest"]["end"], start=sect["dest"]["start"], text=sect["dest"]["text"]),
+                src=AlignmentTextPos(end=sect["src"]["end"], start=sect["src"]["start"], text=sect["src"]["text"])
+            ) for sect in result.alignment]
+
+        # TODO: find a way to make this happen after the response is returned
+        await bg_tasks()
+
+        return GQLTranslationResponse(
+            engine=result.engine,
+            engine_version=result.engine_version,
+            detected_language_confidence=result.detected_language_confidence,
+            from_language=result.from_language,
+            to_language=result.to_language,
+            source_text=result.source_text,
+            translated_text=result.translated_text,
+            alignment=alignment
+        )
+
+
+app.add_route("/gql", GraphQLApp(schema=graphene.Schema(query=GQLQuery), executor_class=AsyncioExecutor))

@@ -60,8 +60,9 @@ def _is_alignment_supported(to_language: str, from_language: Optional[str]):
         return None
     if {to_language, from_language} == {"ko", "ja"}:
         return True
-    if from_language is None and to_language in {"ko", "ja"}:
+    if from_language is None:
         return None
+
     return False
 
 
