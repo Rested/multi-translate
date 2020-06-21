@@ -5,6 +5,8 @@
 Multi-translate is a unified interface on top of various translate APIs providing optimal translations :star:, 
 persistence :floppy_disk:, fallback :recycle:.
 
+Multi-Translate uses `FastApi` and `asyncpg` to keep things snappy :zap:, and offers `graphql` and `rest` endpoints.
+
 ## Features
 
 #### Optimal Translations :star:
@@ -34,6 +36,98 @@ usage charges. The write to the database takes place after the response is retur
 
 The `fallback` option can be used so that if a result fails for the specified engine, for whatever reason, then the next
 best valid engine in the list will be chosen.
+
+
+## Access
+
+### REST
+
+The core `translate` endpoint can be found at `GET /translate`. Documentation is available in `swagger` and `redoc` 
+style at `/docs` and `/redoc` respectively.
+
+#### Example (python)
+
+```python
+import httpx
+request_data = {
+    "to_language": "es",
+    "source_text": "How do you do?",
+    "with_alignment": True,
+}
+resp = httpx.get("http://localhost:8080/translate", params=request_data)
+assert resp.status_code == 200
+result = resp.json()
+
+assert result == {
+    "translated_text": "¿Cómo estás?",
+    "engine": "microsoft",
+    "engine_version": "3.0",
+    "from_language": "en",
+    "to_language": "es",
+    "source_text": "hello",
+    "detected_language_confidence": "1.0",
+    "alignment": [
+        {
+            "dest": {"end": "4", "start": "0", "text": "안녕하세요"},
+            "src": {"end": "4", "start": "0", "text": "hello"},
+        }
+    ],
+}
+```
+
+### Graphql
+
+The graphql endpoint is available (with `GraphiQL` UI) at `/gql`
+
+#### Example (gql)
+
+```graphql
+query GetTranslation {
+    translation(sourceText: "How do you do?", toLanguage: "es", withAlignment: true) {
+        translatedText
+        fromLanguage
+        alignment{
+          src{
+            start,
+            end,
+            text
+          }
+          dest{
+            start,
+            end,
+            text
+          }
+        }
+  }
+}
+```
+
+Result 
+
+```json
+{
+  "data": {
+    "translation": {
+      "translatedText": "¿Cómo estás?",
+      "fromLanguage": "en",
+      "alignment": [
+        {
+          "src": {
+            "start": 0,
+            "end": 13,
+            "text": "How do you do?"
+          },
+          "dest": {
+            "start": 0,
+            "end": 11,
+            "text": "¿Cómo estás?"
+          }
+        }
+      ]
+    }
+  }
+}
+```
 
 ## Installation
 
