@@ -2,7 +2,6 @@ from typing import Dict, Optional, Union, List
 
 from pydantic import BaseModel, validator
 
-
 Alignment = List[Dict[str, Dict[str, Union[str, int]]]]
 
 
@@ -33,3 +32,22 @@ class TranslationResponse(BaseModel):
     source_text: str
     translated_text: str
     alignment: Optional[Alignment]
+
+    class Config:
+        schema_extra = {
+            "example": {
+                "translated_text": "안녕하세요",
+                "engine": "microsoft",
+                "engine_version": "3.0",
+                "from_language": "en",
+                "to_language": "ko",
+                "source_text": "hello",
+                "detected_language_confidence": None,
+                "alignment": [
+                    {
+                        "dest": {"end": "4", "start": "0", "text": "안녕하세요"},
+                        "src": {"end": "4", "start": "0", "text": "hello"},
+                    }
+                ],
+            }
+        }

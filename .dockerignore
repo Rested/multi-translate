@@ -8,3 +8,5 @@ Dockerfile
 __pycache__
 .pytest_cache
 secret_values.yaml
+*.md
+.dockerignore

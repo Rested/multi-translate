@@ -7,7 +7,7 @@ from databases.backends.postgres import Record
 from sqlalchemy import UniqueConstraint
 from sqlalchemy.sql import and_
 from fastapi import FastAPI, Query, BackgroundTasks, Response
-from engines.controller import EngineController, BEST
+from engines.controller import EngineController, BEST, ENGINE_NAME_MAP
 from errors import BaseMultiTranslateError, NoValidEngineConfiguredError
 from models import TranslationResponse, TranslationRequest
 from settings import Settings, DatabaseSettings
@@ -95,14 +95,20 @@ async def save_translation(translation_result: TranslationResponse, from_was_spe
 
 @app.get("/translate", response_model=TranslationResponse)
 async def translate(
-        source_text: str,
         background_tasks: BackgroundTasks,
         response: Response,
-        to_language: str = Query(..., max_length=2),
-        from_language: str = Query(None, max_length=2),
-        preferred_engine: str = BEST,
-        with_alignment: bool = False,
-        fallback: bool = False,
+        source_text: str = Query(..., description="The text to be translated"),
+        to_language: str = Query(..., max_length=2,
+                                 description="The ISO-639-1 code of the language to translate the text to"),
+        from_language: str = Query(None, max_length=2,
+                                   description="The ISO-639-1 code of the language to translate the text from - if not"
+                                               "specified then detection will be attempted"),
+        preferred_engine: str = Query(BEST,
+                                      description=f"Which translation engine to use. Choices are "
+                                                  f"{', '.join(list(ENGINE_NAME_MAP.keys()))} and {BEST}"),
+        with_alignment: bool = Query(False, description="Whether to return word alignment information or not"),
+        fallback: bool = Query(False, description="Whether to fallback to the best available engine if the preferred "
+                                                  "engine does not succeed"),
 ):
     additional_conditions = []
     if with_alignment:
@@ -173,4 +179,3 @@ async def translate(
         return translation_result
 
     raise Exception("no translation result or exception raised - this should never happen")
-
