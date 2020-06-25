@@ -10,3 +10,4 @@ __pycache__
 secret_values.yaml
 *.md
 .dockerignore
+clients
