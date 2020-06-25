@@ -14,16 +14,16 @@ from __future__ import absolute_import
 
 import unittest
 
-import multi_translate_client
-from multi_translate_client.api.default_api import DefaultApi  # noqa: E501
-from multi_translate_client.rest import ApiException
+import multitranslateclient
+from multitranslateclient.api.default_api import DefaultApi  # noqa: E501
+from multitranslateclient.rest import ApiException
 
 
 class TestDefaultApi(unittest.TestCase):
     """DefaultApi unit test stubs"""
 
     def setUp(self):
-        self.api = multi_translate_client.api.default_api.DefaultApi()  # noqa: E501
+        self.api = multitranslateclient.api.default_api.DefaultApi()  # noqa: E501
 
     def tearDown(self):
         pass

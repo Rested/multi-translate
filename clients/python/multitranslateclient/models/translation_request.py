@@ -15,7 +15,7 @@ import re  # noqa: F401
 
 import six
 
-from multi_translate_client.configuration import Configuration
+from multitranslateclient.configuration import Configuration
 
 
 class TranslationRequest(object):

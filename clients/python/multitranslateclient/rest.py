@@ -24,7 +24,7 @@ import six
 from six.moves.urllib.parse import urlencode
 import urllib3
 
-from multi_translate_client.exceptions import ApiException, ApiValueError
+from multitranslateclient.exceptions import ApiException, ApiValueError
 
 
 logger = logging.getLogger(__name__)

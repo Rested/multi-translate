@@ -17,8 +17,8 @@ import re  # noqa: F401
 # python 2 and python 3 compatibility library
 import six
 
-from multi_translate_client.api_client import ApiClient
-from multi_translate_client.exceptions import (  # noqa: F401
+from multitranslateclient.api_client import ApiClient
+from multitranslateclient.exceptions import (  # noqa: F401
     ApiTypeError,
     ApiValueError
 )

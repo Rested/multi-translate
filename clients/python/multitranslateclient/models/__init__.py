@@ -14,7 +14,7 @@
 from __future__ import absolute_import
 
 # import models into model package
-from multi_translate_client.models.http_validation_error import HTTPValidationError
-from multi_translate_client.models.translation_request import TranslationRequest
-from multi_translate_client.models.translation_response import TranslationResponse
-from multi_translate_client.models.validation_error import ValidationError
+from multitranslateclient.models.http_validation_error import HTTPValidationError
+from multitranslateclient.models.translation_request import TranslationRequest
+from multitranslateclient.models.translation_response import TranslationResponse
+from multitranslateclient.models.validation_error import ValidationError

@@ -24,10 +24,10 @@ import tempfile
 import six
 from six.moves.urllib.parse import quote
 
-from multi_translate_client.configuration import Configuration
-import multi_translate_client.models
-from multi_translate_client import rest
-from multi_translate_client.exceptions import ApiValueError, ApiException
+from multitranslateclient.configuration import Configuration
+import multitranslateclient.models
+from multitranslateclient import rest
+from multitranslateclient.exceptions import ApiValueError, ApiException
 
 
 class ApiClient(object):
@@ -308,7 +308,7 @@ class ApiClient(object):
             if klass in self.NATIVE_TYPES_MAPPING:
                 klass = self.NATIVE_TYPES_MAPPING[klass]
             else:
-                klass = getattr(multi_translate_client.models, klass)
+                klass = getattr(multitranslateclient.models, klass)
 
         if klass in self.PRIMITIVE_TYPES:
             return self.__deserialize_primitive(data, klass)

@@ -1,4 +1,4 @@
-# multi_translate_client.DefaultApi
+# multitranslateclient.DefaultApi
 
 All URIs are relative to *http://localhost*
 
@@ -19,20 +19,20 @@ Ready
 ```python
 from __future__ import print_function
 import time
-import multi_translate_client
-from multi_translate_client.rest import ApiException
+import multitranslateclient
+from multitranslateclient.rest import ApiException
 from pprint import pprint
 # Defining the host is optional and defaults to http://localhost
 # See configuration.py for a list of all supported configuration parameters.
-configuration = multi_translate_client.Configuration(
+configuration = multitranslateclient.Configuration(
     host = "http://localhost"
 )
 
 
 # Enter a context with an instance of the API client
-with multi_translate_client.ApiClient() as api_client:
+with multitranslateclient.ApiClient() as api_client:
     # Create an instance of the API class
-    api_instance = multi_translate_client.DefaultApi(api_client)
+    api_instance = multitranslateclient.DefaultApi(api_client)
     
     try:
         # Ready
@@ -75,21 +75,21 @@ Translate Post
 ```python
 from __future__ import print_function
 import time
-import multi_translate_client
-from multi_translate_client.rest import ApiException
+import multitranslateclient
+from multitranslateclient.rest import ApiException
 from pprint import pprint
 # Defining the host is optional and defaults to http://localhost
 # See configuration.py for a list of all supported configuration parameters.
-configuration = multi_translate_client.Configuration(
+configuration = multitranslateclient.Configuration(
     host = "http://localhost"
 )
 
 
 # Enter a context with an instance of the API client
-with multi_translate_client.ApiClient() as api_client:
+with multitranslateclient.ApiClient() as api_client:
     # Create an instance of the API class
-    api_instance = multi_translate_client.DefaultApi(api_client)
-    translation_request = multi_translate_client.TranslationRequest() # TranslationRequest | 
+    api_instance = multitranslateclient.DefaultApi(api_client)
+    translation_request = multitranslateclient.TranslationRequest() # TranslationRequest | 
 
     try:
         # Translate Post
@@ -136,20 +136,20 @@ Translate
 ```python
 from __future__ import print_function
 import time
-import multi_translate_client
-from multi_translate_client.rest import ApiException
+import multitranslateclient
+from multitranslateclient.rest import ApiException
 from pprint import pprint
 # Defining the host is optional and defaults to http://localhost
 # See configuration.py for a list of all supported configuration parameters.
-configuration = multi_translate_client.Configuration(
+configuration = multitranslateclient.Configuration(
     host = "http://localhost"
 )
 
 
 # Enter a context with an instance of the API client
-with multi_translate_client.ApiClient() as api_client:
+with multitranslateclient.ApiClient() as api_client:
     # Create an instance of the API class
-    api_instance = multi_translate_client.DefaultApi(api_client)
+    api_instance = multitranslateclient.DefaultApi(api_client)
     source_text = 'source_text_example' # str | The text to be translated
 to_language = 'to_language_example' # str | The ISO-639-1 code of the language to translate the text to
 from_language = 'from_language_example' # str | The ISO-639-1 code of the language to translate the text from - if notspecified then detection will be attempted (optional)

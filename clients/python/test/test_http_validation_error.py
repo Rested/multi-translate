@@ -15,9 +15,9 @@ from __future__ import absolute_import
 import unittest
 import datetime
 
-import multi_translate_client
-from multi_translate_client.models.http_validation_error import HTTPValidationError  # noqa: E501
-from multi_translate_client.rest import ApiException
+import multitranslateclient
+from multitranslateclient.models.http_validation_error import HTTPValidationError  # noqa: E501
+from multitranslateclient.rest import ApiException
 
 class TestHTTPValidationError(unittest.TestCase):
     """HTTPValidationError unit test stubs"""
@@ -33,11 +33,11 @@ class TestHTTPValidationError(unittest.TestCase):
             include_option is a boolean, when False only required
             params are included, when True both required and
             optional params are included """
-        # model = multi_translate_client.models.http_validation_error.HTTPValidationError()  # noqa: E501
+        # model = multitranslateclient.models.http_validation_error.HTTPValidationError()  # noqa: E501
         if include_optional :
             return HTTPValidationError(
                 detail = [
-                    multi_translate_client.models.validation_error.ValidationError(
+                    multitranslateclient.models.validation_error.ValidationError(
                         loc = [
                             '0'
                             ], 
