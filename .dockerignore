@@ -11,3 +11,4 @@ secret_values.yaml
 *.md
 .dockerignore
 clients
+.github
