@@ -4,8 +4,8 @@
 name: Node.js Package
 
 on:
-  release:
-    types: [created]
+  tags:
+     - 'v*'
 
 jobs:
   build:
@@ -15,8 +15,7 @@ jobs:
       - uses: actions/setup-node@v1
         with:
           node-version: 12
-      - run: cd clients/js
-      - run: npm test
+      - run: cd clients/js && npm test
 
   publish-gpr:
     needs: build
@@ -27,7 +26,6 @@ jobs:
         with:
           node-version: 12
           registry-url: https://npm.pkg.github.com/
-      - run: cd clients/js
-      - run: npm publish
+      - run: cd clients/js && npm publish
         env:
           NODE_AUTH_TOKEN: ${{secrets.GITHUB_TOKEN}}
