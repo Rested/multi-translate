@@ -8,6 +8,10 @@ on:
     tags:
        - 'v*'
 
+defaults:
+  run:
+    working-directory: clients/js
+
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -16,7 +20,8 @@ jobs:
       - uses: actions/setup-node@v1
         with:
           node-version: 12
-      - run: cd clients/js && npm test
+      - run: npm i
+      - run: npm test
 
   publish-gpr:
     needs: build
@@ -27,6 +32,7 @@ jobs:
         with:
           node-version: 12
           registry-url: https://npm.pkg.github.com/
-      - run: cd clients/js && npm publish
+      - run: npm i
+      - run: npm publish
         env:
           NODE_AUTH_TOKEN: ${{secrets.GITHUB_TOKEN}}
