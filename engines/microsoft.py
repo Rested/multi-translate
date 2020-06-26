@@ -36,13 +36,13 @@ def parse_alignment_string(
         alignment_list.append(
             {
                 "src": {
-                    "start": int(source_text_start),
-                    "end": int(source_text_end),
+                    "start": str(source_text_start),
+                    "end": str(source_text_end),
                     "text": source_text_section,
                 },
                 "dest": {
-                    "start": int(translation_text_start),
-                    "end": int(translation_text_end),
+                    "start": str(translation_text_start),
+                    "end": str(translation_text_end),
                     "text": translation_text_section,
                 },
             }

@@ -1,14 +1,14 @@
-from typing import List, Dict, Union, Optional
+from typing import List, Dict, Optional
 
 import graphene
 from pydantic import BaseModel
 
-Alignment = List[Dict[str, Dict[str, Union[str, int]]]]
+Alignment = List[Dict[str, Dict[str, str]]]
 
 
 class AlignmentTextPos(graphene.ObjectType):
-    end = graphene.Int()
-    start = graphene.Int()
+    end = graphene.String()
+    start = graphene.String()
     text = graphene.String()
 
 
