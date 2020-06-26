@@ -11,6 +11,6 @@ Name | Type | Description | Notes
 **toLanguage** | **String** |  | 
 **sourceText** | **String** |  | 
 **translatedText** | **String** |  | 
-**alignment** | **[{String: {String: AnyOfstringinteger}}]** |  | [optional] 
+**alignment** | **[{String: {String: String}}]** |  | [optional] 
 
 

@@ -10,7 +10,7 @@ Name | Type | Description | Notes
 **to_language** | **str** |  | 
 **source_text** | **str** |  | 
 **translated_text** | **str** |  | 
-**alignment** | **list[dict(str, dict(str, AnyOfstringinteger))]** |  | [optional] 
+**alignment** | **list[dict(str, dict(str, str))]** |  | [optional] 
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
 

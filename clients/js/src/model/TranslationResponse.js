@@ -12,7 +12,6 @@
  */
 
 import ApiClient from '../ApiClient';
-import AnyOfstringinteger from './AnyOfstringinteger';
 
 /**
  * The TranslationResponse model module.
@@ -82,7 +81,7 @@ class TranslationResponse {
                 obj['translated_text'] = ApiClient.convertToType(data['translated_text'], 'String');
             }
             if (data.hasOwnProperty('alignment')) {
-                obj['alignment'] = ApiClient.convertToType(data['alignment'], [{'String': {'String': AnyOfstringinteger}}]);
+                obj['alignment'] = ApiClient.convertToType(data['alignment'], [{'String': {'String': 'String'}}]);
             }
         }
         return obj;
@@ -127,7 +126,7 @@ TranslationResponse.prototype['source_text'] = undefined;
 TranslationResponse.prototype['translated_text'] = undefined;
 
 /**
- * @member {Array.<Object.<String, Object.<String, module:model/AnyOfstringinteger>>>} alignment
+ * @member {Array.<Object.<String, Object.<String, String>>>} alignment
  */
 TranslationResponse.prototype['alignment'] = undefined;
 

@@ -40,7 +40,7 @@ class TranslationResponse(object):
         'to_language': 'str',
         'source_text': 'str',
         'translated_text': 'str',
-        'alignment': 'list[dict(str, dict(str, AnyOfstringinteger))]'
+        'alignment': 'list[dict(str, dict(str, str))]'
     }
 
     attribute_map = {
@@ -246,7 +246,7 @@ class TranslationResponse(object):
 
 
         :return: The alignment of this TranslationResponse.  # noqa: E501
-        :rtype: list[dict(str, dict(str, AnyOfstringinteger))]
+        :rtype: list[dict(str, dict(str, str))]
         """
         return self._alignment
 
@@ -256,7 +256,7 @@ class TranslationResponse(object):
 
 
         :param alignment: The alignment of this TranslationResponse.  # noqa: E501
-        :type alignment: list[dict(str, dict(str, AnyOfstringinteger))]
+        :type alignment: list[dict(str, dict(str, str))]
         """
 
         self._alignment = alignment

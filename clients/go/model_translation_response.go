@@ -17,5 +17,5 @@ type TranslationResponse struct {
 	ToLanguage string `json:"to_language"`
 	SourceText string `json:"source_text"`
 	TranslatedText string `json:"translated_text"`
-	Alignment []map[string]map[string]AnyOfstringinteger `json:"alignment,omitempty"`
+	Alignment []map[string]map[string]string `json:"alignment,omitempty"`
 }
