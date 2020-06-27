@@ -1,4 +1,4 @@
-# MultiTranslateClient.ValidationError
+# MultiTranslate.ValidationError
 
 ## Properties
 

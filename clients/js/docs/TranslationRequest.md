@@ -1,4 +1,4 @@
-# MultiTranslateClient.TranslationRequest
+# MultiTranslate.TranslationRequest
 
 ## Properties
 

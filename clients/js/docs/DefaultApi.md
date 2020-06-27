@@ -1,4 +1,4 @@
-# MultiTranslateClient.DefaultApi
+# MultiTranslate.DefaultApi
 
 All URIs are relative to *http://localhost*
 
@@ -19,9 +19,9 @@ Ready
 ### Example
 
 ```javascript
-import MultiTranslateClient from 'multi-translate-client';
+import MultiTranslate from 'multi-translate';
 
-let apiInstance = new MultiTranslateClient.DefaultApi();
+let apiInstance = new MultiTranslate.DefaultApi();
 apiInstance.readyGet((error, data, response) => {
   if (error) {
     console.error(error);
@@ -58,10 +58,10 @@ Translate Post
 ### Example
 
 ```javascript
-import MultiTranslateClient from 'multi-translate-client';
+import MultiTranslate from 'multi-translate';
 
-let apiInstance = new MultiTranslateClient.DefaultApi();
-let translationRequest = new MultiTranslateClient.TranslationRequest(); // TranslationRequest | 
+let apiInstance = new MultiTranslate.DefaultApi();
+let translationRequest = new MultiTranslate.TranslationRequest(); // TranslationRequest | 
 apiInstance.translatePostTranslatePost(translationRequest, (error, data, response) => {
   if (error) {
     console.error(error);
@@ -101,9 +101,9 @@ Translate
 ### Example
 
 ```javascript
-import MultiTranslateClient from 'multi-translate-client';
+import MultiTranslate from 'multi-translate';
 
-let apiInstance = new MultiTranslateClient.DefaultApi();
+let apiInstance = new MultiTranslate.DefaultApi();
 let sourceText = "sourceText_example"; // String | The text to be translated
 let toLanguage = "toLanguage_example"; // String | The ISO-639-1 code of the language to translate the text to
 let opts = {
