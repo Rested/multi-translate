@@ -1,6 +1,6 @@
 {
   "name": "@rekon-oss/multi-translate",
-  "version": "0.1.13",
+  "version": "0.1.14",
   "description": "Multi_Translate_is_a_unified_interface_on_top_of_various_translate_APIs_providing_optimal_translations_persistence_fallback_",
   "license": "Unlicense",
   "main": "dist/index.js",
@@ -11,9 +11,6 @@
   },
   "browser": {
     "fs": false
-  },
-  "publishConfig":{
-    "registry":"https://npm.pkg.github.com/"
   },
   "dependencies": {
     "@babel/cli": "^7.0.0",

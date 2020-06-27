@@ -3,7 +3,7 @@ info:
   description: Multi-Translate is a unified interface on top of various translate
     APIs providing optimal translations, persistence, fallback.
   title: multi-translate
-  version: 0.1.13
+  version: 0.1.14
 servers:
 - url: /
 paths:
