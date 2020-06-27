@@ -1,4 +1,6 @@
-git tag "v$1"
-git tag "clients/go/v$1"
+version=$(<VERSION)
+
+git tag "v$version"
+git tag "clients/go/v$version"
 
 git push --tags

@@ -53,7 +53,12 @@ translations = sqlalchemy.Table(
     ),
 )
 
-app = FastAPI()
+with open("VERSION") as f:
+    version = f.read()
+
+app = FastAPI(title="multi-translate",
+              description="Multi-Translate is a unified interface on top of various translate APIs providing optimal "
+                          "translations, persistence, fallback.", version=version)
 
 controller = EngineController()
 

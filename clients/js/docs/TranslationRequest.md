@@ -1,4 +1,4 @@
-# FastApi.TranslationRequest
+# MultiTranslateClient.TranslationRequest
 
 ## Properties
 

@@ -1,4 +1,4 @@
-# FastApi.DefaultApi
+# MultiTranslateClient.DefaultApi
 
 All URIs are relative to *http://localhost*
 
@@ -19,9 +19,9 @@ Ready
 ### Example
 
 ```javascript
-import FastApi from 'fast_api';
+import MultiTranslateClient from 'multi-translate-client';
 
-let apiInstance = new FastApi.DefaultApi();
+let apiInstance = new MultiTranslateClient.DefaultApi();
 apiInstance.readyGet((error, data, response) => {
   if (error) {
     console.error(error);
@@ -58,10 +58,10 @@ Translate Post
 ### Example
 
 ```javascript
-import FastApi from 'fast_api';
+import MultiTranslateClient from 'multi-translate-client';
 
-let apiInstance = new FastApi.DefaultApi();
-let translationRequest = new FastApi.TranslationRequest(); // TranslationRequest | 
+let apiInstance = new MultiTranslateClient.DefaultApi();
+let translationRequest = new MultiTranslateClient.TranslationRequest(); // TranslationRequest | 
 apiInstance.translatePostTranslatePost(translationRequest, (error, data, response) => {
   if (error) {
     console.error(error);
@@ -101,9 +101,9 @@ Translate
 ### Example
 
 ```javascript
-import FastApi from 'fast_api';
+import MultiTranslateClient from 'multi-translate-client';
 
-let apiInstance = new FastApi.DefaultApi();
+let apiInstance = new MultiTranslateClient.DefaultApi();
 let sourceText = "sourceText_example"; // String | The text to be translated
 let toLanguage = "toLanguage_example"; // String | The ISO-639-1 code of the language to translate the text to
 let opts = {

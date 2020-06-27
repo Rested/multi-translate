@@ -1,4 +1,4 @@
-# FastApi.TranslationResponse
+# MultiTranslateClient.TranslationResponse
 
 ## Properties
 

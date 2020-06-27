@@ -1,4 +1,4 @@
-# FastApi.HTTPValidationError
+# MultiTranslateClient.HTTPValidationError
 
 ## Properties
 
