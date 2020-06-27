@@ -12,7 +12,7 @@ Method | HTTP request | Description
 
 ## ReadyGet
 
-> interface{} ReadyGet(ctx, )
+> string ReadyGet(ctx, )
 
 Ready
 
@@ -22,7 +22,7 @@ This endpoint does not need any parameter.
 
 ### Return type
 
-**interface{}**
+**string**
 
 ### Authorization
 

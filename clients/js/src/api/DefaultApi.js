@@ -13,7 +13,6 @@
 
 
 import ApiClient from "../ApiClient";
-import AnyType from '../model/AnyType';
 import HTTPValidationError from '../model/HTTPValidationError';
 import TranslationRequest from '../model/TranslationRequest';
 import TranslationResponse from '../model/TranslationResponse';
@@ -41,14 +40,14 @@ export default class DefaultApi {
      * Callback function to receive the result of the readyGet operation.
      * @callback module:api/DefaultApi~readyGetCallback
      * @param {String} error Error message, if any.
-     * @param {module:model/AnyType} data The data returned by the service call.
+     * @param {String} data The data returned by the service call.
      * @param {String} response The complete HTTP response.
      */
 
     /**
      * Ready
      * @param {module:api/DefaultApi~readyGetCallback} callback The callback function, accepting three arguments: error, data, response
-     * data is of type: {@link module:model/AnyType}
+     * data is of type: {@link String}
      */
     readyGet(callback) {
       let postBody = null;
@@ -65,7 +64,7 @@ export default class DefaultApi {
       let authNames = [];
       let contentTypes = [];
       let accepts = ['application/json'];
-      let returnType = AnyType;
+      let returnType = 'String';
       return this.apiClient.callApi(
         '/', 'GET',
         pathParams, queryParams, headerParams, formParams, postBody,

@@ -10,7 +10,7 @@ Method | HTTP request | Description
 
 
 # **ready_get**
-> object ready_get()
+> str ready_get()
 
 Ready
 
@@ -47,7 +47,7 @@ This endpoint does not need any parameter.
 
 ### Return type
 
-**object**
+**str**
 
 ### Authorization
 

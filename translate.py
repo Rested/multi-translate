@@ -77,12 +77,12 @@ async def shutdown():
     await database.disconnect()
 
 
-@app.get("/")
-async def ready():
+@app.get("/", response_model=str)
+async def ready() -> str:
     return "ready"
 
 
-async def save_translation(translation_result: TranslationResponse, from_was_specified: bool):
+async def save_translation(translation_result: TranslationResponse, from_was_specified: bool) -> None:
     statement = translations.insert().values(
         from_was_specified=from_was_specified,
         from_language=translation_result.from_language,
@@ -101,7 +101,7 @@ async def save_translation(translation_result: TranslationResponse, from_was_spe
 
 @app.post("/translate", response_model=TranslationResponse)
 async def translate_post(background_tasks: BackgroundTasks,
-                         response: Response, translation_request: TranslationRequest):
+                         response: Response, translation_request: TranslationRequest) -> TranslationResponse:
     return await translate(background_tasks, response, source_text=translation_request.source_text,
                            to_language=translation_request.to_language, from_language=translation_request.from_language,
                            preferred_engine=translation_request.preferred_engine,
@@ -124,7 +124,7 @@ async def translate(
         with_alignment: bool = Query(False, description="Whether to return word alignment information or not"),
         fallback: bool = Query(False, description="Whether to fallback to the best available engine if the preferred "
                                                   "engine does not succeed"),
-):
+) -> TranslationResponse:
     additional_conditions = []
     if with_alignment:
         additional_conditions.append(translations.c.has_alignment_info == True)
@@ -216,7 +216,7 @@ class GQLQuery(graphene.ObjectType):
 
     async def resolve_translation(self, info, source_text, to_language, from_language=None, preferred_engine=BEST,
                                   with_alignment=False,
-                                  fallback=False):
+                                  fallback=False) -> GQLTranslationResponse:
         bg_tasks = BackgroundTasks()
         result = await translate(bg_tasks, Response(), source_text, to_language, from_language,
                                  preferred_engine,

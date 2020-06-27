@@ -28,16 +28,16 @@ type DefaultApiService service
 /*
 ReadyGet Ready
  * @param ctx _context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-@return interface{}
+@return string
 */
-func (a *DefaultApiService) ReadyGet(ctx _context.Context) (interface{}, *_nethttp.Response, error) {
+func (a *DefaultApiService) ReadyGet(ctx _context.Context) (string, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod   = _nethttp.MethodGet
 		localVarPostBody     interface{}
 		localVarFormFileName string
 		localVarFileName     string
 		localVarFileBytes    []byte
-		localVarReturnValue  interface{}
+		localVarReturnValue  string
 	)
 
 	// create path and map variables

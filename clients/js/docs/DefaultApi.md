@@ -12,7 +12,7 @@ Method | HTTP request | Description
 
 ## readyGet
 
-> AnyType readyGet()
+> String readyGet()
 
 Ready
 
@@ -37,7 +37,7 @@ This endpoint does not need any parameter.
 
 ### Return type
 
-[**AnyType**](AnyType.md)
+**String**
 
 ### Authorization
 

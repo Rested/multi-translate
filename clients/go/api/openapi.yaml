@@ -12,7 +12,9 @@ paths:
         "200":
           content:
             application/json:
-              schema: {}
+              schema:
+                title: Response Ready  Get
+                type: string
           description: Successful Response
       summary: Ready
   /translate:
