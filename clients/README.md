@@ -55,34 +55,3 @@ func main() {
 	fmt.Printf("translation is %s", resp.TranslatedText)
 }
 ```
-
-
-
-## Generation
-
-#### Python
-```bash
-version=$(<VERSION)
-docker run --net="host" --rm -v "${PWD}:/local" openapitools/openapi-generator-cli generate \
--i http://localhost:8080/openapi.json -g python -o /local/clients/python --package-name multitranslateclient \
---git-user-id rekon-oss --git-repo-id multi-translate \
---additional-properties=packageVersion=$version
-```
-
-#### Go
-
-```bash
-version=$(<VERSION)
-docker run --net="host" --rm -v "${PWD}:/local" openapitools/openapi-generator-cli generate \
--i http://localhost:8080/openapi.json -g go -o /local/clients/go --package-name multitranslateclient \
---git-user-id rekon-oss --git-repo-id multi-translate/clients/go \
---additional-properties=packageVersion=$version,packageUrl=https://github.com/rekon-oss/multi-translate/clients/python
-```
-
-#### Javascript 
-```bash
-docker run --net="host" --rm -v "${PWD}:/local" openapitools/openapi-generator-cli generate \
--i http://localhost:8080/openapi.json -g javascript -o /local/clients/js --package-name multitranslateclient \
---git-user-id rekon-oss --git-repo-id multi-translate \
---additional-properties=npmRepository=https://npm.pkg.github.com/rekon-oss,projectName=multi-translate
-```

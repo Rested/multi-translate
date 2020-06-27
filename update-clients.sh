@@ -15,4 +15,4 @@ docker run --net="host" --rm -v "${PWD}:/local" openapitools/openapi-generator-c
 docker run --net="host" --rm -v "${PWD}:/local" openapitools/openapi-generator-cli generate \
 -i http://localhost:8080/openapi.json -g javascript -o /local/clients/js --package-name multitranslateclient \
 --git-user-id rekon-oss --git-repo-id multi-translate \
---additional-properties=npmRepository=https://npm.pkg.github.com/rekon-oss,projectName=multi-translate
+--additional-properties=npmRepository=https://npm.pkg.github.com/,projectName=@rekon-oss/multi-translate

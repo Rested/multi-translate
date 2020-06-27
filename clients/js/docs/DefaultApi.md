@@ -1,4 +1,4 @@
-# MultiTranslate.DefaultApi
+# @RekonOssMultiTranslate.DefaultApi
 
 All URIs are relative to *http://localhost*
 
@@ -19,9 +19,9 @@ Ready
 ### Example
 
 ```javascript
-import MultiTranslate from 'multi-translate';
+import @RekonOssMultiTranslate from '@rekon-oss/multi-translate';
 
-let apiInstance = new MultiTranslate.DefaultApi();
+let apiInstance = new @RekonOssMultiTranslate.DefaultApi();
 apiInstance.readyGet((error, data, response) => {
   if (error) {
     console.error(error);
@@ -58,10 +58,10 @@ Translate Post
 ### Example
 
 ```javascript
-import MultiTranslate from 'multi-translate';
+import @RekonOssMultiTranslate from '@rekon-oss/multi-translate';
 
-let apiInstance = new MultiTranslate.DefaultApi();
-let translationRequest = new MultiTranslate.TranslationRequest(); // TranslationRequest | 
+let apiInstance = new @RekonOssMultiTranslate.DefaultApi();
+let translationRequest = new @RekonOssMultiTranslate.TranslationRequest(); // TranslationRequest | 
 apiInstance.translatePostTranslatePost(translationRequest, (error, data, response) => {
   if (error) {
     console.error(error);
@@ -101,9 +101,9 @@ Translate
 ### Example
 
 ```javascript
-import MultiTranslate from 'multi-translate';
+import @RekonOssMultiTranslate from '@rekon-oss/multi-translate';
 
-let apiInstance = new MultiTranslate.DefaultApi();
+let apiInstance = new @RekonOssMultiTranslate.DefaultApi();
 let sourceText = "sourceText_example"; // String | The text to be translated
 let toLanguage = "toLanguage_example"; // String | The ISO-639-1 code of the language to translate the text to
 let opts = {

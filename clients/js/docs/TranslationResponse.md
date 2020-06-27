@@ -1,4 +1,4 @@
-# MultiTranslate.TranslationResponse
+# @RekonOssMultiTranslate.TranslationResponse
 
 ## Properties
 

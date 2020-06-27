@@ -1,4 +1,4 @@
-# MultiTranslate.HTTPValidationError
+# @RekonOssMultiTranslate.HTTPValidationError
 
 ## Properties
 
