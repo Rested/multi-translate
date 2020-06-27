@@ -32,6 +32,7 @@ jobs:
         with:
           node-version: 12
           registry-url: 'https://registry.npmjs.org'
+          scope: '@rekon-oss'
       - run: npm i
       - run: npm config set registry https://registry.npmjs.org
       - run: npm publish
