@@ -55,3 +55,29 @@ func main() {
 	fmt.Printf("translation is %s", resp.TranslatedText)
 }
 ```
+
+
+### Javascript
+
+Install 
+
+```bash
+npm i @rekon-oss/multi-translate
+```
+
+```javascript
+const mt = require('@rekon-oss/multi-translate')
+
+const client = new mt.ApiClient()
+client.basePath = 'http://localhost:8080'
+
+const api = new mt.DefaultApi(client)
+
+api.translateTranslateGet("hello world!", "fr", {}, function (e, resp) {
+    if (e) {
+        throw e
+    }
+    // bonjour le monde!
+    console.log(resp.translated_text)
+})
+```
