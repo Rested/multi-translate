@@ -1,4 +1,4 @@
-name: Python package
+name: Python unit tests
 
 on: [push]
 
@@ -23,4 +23,5 @@ jobs:
         poetry install
     - name: Test with pytest
       run: |
+        poetry shell
         pytest engines/ -vv
