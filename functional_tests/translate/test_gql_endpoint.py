@@ -46,8 +46,8 @@ def test_graphql_works():
             "fromLanguage": "en",
             "alignment": [
                 {
-                    "src": {"start": 0, "end": 13, "text": "How do you do?"},
-                    "dest": {"start": 0, "end": 11, "text": "¿Cómo estás?"},
+                    "src": {"start": "0", "end": "13", "text": "How do you do?"},
+                    "dest": {"start": "0", "end": "11", "text": "¿Cómo estás?"},
                 }
             ],
         }
