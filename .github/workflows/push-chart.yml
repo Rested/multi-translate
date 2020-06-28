@@ -1,0 +1,24 @@
+name: Push Helm Chart
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+defaults:
+  run:
+    working-directory: charts/multi-translate
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Get Helm
+      run: |
+        curl https://raw.githubusercontent.com/helm/helm/master/scripts/get-helm-3 | bash
+    - name: Release helm chart
+      run: |
+        helm package .
+        curl --data-binary "@$(ls multi-translate-*.tgz)" http://$CHART_MUSEUM_BASIC_AUTH@charts.rekon.uk/api/charts
