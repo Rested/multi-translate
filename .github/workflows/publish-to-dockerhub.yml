@@ -1,0 +1,22 @@
+name: Docker package
+
+on:
+  push:
+    tags:
+        - 'v*'
+jobs:
+
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@master
+    - name: Publish to Registry
+      uses: elgohr/Publish-Docker-Github-Action@master
+      with:
+        name: rekonuk/multi-translate
+        username: restd
+        password: ${{ secrets.DOCKERHUB_TOKEN }}
+        tag_names: true
+        buildargs: production
