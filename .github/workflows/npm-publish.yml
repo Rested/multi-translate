@@ -34,7 +34,6 @@ jobs:
           registry-url: 'https://registry.npmjs.org'
           scope: '@rekon-oss'
       - run: npm i
-      - run: npm config set registry https://registry.npmjs.org
       - run: npm publish --access public
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
@@ -50,7 +49,6 @@ jobs:
           registry-url: https://npm.pkg.github.com/
           scope: '@rekon-oss'
       - run: npm i
-      - run: npm config set registry https://npm.pkg.github.com/
       - run: npm publish --access public
         env:
           NODE_AUTH_TOKEN: ${{secrets.GITHUB_TOKEN}}
