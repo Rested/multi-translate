@@ -19,32 +19,32 @@ def test_with_documentation_example():
 
     assert result == [
         {
-            "dest": {"end": 1, "start": 0, "text": "La"},
-            "src": {"end": 2, "start": 0, "text": "The"},
+            "dest": {"end": "1", "start": "0", "text": "La"},
+            "src": {"end": "2", "start": "0", "text": "The"},
         },
         {
-            "dest": {"end": 9, "start": 3, "text": "réponse"},
-            "src": {"end": 9, "start": 4, "text": "answer"},
+            "dest": {"end": "9", "start": "3", "text": "réponse"},
+            "src": {"end": "9", "start": "4", "text": "answer"},
         },
         {
-            "dest": {"end": 19, "start": 11, "text": "se trouve"},
-            "src": {"end": 14, "start": 11, "text": "lies"},
+            "dest": {"end": "19", "start": "11", "text": "se trouve"},
+            "src": {"end": "14", "start": "11", "text": "lies"},
         },
         {
-            "dest": {"end": 24, "start": 21, "text": "dans"},
-            "src": {"end": 17, "start": 16, "text": "in"},
+            "dest": {"end": "24", "start": "21", "text": "dans"},
+            "src": {"end": "17", "start": "16", "text": "in"},
         },
         {
-            "dest": {"end": 50, "start": 40, "text": "automatique"},
-            "src": {"end": 25, "start": 19, "text": "machine"},
+            "dest": {"end": "50", "start": "40", "text": "automatique"},
+            "src": {"end": "25", "start": "19", "text": "machine"},
         },
         {
-            "dest": {"end": 38, "start": 29, "text": "traduction"},
-            "src": {"end": 37, "start": 27, "text": "translation"},
+            "dest": {"end": "38", "start": "29", "text": "traduction"},
+            "src": {"end": "37", "start": "27", "text": "translation"},
         },
         {
-            "dest": {"end": 51, "start": 51, "text": "."},
-            "src": {"end": 38, "start": 38, "text": "."},
+            "dest": {"end": "51", "start": "51", "text": "."},
+            "src": {"end": "38", "start": "38", "text": "."},
         },
     ]
 
