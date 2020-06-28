@@ -3,3 +3,8 @@ __pycache__
 .pytest_cache
 secret_values.yaml
 
+
+clients/js/node_modules
+clients/js/dist
+clients/js/package-lock.json
+clients/js/.npmrc
