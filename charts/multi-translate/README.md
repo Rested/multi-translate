@@ -2,7 +2,7 @@ multi-translate
 ===============
 A unified interface on top of various translate APIs providing optimal translations, caching, fallback.
 
-Current chart version is `0.1.0`
+Current chart version is `0.2.0`
 
 
 
