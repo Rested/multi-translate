@@ -23,5 +23,6 @@ jobs:
         poetry install
     - name: Test with pytest
       run: |
+        source $HOME/.poetry/env
         poetry shell
         pytest engines/ -vv
