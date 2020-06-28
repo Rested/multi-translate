@@ -1,5 +1,5 @@
 import logging
-from typing import Dict, List, Optional
+from typing import Optional
 
 import databases
 import graphene
@@ -7,13 +7,12 @@ import sqlalchemy
 from databases.backends.postgres import Record
 from fastapi import BackgroundTasks, FastAPI, Query, Response
 from graphql.execution.executors.asyncio import AsyncioExecutor
-from pydantic import BaseModel
 from sqlalchemy import UniqueConstraint
 from sqlalchemy.sql import and_
 from starlette.graphql import GraphQLApp
 
 from engines.controller import BEST, ENGINE_NAME_MAP, EngineController
-from errors import BaseMultiTranslateError, NoValidEngineConfiguredError
+from errors import BaseMultiTranslateError
 from models.request import TranslationRequest
 from models.response import (
     AlignmentSection,

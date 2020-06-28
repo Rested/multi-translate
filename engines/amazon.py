@@ -6,8 +6,6 @@ from botocore.exceptions import ClientError
 
 from engines.base import BaseTranslationEngine
 from errors import (
-    AlignmentNotSupportedError,
-    DetectionNotSupportedError,
     EngineApiError,
     TranslationEngineNotConfiguredError,
     TranslationError,

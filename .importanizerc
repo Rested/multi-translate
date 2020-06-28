@@ -3,6 +3,7 @@
     "*clients/**/*.py"
   ],
   "plugins": ["unused_imports"],
+  "allow_plugins": "true",
   "groups": [
     {"type": "stdlib"}, {"type": "sitepackages"}, {"type": "remainder"}, {"type": "local"}]
 }

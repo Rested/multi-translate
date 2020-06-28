@@ -3,7 +3,7 @@ from typing import Dict, Optional
 
 import httpx
 
-from engines import BaseTranslationEngine
+from engines.base import BaseTranslationEngine
 from errors import EngineApiError, TranslationError
 from models.response import TranslationResponse
 from settings import Settings

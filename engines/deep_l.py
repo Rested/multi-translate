@@ -4,7 +4,7 @@ from urllib.parse import urljoin
 
 import httpx
 
-from engines import BaseTranslationEngine
+from engines.base import BaseTranslationEngine
 from errors import (
     DetectionError,
     EngineApiError,

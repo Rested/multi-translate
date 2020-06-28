@@ -3,15 +3,13 @@ from typing import Dict, List, Optional, Tuple
 
 import yaml
 
-from engines import (
-    AmazonEngine,
-    BaseTranslationEngine,
-    DeepLEngine,
-    GoogleEngine,
-    MicrosoftEngine,
-    PapagoEngine,
-    YandexEngine,
-)
+from engines.amazon import AmazonEngine
+from engines.base import BaseTranslationEngine
+from engines.deep_l import DeepLEngine
+from engines.google import GoogleEngine
+from engines.microsoft import MicrosoftEngine
+from engines.papago import PapagoEngine
+from engines.yandex import YandexEngine
 from errors import (
     EngineApiError,
     InvalidEngineNameError,

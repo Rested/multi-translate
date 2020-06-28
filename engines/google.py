@@ -3,7 +3,7 @@ import logging
 from pathlib import Path
 from typing import Dict, List, Optional
 
-from engines import BaseTranslationEngine
+from engines.base import BaseTranslationEngine
 from errors import (
     AlignmentNotSupportedError,
     DetectionError,
