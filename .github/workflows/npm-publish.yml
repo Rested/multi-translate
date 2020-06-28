@@ -48,6 +48,7 @@ jobs:
         with:
           node-version: 12
           registry-url: https://npm.pkg.github.com/
+          scope: '@rekon-oss'
       - run: npm i
       - run: npm config set registry https://npm.pkg.github.com/
       - run: npm publish
