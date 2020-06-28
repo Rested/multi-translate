@@ -1,6 +1,6 @@
 from typing import Optional
 
-from pydantic import BaseSettings, AnyHttpUrl, parse_obj_as
+from pydantic import AnyHttpUrl, BaseSettings, parse_obj_as
 
 
 class FTSettings(BaseSettings):

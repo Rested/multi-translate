@@ -1,22 +1,28 @@
 import logging
-from typing import List, Optional, Dict
+from typing import Dict, List, Optional
 
 import databases
 import graphene
 import sqlalchemy
 from databases.backends.postgres import Record
+from fastapi import BackgroundTasks, FastAPI, Query, Response
 from graphql.execution.executors.asyncio import AsyncioExecutor
 from pydantic import BaseModel
 from sqlalchemy import UniqueConstraint
 from sqlalchemy.sql import and_
-from fastapi import FastAPI, Query, BackgroundTasks, Response
 from starlette.graphql import GraphQLApp
 
-from engines.controller import EngineController, BEST, ENGINE_NAME_MAP
+from engines.controller import BEST, ENGINE_NAME_MAP, EngineController
 from errors import BaseMultiTranslateError, NoValidEngineConfiguredError
-from models.response import TranslationResponse, GQLTranslationResponse, AlignmentSection, AlignmentTextPos
 from models.request import TranslationRequest
-from settings import Settings, DatabaseSettings
+from models.response import (
+    AlignmentSection,
+    AlignmentTextPos,
+    GQLTranslationResponse,
+    TranslationResponse,
+)
+from settings import DatabaseSettings, Settings
+
 
 _logger = logging.getLogger(__name__)
 
@@ -56,9 +62,12 @@ translations = sqlalchemy.Table(
 with open("VERSION") as f:
     version = f.read()
 
-app = FastAPI(title="multi-translate",
-              description="Multi-Translate is a unified interface on top of various translate APIs providing optimal "
-                          "translations, persistence, fallback.", version=version)
+app = FastAPI(
+    title="multi-translate",
+    description="Multi-Translate is a unified interface on top of various translate APIs providing optimal "
+    "translations, persistence, fallback.",
+    version=version,
+)
 
 controller = EngineController()
 
@@ -87,7 +96,9 @@ async def ready() -> str:
     return "ready"
 
 
-async def save_translation(translation_result: TranslationResponse, from_was_specified: bool) -> None:
+async def save_translation(
+    translation_result: TranslationResponse, from_was_specified: bool
+) -> None:
     statement = translations.insert().values(
         from_was_specified=from_was_specified,
         from_language=translation_result.from_language,
@@ -98,37 +109,59 @@ async def save_translation(translation_result: TranslationResponse, from_was_spe
         translation_engine_version=translation_result.engine_version,
         has_alignment_info=translation_result.alignment is not None,
         alignment=translation_result.alignment,
-        detection_confidence=translation_result.detected_language_confidence
+        detection_confidence=translation_result.detected_language_confidence,
     )
     result = await database.execute(statement)
     _logger.debug("insertion result %s", result)
 
 
 @app.post("/translate", response_model=TranslationResponse)
-async def translate_post(background_tasks: BackgroundTasks,
-                         response: Response, translation_request: TranslationRequest) -> TranslationResponse:
-    return await translate(background_tasks, response, source_text=translation_request.source_text,
-                           to_language=translation_request.to_language, from_language=translation_request.from_language,
-                           preferred_engine=translation_request.preferred_engine,
-                           with_alignment=translation_request.with_alignment, fallback=translation_request.fallback)
+async def translate_post(
+    background_tasks: BackgroundTasks,
+    response: Response,
+    translation_request: TranslationRequest,
+) -> TranslationResponse:
+    return await translate(
+        background_tasks,
+        response,
+        source_text=translation_request.source_text,
+        to_language=translation_request.to_language,
+        from_language=translation_request.from_language,
+        preferred_engine=translation_request.preferred_engine,
+        with_alignment=translation_request.with_alignment,
+        fallback=translation_request.fallback,
+    )
 
 
 @app.get("/translate", response_model=TranslationResponse)
 async def translate(
-        background_tasks: BackgroundTasks,
-        response: Response,
-        source_text: str = Query(..., description="The text to be translated"),
-        to_language: str = Query(..., max_length=2,
-                                 description="The ISO-639-1 code of the language to translate the text to"),
-        from_language: str = Query(None, max_length=2,
-                                   description="The ISO-639-1 code of the language to translate the text from - if not"
-                                               "specified then detection will be attempted"),
-        preferred_engine: str = Query(BEST,
-                                      description=f"Which translation engine to use. Choices are "
-                                                  f"{', '.join(list(ENGINE_NAME_MAP.keys()))} and {BEST}"),
-        with_alignment: bool = Query(False, description="Whether to return word alignment information or not"),
-        fallback: bool = Query(False, description="Whether to fallback to the best available engine if the preferred "
-                                                  "engine does not succeed"),
+    background_tasks: BackgroundTasks,
+    response: Response,
+    source_text: str = Query(..., description="The text to be translated"),
+    to_language: str = Query(
+        ...,
+        max_length=2,
+        description="The ISO-639-1 code of the language to translate the text to",
+    ),
+    from_language: str = Query(
+        None,
+        max_length=2,
+        description="The ISO-639-1 code of the language to translate the text from - if not"
+        "specified then detection will be attempted",
+    ),
+    preferred_engine: str = Query(
+        BEST,
+        description=f"Which translation engine to use. Choices are "
+        f"{', '.join(list(ENGINE_NAME_MAP.keys()))} and {BEST}",
+    ),
+    with_alignment: bool = Query(
+        False, description="Whether to return word alignment information or not"
+    ),
+    fallback: bool = Query(
+        False,
+        description="Whether to fallback to the best available engine if the preferred "
+        "engine does not succeed",
+    ),
 ) -> TranslationResponse:
     additional_conditions = []
     if with_alignment:
@@ -145,21 +178,26 @@ async def translate(
     use_engine = preferred_engine
     translation_result = None
     while True:
-        engine = controller.get_engine(name=use_engine, needs_alignment=with_alignment,
-                                       needs_detection=from_language is None, from_language=from_language,
-                                       to_language=to_language, exclude_engines=excluded_engines)
-        additional_conditions.append(
-            translations.c.translation_engine == engine.NAME
+        engine = controller.get_engine(
+            name=use_engine,
+            needs_alignment=with_alignment,
+            needs_detection=from_language is None,
+            from_language=from_language,
+            to_language=to_language,
+            exclude_engines=excluded_engines,
         )
+        additional_conditions.append(translations.c.translation_engine == engine.NAME)
 
         query = translations.select().where(
             and_(
                 translations.c.to_language == to_language,
                 translations.c.source_text == source_text,
-                *additional_conditions
+                *additional_conditions,
             )
         )
-        _logger.debug("querying database for previous translation result with %s", query)
+        _logger.debug(
+            "querying database for previous translation result with %s", query
+        )
         result: Optional[Record] = await database.fetch_one(query)
         _logger.debug("Got result from database: %s", result)
         if result is None:
@@ -194,46 +232,83 @@ async def translate(
 
     if translation_result:
         # save translation_result
-        background_tasks.add_task(save_translation, translation_result, from_language is not None)
+        background_tasks.add_task(
+            save_translation, translation_result, from_language is not None
+        )
         response.headers["X-Translation-Source"] = "api"
         return translation_result
 
-    raise Exception("no translation result or exception raised - this should never happen")
+    raise Exception(
+        "no translation result or exception raised - this should never happen"
+    )
 
 
 class GQLQuery(graphene.ObjectType):
-    translation = graphene.Field(GQLTranslationResponse,
-                                 source_text=graphene.String(description="The text to be translated", required=True),
-                                 to_language=graphene.String(
-                                     description="The ISO-639-1 code of the language to translate the text to",
-                                     required=True),
-                                 from_language=graphene.String(
-                                     description="The ISO-639-1 code of the language to translate the text from - if not"
-                                                 "specified then detection will be attempted"),
-                                 preferred_engine=graphene.String(
-                                     description=f"Which translation engine to use. Choices are "
-                                                 f"{', '.join(list(ENGINE_NAME_MAP.keys()))} and {BEST}"),
-                                 with_alignment=graphene.Boolean(
-                                     description="Whether to return word alignment information or not"),
-                                 fallback=graphene.Boolean(
-                                     description="Whether to fallback to the best available engine if the preferred "
-                                                 "engine does not succeed"))
+    translation = graphene.Field(
+        GQLTranslationResponse,
+        source_text=graphene.String(
+            description="The text to be translated", required=True
+        ),
+        to_language=graphene.String(
+            description="The ISO-639-1 code of the language to translate the text to",
+            required=True,
+        ),
+        from_language=graphene.String(
+            description="The ISO-639-1 code of the language to translate the text from - if not"
+            "specified then detection will be attempted"
+        ),
+        preferred_engine=graphene.String(
+            description=f"Which translation engine to use. Choices are "
+            f"{', '.join(list(ENGINE_NAME_MAP.keys()))} and {BEST}"
+        ),
+        with_alignment=graphene.Boolean(
+            description="Whether to return word alignment information or not"
+        ),
+        fallback=graphene.Boolean(
+            description="Whether to fallback to the best available engine if the preferred "
+            "engine does not succeed"
+        ),
+    )
 
-    async def resolve_translation(self, info, source_text, to_language, from_language=None, preferred_engine=BEST,
-                                  with_alignment=False,
-                                  fallback=False) -> GQLTranslationResponse:
+    async def resolve_translation(
+        self,
+        info,
+        source_text,
+        to_language,
+        from_language=None,
+        preferred_engine=BEST,
+        with_alignment=False,
+        fallback=False,
+    ) -> GQLTranslationResponse:
         bg_tasks = BackgroundTasks()
-        result = await translate(bg_tasks, Response(), source_text, to_language, from_language,
-                                 preferred_engine,
-                                 with_alignment,
-                                 fallback)
+        result = await translate(
+            bg_tasks,
+            Response(),
+            source_text,
+            to_language,
+            from_language,
+            preferred_engine,
+            with_alignment,
+            fallback,
+        )
 
         alignment = None
         if result.alignment:
-            alignment = [AlignmentSection(
-                dest=AlignmentTextPos(end=sect["dest"]["end"], start=sect["dest"]["start"], text=sect["dest"]["text"]),
-                src=AlignmentTextPos(end=sect["src"]["end"], start=sect["src"]["start"], text=sect["src"]["text"])
-            ) for sect in result.alignment]
+            alignment = [
+                AlignmentSection(
+                    dest=AlignmentTextPos(
+                        end=sect["dest"]["end"],
+                        start=sect["dest"]["start"],
+                        text=sect["dest"]["text"],
+                    ),
+                    src=AlignmentTextPos(
+                        end=sect["src"]["end"],
+                        start=sect["src"]["start"],
+                        text=sect["src"]["text"],
+                    ),
+                )
+                for sect in result.alignment
+            ]
 
         # TODO: find a way to make this happen after the response is returned
         await bg_tasks()
@@ -246,8 +321,11 @@ class GQLQuery(graphene.ObjectType):
             to_language=result.to_language,
             source_text=result.source_text,
             translated_text=result.translated_text,
-            alignment=alignment
+            alignment=alignment,
         )
 
 
-app.add_route("/gql", GraphQLApp(schema=graphene.Schema(query=GQLQuery), executor_class=AsyncioExecutor))
+app.add_route(
+    "/gql",
+    GraphQLApp(schema=graphene.Schema(query=GQLQuery), executor_class=AsyncioExecutor),
+)

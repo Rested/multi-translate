@@ -12,5 +12,4 @@ secret_values.yaml
 .dockerignore
 clients
 .github
-release.sh
-update-clients.sh
+*.sh

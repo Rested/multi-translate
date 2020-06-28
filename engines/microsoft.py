@@ -1,24 +1,25 @@
 import logging
 import uuid
-from typing import Optional, List, Dict
+from typing import Dict, List, Optional
 from urllib.parse import urljoin
 
 import httpx
 
 from engines.base import BaseTranslationEngine
 from errors import (
-    DetectionError,
-    TranslationError,
-    EngineApiError,
     AlignmentError,
-    AlignmentNotSupportedError, TranslationEngineNotConfiguredError,
+    AlignmentNotSupportedError,
+    DetectionError,
+    EngineApiError,
+    TranslationEngineNotConfiguredError,
+    TranslationError,
 )
-from models.response import TranslationResponse, Alignment
+from models.response import Alignment, TranslationResponse
 from settings import Settings
 
 
 def parse_alignment_string(
-        alignment_str: str, source_text: str, translation_text: str
+    alignment_str: str, source_text: str, translation_text: str
 ) -> Alignment:
     alignment_list = []
     alignment_chunks = alignment_str.split(" ")
@@ -28,11 +29,11 @@ def parse_alignment_string(
         translation_text_start, translation_text_end = translation_text_frame.split(":")
 
         source_text_section = source_text[
-                              int(source_text_start): int(source_text_end) + 1
-                              ]
+            int(source_text_start) : int(source_text_end) + 1
+        ]
         translation_text_section = translation_text[
-                                   int(translation_text_start): int(translation_text_end) + 1
-                                   ]
+            int(translation_text_start) : int(translation_text_end) + 1
+        ]
         alignment_list.append(
             {
                 "src": {
@@ -109,15 +110,19 @@ class MicrosoftEngine(BaseTranslationEngine):
         return {c: all_translations for c in all_translations}
 
     async def translate(
-            self,
-            source_text: str,
-            to_language: str,
-            from_language: Optional[str] = None,
-            with_alignment: Optional[bool] = False,
+        self,
+        source_text: str,
+        to_language: str,
+        from_language: Optional[str] = None,
+        with_alignment: Optional[bool] = False,
     ) -> TranslationResponse:
         # todo: handle lists of source text
-        await super().translate(source_text=source_text, to_language=to_language, from_language=from_language,
-                                with_alignment=with_alignment)
+        await super().translate(
+            source_text=source_text,
+            to_language=to_language,
+            from_language=from_language,
+            with_alignment=with_alignment,
+        )
         if with_alignment:
             alignment_status = _is_alignment_supported(
                 to_language=to_language, from_language=from_language

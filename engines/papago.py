@@ -1,10 +1,10 @@
 import logging
-from typing import Optional, Dict
+from typing import Dict, Optional
 
 import httpx
 
 from engines import BaseTranslationEngine
-from errors import TranslationError, EngineApiError
+from errors import EngineApiError, TranslationError
 from models.response import TranslationResponse
 from settings import Settings
 
@@ -17,13 +17,17 @@ class PapagoEngine(BaseTranslationEngine):
         settings = Settings()
         self._logger = logging.getLogger(__name__)
         self._logger.setLevel(settings.log_level.value)
-        self.headers = {
-            "X-NCP-APIGW-API-KEY-ID": settings.papago_client_id,
-            "X-NCP-APIGW-API-KEY": settings.papago_client_secret,
-        } if settings.papago_naver_cloud else {
-            "X-Naver-Client-Id": settings.papago_client_id,
-            "X-Naver-Client-Secret": settings.papago_client_secret,
-        }
+        self.headers = (
+            {
+                "X-NCP-APIGW-API-KEY-ID": settings.papago_client_id,
+                "X-NCP-APIGW-API-KEY": settings.papago_client_secret,
+            }
+            if settings.papago_naver_cloud
+            else {
+                "X-Naver-Client-Id": settings.papago_client_id,
+                "X-Naver-Client-Secret": settings.papago_client_secret,
+            }
+        )
         self.endpoint = settings.papago_endpoint
         super().__init__()
 
@@ -54,18 +58,31 @@ class PapagoEngine(BaseTranslationEngine):
         Simplified Chinese (zh-CN) 	→ 	Traditional Chinese (zh-TW) 	| 	Traditional Chinese (zh-TW) 	→ 	Simplified Chinese (zh-CN)
         """
         return {
-            'ko': ['en', 'ja', 'zh-CN', 'zh-TW', 'vi', 'id', 'th', 'de', 'ru', 'es', 'it', 'fr'],
-            'en': ['ja', 'fr', 'zh-CN', 'zh-TW', 'ko'],
-            'zh-CN': ['ko', 'zh-TW', 'en', 'ja'],
-            'zh-TW': ['ko', 'en', 'zh-CN', 'ja'],
-            'ja': ['zh-CN', 'zh-TW', 'ko', 'en'],
-            'fr': ['ko', 'en'],
-            'es': ['ko'],
-            'vi': ['ko'],
-            'th': ['ko'],
-            'id': ['ko'],
-            'de': ['ko'],
-            'it': ['ko'],
+            "ko": [
+                "en",
+                "ja",
+                "zh-CN",
+                "zh-TW",
+                "vi",
+                "id",
+                "th",
+                "de",
+                "ru",
+                "es",
+                "it",
+                "fr",
+            ],
+            "en": ["ja", "fr", "zh-CN", "zh-TW", "ko"],
+            "zh-CN": ["ko", "zh-TW", "en", "ja"],
+            "zh-TW": ["ko", "en", "zh-CN", "ja"],
+            "ja": ["zh-CN", "zh-TW", "ko", "en"],
+            "fr": ["ko", "en"],
+            "es": ["ko"],
+            "vi": ["ko"],
+            "th": ["ko"],
+            "id": ["ko"],
+            "de": ["ko"],
+            "it": ["ko"],
         }
 
     def handle_api_error(self, response_json: Dict[str, str]):
@@ -76,22 +93,27 @@ class PapagoEngine(BaseTranslationEngine):
             )
 
     async def translate(
-            self,
-            source_text: str,
-            from_language: Optional[str],
-            to_language: str,
-            with_alignment: Optional[bool] = False,
+        self,
+        source_text: str,
+        from_language: Optional[str],
+        to_language: str,
+        with_alignment: Optional[bool] = False,
     ) -> TranslationResponse:
-        await super().translate(source_text=source_text, to_language=to_language, from_language=from_language,
-                                with_alignment=with_alignment)
+        await super().translate(
+            source_text=source_text,
+            to_language=to_language,
+            from_language=from_language,
+            with_alignment=with_alignment,
+        )
         async with httpx.AsyncClient() as client:
             response = await client.post(
                 self.endpoint,
-                json={"text": source_text, "source": from_language, "target": to_language},
-                headers={
-                    **self.headers,
-                    "Content-type": "application/json",
+                json={
+                    "text": source_text,
+                    "source": from_language,
+                    "target": to_language,
                 },
+                headers={**self.headers, "Content-type": "application/json",},
             )
         response_json = response.json()
         self._logger.debug("%s got response: %s", self.name_ver, response_json)

@@ -1,25 +1,24 @@
 import json
 import logging
 from pathlib import Path
-from typing import List, Dict, Optional
-
-from google.api_core.exceptions import GoogleAPICallError
-from google.cloud import translate_v3
-from google.cloud.translate_v3.proto.translation_service_pb2 import (
-    SupportedLanguages,
-    SupportedLanguage,
-    TranslateTextResponse,
-    Translation,
-)
+from typing import Dict, List, Optional
 
 from engines import BaseTranslationEngine
 from errors import (
-    TranslationEngineNotConfiguredError,
     AlignmentNotSupportedError,
+    DetectionError,
     EngineApiError,
     InvalidISO6391CodeError,
-    DetectionError,
+    TranslationEngineNotConfiguredError,
     TranslationError,
+)
+from google.api_core.exceptions import GoogleAPICallError
+from google.cloud import translate_v3
+from google.cloud.translate_v3.proto.translation_service_pb2 import (
+    SupportedLanguage,
+    SupportedLanguages,
+    TranslateTextResponse,
+    Translation,
 )
 from models.response import TranslationResponse
 from settings import Settings
@@ -94,8 +93,12 @@ class GoogleEngine(BaseTranslationEngine):
         from_language: Optional[str] = None,
         with_alignment: Optional[bool] = False,
     ) -> TranslationResponse:
-        await super().translate(source_text=source_text, to_language=to_language, from_language=from_language,
-                                with_alignment=with_alignment)
+        await super().translate(
+            source_text=source_text,
+            to_language=to_language,
+            from_language=from_language,
+            with_alignment=with_alignment,
+        )
         # todo: support other mime types
         try:
             translated_text: TranslateTextResponse = self.client.translate_text(

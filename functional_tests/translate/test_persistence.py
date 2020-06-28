@@ -1,7 +1,9 @@
-import httpx
 from random import randint
-from functional_tests.translate.test_translate import translate_url
 from time import sleep
+
+import httpx
+
+from functional_tests.translate.test_translate import translate_url
 
 
 def test_saves_repeated_request():

@@ -1,6 +1,8 @@
-import httpx
-from functional_tests.ft_settings import FTSettings
 from urllib.parse import urljoin
+
+import httpx
+
+from functional_tests.ft_settings import FTSettings
 
 
 def translate_url() -> str:

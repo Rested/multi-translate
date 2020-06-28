@@ -1,7 +1,8 @@
-import pydantic
 from enum import Enum
-from typing import Optional
 from pathlib import Path
+from typing import Optional
+
+import pydantic
 
 
 class LogLevelEnum(Enum):
@@ -44,8 +45,9 @@ class Settings(pydantic.BaseSettings):
     # papago
     # is it using Naver cloud (True) or Naver Developers (False)
     papago_naver_cloud: Optional[bool] = False
-    papago_endpoint: Optional[pydantic.HttpUrl] = pydantic.parse_obj_as(pydantic.HttpUrl,
-                                                                        "https://openapi.naver.com/v1/papago/n2mt")
+    papago_endpoint: Optional[pydantic.HttpUrl] = pydantic.parse_obj_as(
+        pydantic.HttpUrl, "https://openapi.naver.com/v1/papago/n2mt"
+    )
     papago_client_id: Optional[str] = None
     papago_client_secret: Optional[str] = None
     # amazon
@@ -54,6 +56,7 @@ class Settings(pydantic.BaseSettings):
     aws_secret_access_key: Optional[str] = None
     # ibm watson
     # deep L
-    deep_l_endpoint: Optional[pydantic.HttpUrl] = pydantic.parse_obj_as(pydantic.HttpUrl,
-                                                                        "https://api.deepl.com/v2/")
+    deep_l_endpoint: Optional[pydantic.HttpUrl] = pydantic.parse_obj_as(
+        pydantic.HttpUrl, "https://api.deepl.com/v2/"
+    )
     deep_l_auth_key: Optional[str] = None

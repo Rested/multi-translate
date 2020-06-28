@@ -1,0 +1,8 @@
+{
+  "exclude": [
+    "*clients/**/*.py"
+  ],
+  "plugins": ["unused_imports"],
+  "groups": [
+    {"type": "stdlib"}, {"type": "sitepackages"}, {"type": "remainder"}, {"type": "local"}]
+}

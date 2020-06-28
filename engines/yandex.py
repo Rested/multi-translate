@@ -1,10 +1,16 @@
+import logging
 from typing import Optional
 from urllib.parse import urljoin
 
 import httpx
-import logging
+
 from engines import BaseTranslationEngine
-from errors import TranslationEngineNotConfiguredError, EngineApiError, DetectionError, TranslationError
+from errors import (
+    DetectionError,
+    EngineApiError,
+    TranslationEngineNotConfiguredError,
+    TranslationError,
+)
 from models.response import TranslationResponse
 from settings import Settings
 
@@ -30,7 +36,9 @@ class YandexEngine(BaseTranslationEngine):
 
     def handle_api_error(self, response: httpx.Response):
         if response.status_code >= 500:
-            raise EngineApiError(f"{self.name_ver} engine returned a status code {response.status_code} response")
+            raise EngineApiError(
+                f"{self.name_ver} engine returned a status code {response.status_code} response"
+            )
         if response.status_code >= 400:
             self._logger.debug("%s got response: %s", self.name_ver, response.text)
             response_json = response.json()
@@ -39,24 +47,30 @@ class YandexEngine(BaseTranslationEngine):
             )
 
     def get_supported_translations(self):
-        response = httpx.post(urljoin(str(self.endpoint), "languages"), headers={
-            "Authorization": f"Bearer {self.token}"
-        }, json={"folderId": self.folder_id} if self.folder_id else {})
+        response = httpx.post(
+            urljoin(str(self.endpoint), "languages"),
+            headers={"Authorization": f"Bearer {self.token}"},
+            json={"folderId": self.folder_id} if self.folder_id else {},
+        )
         self.handle_api_error(response)
         response_json = response.json()
 
-        all_languages = [language['code'] for language in response_json['languages']]
+        all_languages = [language["code"] for language in response_json["languages"]]
         return {lang: all_languages for lang in all_languages}
 
     async def translate(
-            self,
-            source_text: str,
-            from_language: Optional[str],
-            to_language: str,
-            with_alignment: Optional[bool] = False,
+        self,
+        source_text: str,
+        from_language: Optional[str],
+        to_language: str,
+        with_alignment: Optional[bool] = False,
     ) -> TranslationResponse:
-        await super().translate(source_text=source_text, to_language=to_language, from_language=from_language,
-                                with_alignment=with_alignment)
+        await super().translate(
+            source_text=source_text,
+            to_language=to_language,
+            from_language=from_language,
+            with_alignment=with_alignment,
+        )
 
         async with httpx.AsyncClient() as client:
             response = await client.post(
@@ -65,11 +79,9 @@ class YandexEngine(BaseTranslationEngine):
                     "texts": [source_text],
                     "targetLanguageCode": to_language,
                     **({"folderId": self.folder_id} if self.folder_id else {}),
-                    **({"sourceLanguageCode": from_language} if from_language else {})
+                    **({"sourceLanguageCode": from_language} if from_language else {}),
                 },
-                headers={
-                    "Authorization": f"Bearer {self.token}"
-                }
+                headers={"Authorization": f"Bearer {self.token}"},
             )
         self.handle_api_error(response)
         response_json = response.json()
@@ -78,7 +90,9 @@ class YandexEngine(BaseTranslationEngine):
         detected_language = None
         if from_language is None:
             try:
-                detected_language = response_json["translations"][0]["detectedLanguageCode"]
+                detected_language = response_json["translations"][0][
+                    "detectedLanguageCode"
+                ]
             except (KeyError, IndexError) as e:
                 raise DetectionError(
                     f"{self.name_ver} engine could not detect which language the source text is in"

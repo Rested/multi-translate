@@ -85,7 +85,7 @@ def test_will_fallback_when_papago_does_not_support_language_pair():
         "to_language": "es",
         "source_text": "hello",
         "with_alignment": False,
-        "fallback": True
+        "fallback": True,
     }
     resp = httpx.get(translate_url(), params=request_data)
     assert resp.status_code == 200

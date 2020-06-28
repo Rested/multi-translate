@@ -1,4 +1,4 @@
-from engines.microsoft import parse_alignment_string, MicrosoftEngine
+from engines.microsoft import MicrosoftEngine, parse_alignment_string
 
 
 def test_with_documentation_example():

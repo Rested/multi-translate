@@ -5,7 +5,12 @@ from urllib.parse import urljoin
 import httpx
 
 from engines import BaseTranslationEngine
-from errors import TranslationEngineNotConfiguredError, EngineApiError, DetectionError, TranslationError
+from errors import (
+    DetectionError,
+    EngineApiError,
+    TranslationEngineNotConfiguredError,
+    TranslationError,
+)
 from models.response import TranslationResponse
 from settings import Settings
 
@@ -39,7 +44,9 @@ class DeepLEngine(BaseTranslationEngine):
     def handle_api_error(self, response: httpx.Response):
         # todo: use this approach of using response instead of response json for other engines
         if response.status_code >= 500:
-            raise EngineApiError(f"{self.name_ver} engine returned a status code {response.status_code} response")
+            raise EngineApiError(
+                f"{self.name_ver} engine returned a status code {response.status_code} response"
+            )
         if response.status_code >= 400:
             self._logger.debug("%s got response: %s", self.name_ver, response.text)
             response_json = response.json()
@@ -50,39 +57,44 @@ class DeepLEngine(BaseTranslationEngine):
     def get_supported_translations(self):
         languages_supported_url = urljoin(str(self.endpoint), "languages")
         self._logger.debug("sending request to %s", languages_supported_url)
-        response = httpx.get(languages_supported_url, params={
-            "auth_key": self.auth_key
-        }, headers={
-            "User-Agent": "MultiTranslate",
-            "Accept": "*/*"
-        })
+        response = httpx.get(
+            languages_supported_url,
+            params={"auth_key": self.auth_key},
+            headers={"User-Agent": "MultiTranslate", "Accept": "*/*"},
+        )
         self.handle_api_error(response)
         response_json = response.json()
 
-        all_languages = [convert_upper_language_country_combo(language['language']) for language in response_json]
+        all_languages = [
+            convert_upper_language_country_combo(language["language"])
+            for language in response_json
+        ]
         return {lang: all_languages for lang in all_languages}
 
     async def translate(
-            self,
-            source_text: str,
-            from_language: Optional[str],
-            to_language: str,
-            with_alignment: Optional[bool] = False,
+        self,
+        source_text: str,
+        from_language: Optional[str],
+        to_language: str,
+        with_alignment: Optional[bool] = False,
     ) -> TranslationResponse:
-        await super().translate(source_text=source_text, to_language=to_language, from_language=from_language,
-                                with_alignment=with_alignment)
+        await super().translate(
+            source_text=source_text,
+            to_language=to_language,
+            from_language=from_language,
+            with_alignment=with_alignment,
+        )
 
         async with httpx.AsyncClient() as client:
             response = await client.post(
                 urljoin(str(self.endpoint), "translate"),
                 data={
-                    "text": source_text, "target_lang": to_language,
+                    "text": source_text,
+                    "target_lang": to_language,
                     "auth_key": self.auth_key,
-                    **({"source_lang": from_language} if from_language else {})
+                    **({"source_lang": from_language} if from_language else {}),
                 },
-                headers={
-                    "User-Agent": "MultiTranslate"
-                }
+                headers={"User-Agent": "MultiTranslate"},
             )
         self.handle_api_error(response)
         response_json = response.json()
@@ -92,7 +104,10 @@ class DeepLEngine(BaseTranslationEngine):
         if from_language is None:
             try:
                 detected_language = convert_upper_language_country_combo(
-                    lang_country_combo=response_json["translations"][0]["detected_source_language"])
+                    lang_country_combo=response_json["translations"][0][
+                        "detected_source_language"
+                    ]
+                )
             except (KeyError, IndexError) as e:
                 raise DetectionError(
                     f"{self.name_ver} engine could not detect which language the source text is in"
