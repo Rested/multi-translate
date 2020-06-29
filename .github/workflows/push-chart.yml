@@ -25,7 +25,6 @@ jobs:
         curl https://raw.githubusercontent.com/helm/helm/master/scripts/get-helm-3 | bash
     - name: Release helm chart
       run: |
-        helm repo add stable https://kubernetes-charts.storage.googleapis.com/
-        helm repo update
+        helm dependency update
         helm package .
         curl --data-binary "@$(ls multi-translate-*.tgz)" http://$CHART_MUSEUM_BASIC_AUTH@charts.rekon.uk/api/charts
