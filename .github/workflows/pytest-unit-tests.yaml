@@ -1,6 +1,11 @@
 name: Python unit tests
 
-on: [push]
+on:
+  push:
+    branches:
+      - master
+    paths:
+      - '**.py'
 
 jobs:
   build:
