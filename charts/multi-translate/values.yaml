@@ -6,7 +6,7 @@
 replicaCount: 1
 
 # image -- The application docker image
-image: docker.io/restd/multi-translate:latest
+image: docker.io/restd/multi-translate:v0.2.0
 # imagePullPolicy -- The pull policy for the application docker image
 imagePullPolicy: IfNotPresent
 # imagePullSecrets -- Any pull secrets required to pull the application, initContainers, or sidecars
