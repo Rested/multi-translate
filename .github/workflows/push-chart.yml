@@ -24,6 +24,8 @@ jobs:
       run: |
         curl https://raw.githubusercontent.com/helm/helm/master/scripts/get-helm-3 | bash
     - name: Release helm chart
+      env:
+        CHART_MUSEUM_BASIC_AUTH: ${{ secrets.CHART_MUSEUM_BASIC_AUTH }}
       run: |
         helm dependency update
         helm package .
