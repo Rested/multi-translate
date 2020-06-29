@@ -57,6 +57,8 @@ helm repo update
 helm upgrade --install multi-translate rekon/multi-translate
 ``` 
 
+Documentation for values can be found in [charts/multi-translate/README.md](charts/multi-translate/README.md)
+
 ### Docker image
 
 You can download the docker image with:
@@ -65,6 +67,7 @@ docker pull rekonuk/multi-translate
 ```
 
 To determine which env variables to set you can look at [settings.py](settings.py) and 
+[charts/multi-translate/README.md](charts/multi-translate/README.md).
 
 
 ## Access
