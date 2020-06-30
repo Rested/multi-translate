@@ -4,7 +4,7 @@ from typing import Dict, Optional
 import httpx
 
 from engines.base import BaseTranslationEngine
-from errors import EngineApiError, TranslationError
+from errors import EngineApiError, TranslationError, TranslationEngineNotConfiguredError
 from models.response import TranslationResponse
 from settings import Settings
 
@@ -17,6 +17,10 @@ class PapagoEngine(BaseTranslationEngine):
         settings = Settings()
         self._logger = logging.getLogger(__name__)
         self._logger.setLevel(settings.log_level.value)
+        if settings.papago_client_secret is None:
+            raise TranslationEngineNotConfiguredError(
+                f"{self.name_ver} engine: no client secret configured"
+            )
         self.headers = (
             {
                 "X-NCP-APIGW-API-KEY-ID": settings.papago_client_id,
