@@ -102,6 +102,8 @@ config:
 
   # config.languagePreferences -- replaces the language preferences yaml file if set
   languagePreferences: {}
+  # config.gqlEnabled -- determines whether the /gql endpoint is available or not
+  gqlEnabled: true
 
 
 serviceAccount:
@@ -160,6 +162,7 @@ tolerations: []
 affinity: {}
 
 postgresql:
+  # postgresql.enabled -- Note that disabling postgres will mean no persistence
   enabled: true
   ## the postgres database to use
   ##

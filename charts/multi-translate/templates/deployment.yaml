@@ -152,9 +152,14 @@ spec:
                   name: {{ include "postgresql.fullname" . }}-postgresql
                   key: postgresql-password
             {{- end }}
+            {{- else }}
+            - name: ENABLE_PERSISTENCE
+              value: false
             {{- end }}
             - name: POSTGRES_DSN
               value: postgresql://$(DATABASE_USER):$(DATABASE_PASSWORD)@$(DATABASE_HOST):$(DATABASE_PORT)/$(DATABASE_DB)
+            - name: ENABLE_GQL
+              value: {{ .Values.config.gqlEnabled }}
           ports:
             - name: http
               containerPort: 80

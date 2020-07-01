@@ -14,6 +14,11 @@ class LogLevelEnum(Enum):
     NOTSET = "NOTSET"
 
 
+class FeaturesSettings(pydantic.BaseSettings):
+    enable_persistence: bool = True
+    enable_gql: bool = True
+
+
 class DatabaseSettings(pydantic.BaseSettings):
     postgres_dsn: pydantic.PostgresDsn
     db_connect_timeout_seconds: int = 10
