@@ -10,11 +10,10 @@ from db import database, metadata
 from engines.controller import BEST, ENGINE_NAME_MAP
 from gql_query import GQLQuery
 from models.request import TranslationRequest
-from models.response import (
-    TranslationResponse,
-)
-from settings import DatabaseSettings, Settings, FeaturesSettings
+from models.response import TranslationResponse
+from settings import DatabaseSettings, FeaturesSettings, Settings
 from translate import controller, do_translation
+
 
 _logger = logging.getLogger(__name__)
 
@@ -26,7 +25,7 @@ with open("VERSION") as f:
 app = FastAPI(
     title="multi-translate",
     description="Multi-Translate is a unified interface on top of various translate APIs providing optimal "
-                "translations, persistence, fallback.",
+    "translations, persistence, fallback.",
     version=version,
 )
 
@@ -59,9 +58,9 @@ async def shutdown():
 
 @app.post("/translate", response_model=TranslationResponse)
 async def translate_post(
-        background_tasks: BackgroundTasks,
-        response: Response,
-        translation_request: TranslationRequest,
+    background_tasks: BackgroundTasks,
+    response: Response,
+    translation_request: TranslationRequest,
 ) -> TranslationResponse:
     return await translate(
         background_tasks,
@@ -77,33 +76,33 @@ async def translate_post(
 
 @app.get("/translate", response_model=TranslationResponse)
 async def translate(
-        background_tasks: BackgroundTasks,
-        response: Response,
-        source_text: str = Query(..., description="The text to be translated"),
-        to_language: str = Query(
-            ...,
-            max_length=2,
-            description="The ISO-639-1 code of the language to translate the text to",
-        ),
-        from_language: str = Query(
-            None,
-            max_length=2,
-            description="The ISO-639-1 code of the language to translate the text from - if not"
-                        "specified then detection will be attempted",
-        ),
-        preferred_engine: str = Query(
-            BEST,
-            description=f"Which translation engine to use. Choices are "
-                        f"{', '.join(list(ENGINE_NAME_MAP.keys()))} and {BEST}",
-        ),
-        with_alignment: bool = Query(
-            False, description="Whether to return word alignment information or not"
-        ),
-        fallback: bool = Query(
-            False,
-            description="Whether to fallback to the best available engine if the preferred "
-                        "engine does not succeed",
-        ),
+    background_tasks: BackgroundTasks,
+    response: Response,
+    source_text: str = Query(..., description="The text to be translated"),
+    to_language: str = Query(
+        ...,
+        max_length=2,
+        description="The ISO-639-1 code of the language to translate the text to",
+    ),
+    from_language: str = Query(
+        None,
+        max_length=2,
+        description="The ISO-639-1 code of the language to translate the text from - if not"
+        "specified then detection will be attempted",
+    ),
+    preferred_engine: str = Query(
+        BEST,
+        description=f"Which translation engine to use. Choices are "
+        f"{', '.join(list(ENGINE_NAME_MAP.keys()))} and {BEST}",
+    ),
+    with_alignment: bool = Query(
+        False, description="Whether to return word alignment information or not"
+    ),
+    fallback: bool = Query(
+        False,
+        description="Whether to fallback to the best available engine if the preferred "
+        "engine does not succeed",
+    ),
 ) -> TranslationResponse:
     return await do_translation(
         background_tasks,
@@ -120,5 +119,7 @@ async def translate(
 if features.enable_gql:
     app.add_route(
         "/gql",
-        GraphQLApp(schema=graphene.Schema(query=GQLQuery), executor_class=AsyncioExecutor),
+        GraphQLApp(
+            schema=graphene.Schema(query=GQLQuery), executor_class=AsyncioExecutor
+        ),
     )

@@ -4,7 +4,11 @@ from typing import Dict, Optional
 import httpx
 
 from engines.base import BaseTranslationEngine
-from errors import EngineApiError, TranslationError, TranslationEngineNotConfiguredError
+from errors import (
+    EngineApiError,
+    TranslationEngineNotConfiguredError,
+    TranslationError,
+)
 from models.response import TranslationResponse
 from settings import Settings
 

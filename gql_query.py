@@ -2,8 +2,12 @@ import graphene
 from starlette.background import BackgroundTasks
 from starlette.responses import Response
 
-from engines.controller import ENGINE_NAME_MAP, BEST
-from models.response import GQLTranslationResponse, AlignmentSection, AlignmentTextPos
+from engines.controller import BEST, ENGINE_NAME_MAP
+from models.response import (
+    AlignmentSection,
+    AlignmentTextPos,
+    GQLTranslationResponse,
+)
 from translate import do_translation
 
 
@@ -19,30 +23,30 @@ class GQLQuery(graphene.ObjectType):
         ),
         from_language=graphene.String(
             description="The ISO-639-1 code of the language to translate the text from - if not"
-                        "specified then detection will be attempted"
+            "specified then detection will be attempted"
         ),
         preferred_engine=graphene.String(
             description=f"Which translation engine to use. Choices are "
-                        f"{', '.join(list(ENGINE_NAME_MAP.keys()))} and {BEST}"
+            f"{', '.join(list(ENGINE_NAME_MAP.keys()))} and {BEST}"
         ),
         with_alignment=graphene.Boolean(
             description="Whether to return word alignment information or not"
         ),
         fallback=graphene.Boolean(
             description="Whether to fallback to the best available engine if the preferred "
-                        "engine does not succeed"
+            "engine does not succeed"
         ),
     )
 
     async def resolve_translation(
-            self,
-            info,
-            source_text,
-            to_language,
-            from_language=None,
-            preferred_engine=BEST,
-            with_alignment=False,
-            fallback=False,
+        self,
+        info,
+        source_text,
+        to_language,
+        from_language=None,
+        preferred_engine=BEST,
+        with_alignment=False,
+        fallback=False,
     ) -> GQLTranslationResponse:
         bg_tasks = BackgroundTasks()
         result = await do_translation(

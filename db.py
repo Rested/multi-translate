@@ -4,6 +4,7 @@ from sqlalchemy import UniqueConstraint
 
 from settings import DatabaseSettings
 
+
 database = databases.Database(DatabaseSettings().postgres_dsn)
 metadata = sqlalchemy.MetaData()
 translations = sqlalchemy.Table(
