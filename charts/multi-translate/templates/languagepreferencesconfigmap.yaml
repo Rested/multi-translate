@@ -1,0 +1,14 @@
+{{- if .Values.config.languagePreferences }}
+{{- $fullName := include "multi-translate.fullname" . -}}
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ $fullName }}-language-preferences
+  labels:
+    {{- include "multi-translate.labels" . | nindent 4 }}
+data:
+  {{- with .Values.config.languagePreferences }}
+  language_preferences: |
+    {{- toYaml . | nindent 4 }}
+  {{- end }}
+{{- end}}

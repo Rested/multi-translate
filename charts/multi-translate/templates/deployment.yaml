@@ -1,7 +1,8 @@
+{{- $fullName := include "multi-translate.fullname" . -}}
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ include "multi-translate.fullname" . }}
+  name: {{ $fullName }}
   labels:
     {{- include "multi-translate.labels" . | nindent 4 }}
 spec:
@@ -174,7 +175,13 @@ spec:
               mountPath: "/etc/google-svc-acc"
               readOnly: true
             {{- end }}
-      {{- with .Values.nodeSelector }}
+            {{- if .Values.config.languagePreferences }}
+            - name: language-preferences
+              mountPath: "/code/language_preferences.yaml"
+              subPath: language_preferences.yaml
+              readOnly: true
+            {{- end }}
+    {{- with .Values.nodeSelector }}
       nodeSelector:
         {{- toYaml . | nindent 8 }}
       {{- end }}
@@ -198,4 +205,12 @@ spec:
             items:
               - key: "{{ .Values.config.google.serviceAccountSecret.key }}"
                 path: google-svc-acc.json
+    {{- end }}
+    {{- if .Values.config.languagePreferences }}
+        - name: language-preferences
+          configMap:
+            name: {{ $fullName }}-language-preferences
+            items:
+              - key: language_preferences
+                path: language_preferences.yaml
     {{- end }}

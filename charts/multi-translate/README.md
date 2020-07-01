@@ -2,7 +2,7 @@ multi-translate
 ===============
 A unified interface on top of various translate APIs providing optimal translations, caching, fallback.
 
-Current chart version is `0.2.3`
+Current chart version is `0.3.0`
 
 
 
@@ -32,6 +32,7 @@ Current chart version is `0.2.3`
 | config.google.parentPath | string | `nil` | See https://cloud.google.com/translate/docs/migrate-to-v3#resources_projects_and_locations for details |
 | config.google.serviceAccountSecret.key | string | `nil` | The key of the k8s secret containing the service account json |
 | config.google.serviceAccountSecret.name | string | `nil` | The name of the k8s secret containing the service account json |
+| config.languagePreferences | object | `{}` | replaces the language preferences yaml file if set |
 | config.logLevel | string | `nil` | Which python log level to use DEBUG being the most verbose. INFO is recommended |
 | config.microsoft | object | see below | Configuration related to the microsoft translator engine |
 | config.microsoft.endpoint | string | `nil` | The HTTP endpoint for requests to the microsoft translator service |

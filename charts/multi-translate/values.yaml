@@ -100,6 +100,10 @@ config:
       # config.deepL.IAMTokenSecret.key -- The key of the k8s secret containing the Yandex IAM token
       key:
 
+  # config.languagePreferences -- replaces the language preferences yaml file if set
+  languagePreferences: {}
+
+
 serviceAccount:
   # Specifies whether a service account should be created
   create: true
