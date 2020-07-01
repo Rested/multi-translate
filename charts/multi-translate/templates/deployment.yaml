@@ -143,8 +143,8 @@ spec:
             - name: DATABASE_PASSWORD
               valueFrom:
                 secretKeyRef:
-                  name: {{ .Values.postgresql.existingSecret }}
-                  key: {{ .Values.postgresql.existingSecretKey }}
+                  name: "{{ .Values.postgresql.existingSecret }}"
+                  key: "{{ .Values.postgresql.existingSecretKey }}"
             {{- else }}
             - name: DATABASE_PASSWORD
               valueFrom:
@@ -154,12 +154,12 @@ spec:
             {{- end }}
             {{- else }}
             - name: ENABLE_PERSISTENCE
-              value: false
+              value: "false"
             {{- end }}
             - name: POSTGRES_DSN
               value: postgresql://$(DATABASE_USER):$(DATABASE_PASSWORD)@$(DATABASE_HOST):$(DATABASE_PORT)/$(DATABASE_DB)
             - name: ENABLE_GQL
-              value: {{ .Values.config.gqlEnabled }}
+              value: "{{ .Values.config.gqlEnabled }}"
           ports:
             - name: http
               containerPort: 80

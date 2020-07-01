@@ -1,8 +1,8 @@
 multi-translate
 ===============
-A unified interface on top of various translate APIs providing optimal translations, caching, fallback.
+A unified interface on top of various translate APIs providing optimal translations, persistence, fallback.
 
-Current chart version is `0.3.0`
+Current chart version is `0.4.0`
 
 
 
@@ -32,6 +32,7 @@ Current chart version is `0.3.0`
 | config.google.parentPath | string | `nil` | See https://cloud.google.com/translate/docs/migrate-to-v3#resources_projects_and_locations for details |
 | config.google.serviceAccountSecret.key | string | `nil` | The key of the k8s secret containing the service account json |
 | config.google.serviceAccountSecret.name | string | `nil` | The name of the k8s secret containing the service account json |
+| config.gqlEnabled | bool | `true` | determines whether the /gql endpoint is available or not |
 | config.languagePreferences | object | `{}` | replaces the language preferences yaml file if set |
 | config.logLevel | string | `nil` | Which python log level to use DEBUG being the most verbose. INFO is recommended |
 | config.microsoft | object | see below | Configuration related to the microsoft translator engine |
@@ -62,7 +63,7 @@ Current chart version is `0.3.0`
 | nameOverride | string | `""` |  |
 | nodeSelector | object | `{}` |  |
 | podSecurityContext | object | `{}` |  |
-| postgresql.enabled | bool | `true` |  |
+| postgresql.enabled | bool | `true` | Note that disabling postgres will mean no persistence |
 | postgresql.existingSecret | string | `""` |  |
 | postgresql.existingSecretKey | string | `"postgresql-password"` |  |
 | postgresql.persistence.accessModes[0] | string | `"ReadWriteOnce"` |  |
