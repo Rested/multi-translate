@@ -1,6 +1,6 @@
 from enum import Enum
 from pathlib import Path
-from typing import Optional
+from typing import Optional, List
 
 import pydantic
 
@@ -17,6 +17,9 @@ class LogLevelEnum(Enum):
 class FeaturesSettings(pydantic.BaseSettings):
     enable_persistence: bool = True
     enable_gql: bool = True
+    # string as specified here https://limits.readthedocs.io/en/stable/string-notation.html
+    # e.g. "10/minute;25/hour"
+    rate_limits: Optional[str] = None
 
 
 class DatabaseSettings(pydantic.BaseSettings):

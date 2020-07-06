@@ -3,3 +3,4 @@ ingress:
 
 config:
   logLevel: DEBUG
+  rateLimits: "20/second"

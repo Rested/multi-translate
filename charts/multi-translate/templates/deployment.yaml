@@ -160,6 +160,10 @@ spec:
               value: postgresql://$(DATABASE_USER):$(DATABASE_PASSWORD)@$(DATABASE_HOST):$(DATABASE_PORT)/$(DATABASE_DB)
             - name: ENABLE_GQL
               value: "{{ .Values.config.gqlEnabled }}"
+            {{- if .Values.config.rateLimits }}
+            - name: RATE_LIMITS
+              value: "{{ .Values.config.rateLimits }}"
+            {{- end }}
           ports:
             - name: http
               containerPort: 80

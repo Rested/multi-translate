@@ -91,6 +91,7 @@ async def do_translation(
             exclude_engines=excluded_engines,
         )
         additional_conditions.append(translations.c.translation_engine == engine.NAME)
+        additional_conditions.append(translations.c.translation_engine_version == engine.VERSION)
 
         if features.enable_persistence:
             query = translations.select().where(

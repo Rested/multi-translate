@@ -12,4 +12,5 @@ secret_values.yaml
 .dockerignore
 clients
 .github
+*.ini
 *.sh
