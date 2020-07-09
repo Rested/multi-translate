@@ -44,6 +44,11 @@ The `fallback` option can be used so that if a result fails for the specified en
 best valid engine in the list will be chosen.
 
 
+#### Rate limiting
+
+Rate limiting is optionally built in.
+
+
 
 ## Installation
 

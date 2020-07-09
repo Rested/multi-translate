@@ -149,7 +149,7 @@ spec:
             - name: DATABASE_PASSWORD
               valueFrom:
                 secretKeyRef:
-                  name: {{ include "postgresql.fullname" . }}-postgresql
+                  name: {{ $fullName }}-postgresql
                   key: postgresql-password
             {{- end }}
             {{- else }}
@@ -163,6 +163,23 @@ spec:
             {{- if .Values.config.rateLimits }}
             - name: RATE_LIMITS
               value: "{{ .Values.config.rateLimits }}"
+            {{- end }}
+            {{- if .Values.redis.enabled }}
+            {{- if .Values.redis.existingSecret }}
+            - name: REDIS_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.redis.existingSecret }}
+                  key: {{ .Values.redis.existingSecretKey }}
+            {{- else }}
+            - name: REDIS_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: "{{ $fullName }}-redis"
+                  key: redis-password
+            {{- end }}
+            - name: REDIS_DSN
+              value: "redis://:$(REDIS_PASSWORD)@{{ $fullName }}-redis-master:6379/1"
             {{- end }}
           ports:
             - name: http

@@ -211,3 +211,99 @@ postgresql:
     ## the size of PVC to request
     ##
     size: 8Gi
+
+
+redis:
+  enabled: false
+
+  ## the redis password
+  ##
+  ## WARNING:
+  ## - you should NOT use this, instead specify `redis.existingSecret`
+  ##
+  password: multitranslate
+
+  ## the name of a pre-created secret containing the redis password
+  ##
+  existingSecret: ""
+
+  ## the key in `redis.existingSecret` containing the password string
+  ##
+  existingSecretKey: "redis-password"
+
+  ## configs for redis cluster mode
+  ##
+  cluster:
+    ## if redis runs in cluster mode
+    ##
+    enabled: false
+
+    ## the number of redis slaves
+    ##
+    slaveCount: 1
+
+  ## configs for the redis master
+  ##
+  master:
+    ## resource requests/limits for the master Pod
+    ##
+    ## EXAMPLE:
+    ##   resources:
+    ##     requests:
+    ##       cpu: "100m"
+    ##       memory: "256Mi"
+    ##
+    resources: {}
+
+    ## configs for the PVC of the redis master
+    ##
+    persistence:
+      ## use a PVC to persist data
+      ##
+      enabled: false
+
+      ## the name of the StorageClass used by the PVC
+      ##
+      storageClass: ""
+
+      ## the access mode of the PVC
+      ##
+      accessModes:
+      - ReadWriteOnce
+
+      ## the size of PVC to request
+      ##
+      size: 2Gi
+
+  ## configs for the redis slaves
+  ##
+  slave:
+    ## resource requests/limits for the slave Pods
+    ##
+    ## EXAMPLE:
+    ##   resources:
+    ##     requests:
+    ##       cpu: "100m"
+    ##       memory: "256Mi"
+    ##
+    resources: {}
+
+    ## configs for the PVC of the redis slaves
+    ##
+    persistence:
+      ## use a PVC to persist data
+      ##
+      enabled: false
+
+      ## the name of the StorageClass used by the PVC
+      ##
+      storageClass: ""
+
+      ## the access mode of the PVC
+      ##
+      accessModes:
+        - ReadWriteOnce
+
+      ## the size of PVC to request
+      ##
+      size: 2Gi

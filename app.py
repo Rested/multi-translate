@@ -25,7 +25,7 @@ features = FeaturesSettings()
 with open("VERSION") as f:
     version = f.read()
 
-limiter = Limiter(key_func=get_ipaddr)
+limiter = Limiter(key_func=get_ipaddr, storage_uri=str(features.redis_dsn) if features.redis_dsn else None)
 
 app = FastAPI(
     title="multi-translate",

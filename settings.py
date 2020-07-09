@@ -20,6 +20,7 @@ class FeaturesSettings(pydantic.BaseSettings):
     # string as specified here https://limits.readthedocs.io/en/stable/string-notation.html
     # e.g. "10/minute;25/hour"
     rate_limits: Optional[str] = None
+    redis_dsn: Optional[str] = None
 
 
 class DatabaseSettings(pydantic.BaseSettings):
