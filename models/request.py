@@ -2,8 +2,8 @@ from fastapi import Query
 from pydantic import BaseModel
 
 from engines.controller import BEST, ENGINE_NAME_MAP
-
 from settings import FeaturesSettings
+
 
 features = FeaturesSettings()
 

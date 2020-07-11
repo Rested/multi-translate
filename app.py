@@ -7,7 +7,6 @@ from graphql.execution.executors.asyncio import AsyncioExecutor
 from slowapi import Limiter, _rate_limit_exceeded_handler
 from slowapi.errors import RateLimitExceeded
 from slowapi.util import get_ipaddr
-from starlette.graphql import GraphQLApp
 from starlette.requests import Request
 
 from db import database, metadata
@@ -17,6 +16,7 @@ from models.request import TranslationRequest
 from models.response import TranslationResponse
 from settings import DatabaseSettings, FeaturesSettings, Settings
 from translate import controller, do_translation
+
 
 _logger = logging.getLogger(__name__)
 

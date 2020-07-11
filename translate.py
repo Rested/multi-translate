@@ -11,6 +11,7 @@ from errors import BaseMultiTranslateError
 from models.response import TranslationResponse
 from settings import FeaturesSettings
 
+
 features = FeaturesSettings()
 
 _logger = logging.getLogger(__name__)

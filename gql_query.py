@@ -1,19 +1,18 @@
-import graphene
 import typing
+
+import graphene
 from starlette.background import BackgroundTasks
 from starlette.graphql import GraphQLApp
 from starlette.responses import Response
 
 from engines.controller import BEST, ENGINE_NAME_MAP
+from models.request import TranslationRequest
 from models.response import (
     AlignmentSection,
     AlignmentTextPos,
     GQLTranslationResponse,
 )
 from translate import do_translation
-
-
-from models.request import TranslationRequest
 
 
 class RateLimGQLApp(GraphQLApp):

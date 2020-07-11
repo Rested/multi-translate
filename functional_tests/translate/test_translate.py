@@ -1,7 +1,7 @@
-import time
 from urllib.parse import urljoin
-import trio
+
 import httpx
+import trio
 
 from functional_tests.ft_settings import FTSettings
 

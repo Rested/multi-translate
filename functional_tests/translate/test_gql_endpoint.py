@@ -1,12 +1,13 @@
 from urllib.parse import urljoin
 
-import httpx
 import pytest
 import requests
 import trio
 from gql import Client, gql
 from gql.transport.requests import RequestsHTTPTransport
+
 from functional_tests.ft_settings import FTSettings
+
 
 base = FTSettings().rest_url
 
