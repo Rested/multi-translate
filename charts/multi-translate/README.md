@@ -2,7 +2,7 @@ multi-translate
 ===============
 A unified interface on top of various translate APIs providing optimal translations, persistence, fallback.
 
-Current chart version is `0.5.0`
+Current chart version is `0.6.0`
 
 
 
@@ -36,6 +36,7 @@ Current chart version is `0.5.0`
 | config.gqlEnabled | bool | `true` | determines whether the /gql endpoint is available or not |
 | config.languagePreferences | object | `{}` | replaces the language preferences yaml file if set |
 | config.logLevel | string | `nil` | Which python log level to use DEBUG being the most verbose. INFO is recommended |
+| config.maxSourceTextLength | string | `nil` | maximum size in characters of a piece of text to be translated |
 | config.microsoft | object | see below | Configuration related to the microsoft translator engine |
 | config.microsoft.endpoint | string | `nil` | The HTTP endpoint for requests to the microsoft translator service |
 | config.microsoft.region | string | `"global"` | Which region the microsoft translator service is in |
