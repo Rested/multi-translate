@@ -11,7 +11,6 @@ from errors import BaseMultiTranslateError
 from models.response import TranslationResponse
 from settings import FeaturesSettings
 
-
 features = FeaturesSettings()
 
 _logger = logging.getLogger(__name__)
@@ -20,7 +19,7 @@ controller = EngineController()
 
 
 async def save_translation(
-    translation_result: TranslationResponse, from_was_specified: bool
+        translation_result: TranslationResponse, from_was_specified: bool
 ) -> None:
     statement = translations.insert().values(
         from_was_specified=from_was_specified,
@@ -39,33 +38,34 @@ async def save_translation(
 
 
 async def do_translation(
-    background_tasks: BackgroundTasks,
-    response: Response,
-    source_text: str = Query(..., description="The text to be translated"),
-    to_language: str = Query(
-        ...,
-        max_length=2,
-        description="The ISO-639-1 code of the language to translate the text to",
-    ),
-    from_language: str = Query(
-        None,
-        max_length=2,
-        description="The ISO-639-1 code of the language to translate the text from - if not"
-        "specified then detection will be attempted",
-    ),
-    preferred_engine: str = Query(
-        BEST,
-        description=f"Which translation engine to use. Choices are "
-        f"{', '.join(list(ENGINE_NAME_MAP.keys()))} and {BEST}",
-    ),
-    with_alignment: bool = Query(
-        False, description="Whether to return word alignment information or not"
-    ),
-    fallback: bool = Query(
-        False,
-        description="Whether to fallback to the best available engine if the preferred "
-        "engine does not succeed",
-    ),
+        background_tasks: BackgroundTasks,
+        response: Response,
+        source_text: str = Query(..., description="The text to be translated",
+                                 max_length=features.max_source_text_length),
+        to_language: str = Query(
+            ...,
+            max_length=2,
+            description="The ISO-639-1 code of the language to translate the text to",
+        ),
+        from_language: str = Query(
+            None,
+            max_length=2,
+            description="The ISO-639-1 code of the language to translate the text from - if not"
+                        "specified then detection will be attempted",
+        ),
+        preferred_engine: str = Query(
+            BEST,
+            description=f"Which translation engine to use. Choices are "
+                        f"{', '.join(list(ENGINE_NAME_MAP.keys()))} and {BEST}",
+        ),
+        with_alignment: bool = Query(
+            False, description="Whether to return word alignment information or not"
+        ),
+        fallback: bool = Query(
+            False,
+            description="Whether to fallback to the best available engine if the preferred "
+                        "engine does not succeed",
+        ),
 ) -> TranslationResponse:
     additional_conditions = []
     if with_alignment:

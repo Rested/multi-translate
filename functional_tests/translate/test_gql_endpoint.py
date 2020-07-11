@@ -1,17 +1,16 @@
 from urllib.parse import urljoin
 
 import httpx
+import pytest
 import requests
 import trio
 from gql import Client, gql
 from gql.transport.requests import RequestsHTTPTransport
-
 from functional_tests.ft_settings import FTSettings
 
 base = FTSettings().rest_url
 
-query = gql(
-    """
+query_str = """
 query GetTranslation {
     translation(sourceText: "How do you do?", toLanguage: "es", withAlignment: true) {
         translatedText
@@ -31,7 +30,7 @@ query GetTranslation {
   }
 }
 """
-)
+query = gql(query_str)
 
 
 def test_graphql_works():
@@ -55,6 +54,23 @@ def test_graphql_works():
             ],
         }
     }
+
+
+def test_max_characters():
+    transport = RequestsHTTPTransport(
+        url=urljoin(base, "gql"), verify=False, retries=3,
+    )
+
+    client = Client(transport=transport, fetch_schema_from_transport=True, )
+
+    long_str = "then the more there are the better in order that they neutralize each other. When in the later part of the book he comes to consider government... these three should form a crescendo but usually perform a diminuendo."
+    q = query_str.replace("How do you do?", long_str)
+    with pytest.raises(Exception) as e:
+        _ = client.execute(gql(q))
+
+    assert str(e.value) == str({
+        'message': '1 validation error for TranslationRequest\nsource_text\n  ensure this value has at most 200 characters (type=value_error.any_str.max_length; limit_value=200)',
+        'locations': [{'line': 2, 'column': 3}], 'path': ['translation']})
 
 
 async def check_rate_limit(client, i, results):

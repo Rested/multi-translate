@@ -107,6 +107,8 @@ config:
   # config.rateLimits -- optional rate limiting - values as specified here https://limits.readthedocs.io/en/stable/string-notation.html e.g. "10/minute;25/hour"
   rateLimits:
 
+  # config.maxSourceTextLength -- maximum size in characters of a piece of text to be translated
+  maxSourceTextLength:
 
 serviceAccount:
   # Specifies whether a service account should be created

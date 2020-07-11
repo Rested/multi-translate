@@ -13,6 +13,9 @@ from models.response import (
 from translate import do_translation
 
 
+from models.request import TranslationRequest
+
+
 class RateLimGQLApp(GraphQLApp):
     def __init__(
             self,
@@ -32,7 +35,7 @@ class GQLQuery(graphene.ObjectType):
     translation = graphene.Field(
         GQLTranslationResponse,
         source_text=graphene.String(
-            description="The text to be translated", required=True
+            description="The text to be translated", required=True,
         ),
         to_language=graphene.String(
             description="The ISO-639-1 code of the language to translate the text to",
@@ -66,6 +69,15 @@ class GQLQuery(graphene.ObjectType):
             fallback=False,
     ) -> GQLTranslationResponse:
         bg_tasks = BackgroundTasks()
+        # validate
+        TranslationRequest(
+            source_text=source_text,
+            to_language=to_language,
+            from_language=from_language,
+            preferred_engine=preferred_engine,
+            with_alignment=with_alignment,
+            fallback=fallback
+        )
         result = await do_translation(
             bg_tasks,
             Response(),

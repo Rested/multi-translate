@@ -21,6 +21,7 @@ class FeaturesSettings(pydantic.BaseSettings):
     # e.g. "10/minute;25/hour"
     rate_limits: Optional[str] = None
     redis_dsn: Optional[str] = None
+    max_source_text_length: Optional[int] = None
 
 
 class DatabaseSettings(pydantic.BaseSettings):

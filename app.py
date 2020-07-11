@@ -95,7 +95,8 @@ async def translate(
         request: Request,
         background_tasks: BackgroundTasks,
         response: Response,
-        source_text: str = Query(..., description="The text to be translated"),
+        source_text: str = Query(..., description="The text to be translated",
+                                 max_length=features.max_source_text_length),
         to_language: str = Query(
             ...,
             max_length=2,

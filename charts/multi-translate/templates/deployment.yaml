@@ -181,6 +181,10 @@ spec:
             - name: REDIS_DSN
               value: "redis://:$(REDIS_PASSWORD)@{{ $fullName }}-redis-master:6379/1"
             {{- end }}
+            {{- if .Values.config.maxSourceTextLength }}
+            - name: MAX_SOURCE_TEXT_LENGTH
+              value: "{{ .Values.config.maxSourceTextLength }}"
+            {{- end }}
           ports:
             - name: http
               containerPort: 80

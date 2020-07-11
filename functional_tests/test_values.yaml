@@ -4,6 +4,8 @@ ingress:
 config:
   logLevel: DEBUG
   rateLimits: "20/second"
+  maxSourceTextLength: 200
 
 redis:
   enabled: true
+
