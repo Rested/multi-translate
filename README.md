@@ -13,6 +13,16 @@ persistence :floppy_disk:, fallback :recycle:.
 
 Multi-Translate uses `FastApi` and `asyncpg` to keep things snappy :zap:, and offers `graphql` and `json` endpoints.
 
+You can check out a public demo here:
+
+https://multi-translate-public-api.rekon.uk/docs
+
+(redoc)
+https://multi-translate-public-api.rekon.uk/redoc
+
+(graphql)
+https://multi-translate-public-api.rekon.uk/gql
+
 ## Features
 
 #### Optimal Translations :star:
