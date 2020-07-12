@@ -39,7 +39,7 @@ def test_graphql_works():
         url=urljoin(base, "gql"), verify=False, retries=3,
     )
 
-    client = Client(transport=transport, fetch_schema_from_transport=True, )
+    client = Client(transport=transport, fetch_schema_from_transport=True,)
 
     result = client.execute(query)
 
@@ -62,20 +62,24 @@ def test_max_characters():
         url=urljoin(base, "gql"), verify=False, retries=3,
     )
 
-    client = Client(transport=transport, fetch_schema_from_transport=True, )
+    client = Client(transport=transport, fetch_schema_from_transport=True,)
 
     long_str = "then the more there are the better in order that they neutralize each other. When in the later part of the book he comes to consider government... these three should form a crescendo but usually perform a diminuendo."
     q = query_str.replace("How do you do?", long_str)
     with pytest.raises(Exception) as e:
         _ = client.execute(gql(q))
 
-    assert str(e.value) == str({
-        'message': '1 validation error for TranslationRequest\nsource_text\n  ensure this value has at most 200 characters (type=value_error.any_str.max_length; limit_value=200)',
-        'locations': [{'line': 2, 'column': 3}], 'path': ['translation']})
+    assert str(e.value) == str(
+        {
+            "message": "1 validation error for TranslationRequest\nsource_text\n  ensure this value has at most 200 characters (type=value_error.any_str.max_length; limit_value=200)",
+            "locations": [{"line": 2, "column": 3}],
+            "path": ["translation"],
+        }
+    )
 
 
 async def check_rate_limit(client, i, results):
-    await trio.sleep((1. / 40.) * i)
+    await trio.sleep((1.0 / 40.0) * i)
     try:
         result = client.execute(query)
     except requests.exceptions.HTTPError as e:
@@ -92,7 +96,7 @@ async def test_gql_rate_limits():
         url=urljoin(base, "gql"), verify=False, retries=3,
     )
 
-    client = Client(transport=transport, fetch_schema_from_transport=True, )
+    client = Client(transport=transport, fetch_schema_from_transport=True,)
     results = {}
     async with trio.open_nursery() as nursery:
         for i in range(40):

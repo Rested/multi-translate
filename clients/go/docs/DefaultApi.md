@@ -4,10 +4,68 @@ All URIs are relative to *http://localhost*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
+[**GetSupportedEnginesAvailableEnginesGet**](DefaultApi.md#GetSupportedEnginesAvailableEnginesGet) | **Get** /available-engines | Get Supported Engines
+[**GetSupportedLanguagesSupportedLanguagesGet**](DefaultApi.md#GetSupportedLanguagesSupportedLanguagesGet) | **Get** /supported-languages | Get Supported Languages
 [**ReadyGet**](DefaultApi.md#ReadyGet) | **Get** / | Ready
 [**TranslatePostTranslatePost**](DefaultApi.md#TranslatePostTranslatePost) | **Post** /translate | Translate Post
 [**TranslateTranslateGet**](DefaultApi.md#TranslateTranslateGet) | **Get** /translate | Translate
 
+
+
+## GetSupportedEnginesAvailableEnginesGet
+
+> []string GetSupportedEnginesAvailableEnginesGet(ctx, )
+
+Get Supported Engines
+
+### Required Parameters
+
+This endpoint does not need any parameter.
+
+### Return type
+
+**[]string**
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+- **Content-Type**: Not defined
+- **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
+[[Back to Model list]](../README.md#documentation-for-models)
+[[Back to README]](../README.md)
+
+
+## GetSupportedLanguagesSupportedLanguagesGet
+
+> map[string][]string GetSupportedLanguagesSupportedLanguagesGet(ctx, )
+
+Get Supported Languages
+
+### Required Parameters
+
+This endpoint does not need any parameter.
+
+### Return type
+
+[**map[string][]string**](array.md)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+- **Content-Type**: Not defined
+- **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
+[[Back to Model list]](../README.md#documentation-for-models)
+[[Back to README]](../README.md)
 
 
 ## ReadyGet

@@ -17,14 +17,16 @@ from translate import do_translation
 
 class RateLimGQLApp(GraphQLApp):
     def __init__(
-            self,
-            schema: "graphene.Schema",
-            executor: typing.Any = None,
-            executor_class: type = None,
-            graphiql: bool = True,
-            limits_decorator: typing.Optional[typing.Callable] = None,
+        self,
+        schema: "graphene.Schema",
+        executor: typing.Any = None,
+        executor_class: type = None,
+        graphiql: bool = True,
+        limits_decorator: typing.Optional[typing.Callable] = None,
     ) -> None:
-        super().__init__(schema, executor, executor_class=executor_class, graphiql=graphiql)
+        super().__init__(
+            schema, executor, executor_class=executor_class, graphiql=graphiql
+        )
         if limits_decorator:
             self.handle_graphiql = limits_decorator(self.handle_graphiql)
             self.handle_graphql = limits_decorator(self.handle_graphql)
@@ -42,30 +44,30 @@ class GQLQuery(graphene.ObjectType):
         ),
         from_language=graphene.String(
             description="The ISO-639-1 code of the language to translate the text from - if not"
-                        "specified then detection will be attempted"
+            "specified then detection will be attempted"
         ),
         preferred_engine=graphene.String(
             description=f"Which translation engine to use. Choices are "
-                        f"{', '.join(list(ENGINE_NAME_MAP.keys()))} and {BEST}"
+            f"{', '.join(list(ENGINE_NAME_MAP.keys()))} and {BEST}"
         ),
         with_alignment=graphene.Boolean(
             description="Whether to return word alignment information or not"
         ),
         fallback=graphene.Boolean(
             description="Whether to fallback to the best available engine if the preferred "
-                        "engine does not succeed"
+            "engine does not succeed"
         ),
     )
 
     async def resolve_translation(
-            self,
-            info,
-            source_text,
-            to_language,
-            from_language=None,
-            preferred_engine=BEST,
-            with_alignment=False,
-            fallback=False,
+        self,
+        info,
+        source_text,
+        to_language,
+        from_language=None,
+        preferred_engine=BEST,
+        with_alignment=False,
+        fallback=False,
     ) -> GQLTranslationResponse:
         bg_tasks = BackgroundTasks()
         # validate
@@ -75,7 +77,7 @@ class GQLQuery(graphene.ObjectType):
             from_language=from_language,
             preferred_engine=preferred_engine,
             with_alignment=with_alignment,
-            fallback=fallback
+            fallback=fallback,
         )
         result = await do_translation(
             bg_tasks,

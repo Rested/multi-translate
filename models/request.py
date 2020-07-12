@@ -9,7 +9,11 @@ features = FeaturesSettings()
 
 
 class TranslationRequest(BaseModel):
-    source_text: str = Query(..., description="The text to be translated", max_length=features.max_source_text_length)
+    source_text: str = Query(
+        ...,
+        description="The text to be translated",
+        max_length=features.max_source_text_length,
+    )
     to_language: str = Query(
         ...,
         max_length=2,
@@ -19,12 +23,12 @@ class TranslationRequest(BaseModel):
         None,
         max_length=2,
         description="The ISO-639-1 code of the language to translate the text from - if not"
-                    "specified then detection will be attempted",
+        "specified then detection will be attempted",
     )
     preferred_engine: str = Query(
         BEST,
         description=f"Which translation engine to use. Choices are "
-                    f"{', '.join(list(ENGINE_NAME_MAP.keys()))} and {BEST}",
+        f"{', '.join(list(ENGINE_NAME_MAP.keys()))} and {BEST}",
     )
     with_alignment: bool = Query(
         False, description="Whether to return word alignment information or not"
@@ -32,5 +36,5 @@ class TranslationRequest(BaseModel):
     fallback: bool = Query(
         False,
         description="Whether to fallback to the best available engine if the preferred "
-                    "engine does not succeed",
+        "engine does not succeed",
     )

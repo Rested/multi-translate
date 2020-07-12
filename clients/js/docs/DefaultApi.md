@@ -4,10 +4,90 @@ All URIs are relative to *http://localhost*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
+[**getSupportedEnginesAvailableEnginesGet**](DefaultApi.md#getSupportedEnginesAvailableEnginesGet) | **GET** /available-engines | Get Supported Engines
+[**getSupportedLanguagesSupportedLanguagesGet**](DefaultApi.md#getSupportedLanguagesSupportedLanguagesGet) | **GET** /supported-languages | Get Supported Languages
 [**readyGet**](DefaultApi.md#readyGet) | **GET** / | Ready
 [**translatePostTranslatePost**](DefaultApi.md#translatePostTranslatePost) | **POST** /translate | Translate Post
 [**translateTranslateGet**](DefaultApi.md#translateTranslateGet) | **GET** /translate | Translate
 
+
+
+## getSupportedEnginesAvailableEnginesGet
+
+> [String] getSupportedEnginesAvailableEnginesGet()
+
+Get Supported Engines
+
+### Example
+
+```javascript
+import @RekonOssMultiTranslate from '@rekon-oss/multi-translate';
+
+let apiInstance = new @RekonOssMultiTranslate.DefaultApi();
+apiInstance.getSupportedEnginesAvailableEnginesGet((error, data, response) => {
+  if (error) {
+    console.error(error);
+  } else {
+    console.log('API called successfully. Returned data: ' + data);
+  }
+});
+```
+
+### Parameters
+
+This endpoint does not need any parameter.
+
+### Return type
+
+**[String]**
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+- **Content-Type**: Not defined
+- **Accept**: application/json
+
+
+## getSupportedLanguagesSupportedLanguagesGet
+
+> {String: [String]} getSupportedLanguagesSupportedLanguagesGet()
+
+Get Supported Languages
+
+### Example
+
+```javascript
+import @RekonOssMultiTranslate from '@rekon-oss/multi-translate';
+
+let apiInstance = new @RekonOssMultiTranslate.DefaultApi();
+apiInstance.getSupportedLanguagesSupportedLanguagesGet((error, data, response) => {
+  if (error) {
+    console.error(error);
+  } else {
+    console.log('API called successfully. Returned data: ' + data);
+  }
+});
+```
+
+### Parameters
+
+This endpoint does not need any parameter.
+
+### Return type
+
+**{String: [String]}**
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+- **Content-Type**: Not defined
+- **Accept**: application/json
 
 
 ## readyGet

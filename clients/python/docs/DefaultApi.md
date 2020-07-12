@@ -4,10 +4,124 @@ All URIs are relative to *http://localhost*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
+[**get_supported_engines_available_engines_get**](DefaultApi.md#get_supported_engines_available_engines_get) | **GET** /available-engines | Get Supported Engines
+[**get_supported_languages_supported_languages_get**](DefaultApi.md#get_supported_languages_supported_languages_get) | **GET** /supported-languages | Get Supported Languages
 [**ready_get**](DefaultApi.md#ready_get) | **GET** / | Ready
 [**translate_post_translate_post**](DefaultApi.md#translate_post_translate_post) | **POST** /translate | Translate Post
 [**translate_translate_get**](DefaultApi.md#translate_translate_get) | **GET** /translate | Translate
 
+
+# **get_supported_engines_available_engines_get**
+> list[str] get_supported_engines_available_engines_get()
+
+Get Supported Engines
+
+### Example
+
+```python
+from __future__ import print_function
+import time
+import multitranslateclient
+from multitranslateclient.rest import ApiException
+from pprint import pprint
+# Defining the host is optional and defaults to http://localhost
+# See configuration.py for a list of all supported configuration parameters.
+configuration = multitranslateclient.Configuration(
+    host = "http://localhost"
+)
+
+
+# Enter a context with an instance of the API client
+with multitranslateclient.ApiClient() as api_client:
+    # Create an instance of the API class
+    api_instance = multitranslateclient.DefaultApi(api_client)
+    
+    try:
+        # Get Supported Engines
+        api_response = api_instance.get_supported_engines_available_engines_get()
+        pprint(api_response)
+    except ApiException as e:
+        print("Exception when calling DefaultApi->get_supported_engines_available_engines_get: %s\n" % e)
+```
+
+### Parameters
+This endpoint does not need any parameter.
+
+### Return type
+
+**list[str]**
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: application/json
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+**200** | Successful Response |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+# **get_supported_languages_supported_languages_get**
+> dict(str, list[str]) get_supported_languages_supported_languages_get()
+
+Get Supported Languages
+
+### Example
+
+```python
+from __future__ import print_function
+import time
+import multitranslateclient
+from multitranslateclient.rest import ApiException
+from pprint import pprint
+# Defining the host is optional and defaults to http://localhost
+# See configuration.py for a list of all supported configuration parameters.
+configuration = multitranslateclient.Configuration(
+    host = "http://localhost"
+)
+
+
+# Enter a context with an instance of the API client
+with multitranslateclient.ApiClient() as api_client:
+    # Create an instance of the API class
+    api_instance = multitranslateclient.DefaultApi(api_client)
+    
+    try:
+        # Get Supported Languages
+        api_response = api_instance.get_supported_languages_supported_languages_get()
+        pprint(api_response)
+    except ApiException as e:
+        print("Exception when calling DefaultApi->get_supported_languages_supported_languages_get: %s\n" % e)
+```
+
+### Parameters
+This endpoint does not need any parameter.
+
+### Return type
+
+**dict(str, list[str])**
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: application/json
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+**200** | Successful Response |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **ready_get**
 > str ready_get()

@@ -3,7 +3,7 @@ info:
   description: Multi-Translate is a unified interface on top of various translate
     APIs providing optimal translations, persistence, fallback.
   title: multi-translate
-  version: 0.5.0
+  version: 0.6.0
 servers:
 - url: /
 paths:
@@ -131,6 +131,36 @@ paths:
                 $ref: '#/components/schemas/HTTPValidationError'
           description: Validation Error
       summary: Translate Post
+  /supported-languages:
+    get:
+      operationId: get_supported_languages_supported_languages_get
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                additionalProperties:
+                  items:
+                    type: string
+                  type: array
+                title: Response Get Supported Languages Supported Languages Get
+                type: object
+          description: Successful Response
+      summary: Get Supported Languages
+  /available-engines:
+    get:
+      operationId: get_supported_engines_available_engines_get
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                items:
+                  type: string
+                title: Response Get Supported Engines Available Engines Get
+                type: array
+          description: Successful Response
+      summary: Get Supported Engines
 components:
   schemas:
     HTTPValidationError:

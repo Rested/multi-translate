@@ -2,7 +2,7 @@ multi-translate
 ===============
 A unified interface on top of various translate APIs providing optimal translations, persistence, fallback.
 
-Current chart version is `0.6.0`
+Current chart version is `0.7.0`
 
 
 
@@ -55,7 +55,7 @@ Current chart version is `0.6.0`
 | config.yandex.endpoint | string | `"https://translate.api.cloud.yandex.net/translate/v2/"` | The Yandex translation HTTP endpoint |
 | config.yandex.folderId | string | `nil` | The Yandex Cloud folder ID if a UserAccount is used for authentication |
 | fullnameOverride | string | `""` |  |
-| image | string | `"rekonuk/multi-translate:v0.4.0"` | The application docker image |
+| image | string | `"rekonuk/multi-translate:v0.6.0"` | The application docker image |
 | imagePullPolicy | string | `"IfNotPresent"` | The pull policy for the application docker image |
 | imagePullSecrets | list | `[]` | Any pull secrets required to pull the application, initContainers, or sidecars |
 | ingress.annotations | object | `{}` |  |

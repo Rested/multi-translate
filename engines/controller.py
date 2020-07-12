@@ -20,6 +20,7 @@ from errors import (
 )
 from settings import Settings
 
+
 BEST = "best"
 SUPPORTED_ENGINES = (
     MicrosoftEngine,
@@ -35,7 +36,7 @@ LangPref = Dict[str, Dict[str, List[str]]]
 
 
 def _load_language_preferences(
-        path: Optional[str] = None,
+    path: Optional[str] = None,
 ) -> Tuple[LangPref, List[str]]:
     try:
         with open(path or "language_preferences.yaml", "r") as f:
@@ -64,11 +65,11 @@ default_language_preferences, default_ordering = _load_language_preferences()
 
 
 def _best_engine_by_language(
-        engines: Dict[str, BaseTranslationEngine],
-        from_language: Optional[str],
-        to_language: str,
-        language_preferences: LangPref,
-        base_ordering: List[str],
+    engines: Dict[str, BaseTranslationEngine],
+    from_language: Optional[str],
+    to_language: str,
+    language_preferences: LangPref,
+    base_ordering: List[str],
 ) -> BaseTranslationEngine:
     from_l_preferences = language_preferences.get(
         from_language, language_preferences["xx"]
@@ -118,12 +119,12 @@ class EngineController:
         )
 
     def get_best(
-            self,
-            needs_detection: bool,
-            needs_alignment: bool,
-            from_language: Optional[str],
-            to_language: str,
-            exclude_engines: List[str],
+        self,
+        needs_detection: bool,
+        needs_alignment: bool,
+        from_language: Optional[str],
+        to_language: str,
+        exclude_engines: List[str],
     ):
         engine_candidates: Dict[str, BaseTranslationEngine] = {}
         for engine_name, engine_instance in self.available_engines.items():
@@ -153,13 +154,13 @@ class EngineController:
         )
 
     def get_engine(
-            self,
-            name: str,
-            needs_detection: bool,
-            needs_alignment: bool,
-            from_language: Optional[str],
-            to_language: str,
-            exclude_engines: Optional[List[str]] = None,
+        self,
+        name: str,
+        needs_detection: bool,
+        needs_alignment: bool,
+        from_language: Optional[str],
+        to_language: str,
+        exclude_engines: Optional[List[str]] = None,
     ):
         if name == BEST:
             return self.get_best(
@@ -192,6 +193,10 @@ class EngineController:
                     combined_supported_languages[from_language] = list(to_languages)
                 else:
                     combined_supported_languages[from_language] = list(
-                        set(list(to_languages) + list(combined_supported_languages[from_language])))
+                        set(
+                            list(to_languages)
+                            + list(combined_supported_languages[from_language])
+                        )
+                    )
         self._combined_supported_languages = combined_supported_languages
         return self._combined_supported_languages
