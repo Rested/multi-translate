@@ -1,4 +1,5 @@
 import logging
+from typing import Dict, List
 
 import graphene
 import sqlalchemy
@@ -16,7 +17,6 @@ from models.request import TranslationRequest
 from models.response import TranslationResponse
 from settings import DatabaseSettings, FeaturesSettings, Settings
 from translate import controller, do_translation
-
 
 _logger = logging.getLogger(__name__)
 
@@ -144,3 +144,13 @@ if features.enable_gql:
         "/gql",
         gql_app,
     )
+
+
+@app.get("/supported-languages", response_model=Dict[str, List[str]])
+async def get_supported_languages():
+    return controller.combined_supported_languages
+
+
+@app.get("/available-engines", response_model=List[str])
+async def get_supported_engines():
+    return list(controller.available_engines.keys())
