@@ -17,6 +17,28 @@ def test_translate_basic():
     assert resp.status_code == 422
 
 
+def test_translate_cors():
+    assert translate_url().endswith("translate")
+    data = params = {
+        "to_language": "es",
+        "source_text": f"hello",
+        "from_language": "en",
+    }
+    resp = httpx.get(translate_url(), params=data, headers={"Origin": "localhost"})
+    assert resp.headers["access-control-allow-origin"] == "localhost"
+
+    resp = httpx.get(translate_url(), params=data, headers={"Origin": "rekon.uk"})
+    assert resp.headers["access-control-allow-origin"] == "rekon.uk"
+
+    resp = httpx.get(translate_url(), params=data, headers={"Origin": "hello.rekon.uk"})
+    assert resp.headers["access-control-allow-origin"] == "hello.rekon.uk"
+
+    resp = httpx.get(
+        translate_url(), params=data, headers={"Origin": "hello.example.com"}
+    )
+    assert "access-control-allow-origin" not in resp.headers
+
+
 def test_max_characters():
     long_str = "then the more there are the better in order that they neutralize each other. When in the later part of the book he comes to consider government... these three should form a crescendo but usually perform a diminuendo."
     assert len(long_str) > 200

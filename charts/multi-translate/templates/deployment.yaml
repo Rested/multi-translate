@@ -185,6 +185,16 @@ spec:
             - name: MAX_SOURCE_TEXT_LENGTH
               value: "{{ .Values.config.maxSourceTextLength }}"
             {{- end }}
+            {{- if .Values.config.cors.enabled }}
+            - name: CORS_ENABLED
+              value: "true"
+            - name: CORS_ORIGINS
+              value: {{- include "multi-translate.corsOrigins" . | quote | indent 1 }}
+            {{- if .Values.config.cors.originRegex }}
+            - name: CORS_ORIGIN_REGEX
+              value: "{{ .Values.config.cors.originRegex }}"
+            {{- end }}
+            {{- end }}
           ports:
             - name: http
               containerPort: 80

@@ -4,6 +4,7 @@ from typing import Dict, List
 import graphene
 import sqlalchemy
 from fastapi import BackgroundTasks, FastAPI, Query, Response
+from fastapi.middleware.cors import CORSMiddleware
 from graphql.execution.executors.asyncio import AsyncioExecutor
 from slowapi import Limiter, _rate_limit_exceeded_handler
 from slowapi.errors import RateLimitExceeded
@@ -37,6 +38,23 @@ app = FastAPI(
     "translations, persistence, fallback.",
     version=version,
 )
+
+origins = [
+    "http://localhost.tiangolo.com",
+    "https://localhost.tiangolo.com",
+    "http://localhost",
+    "http://localhost:8080",
+]
+
+if features.cors_enabled:
+    app.add_middleware(
+        CORSMiddleware,
+        allow_origins=features.cors_origins,
+        allow_origin_regex=features.cors_origin_regex,
+        allow_credentials=True,
+        allow_methods=["*"],
+        allow_headers=["*"],
+    )
 
 if features.rate_limits is not None:
     app.state.limiter = limiter

@@ -110,6 +110,14 @@ config:
   # config.maxSourceTextLength -- maximum size in characters of a piece of text to be translated
   maxSourceTextLength:
 
+  cors:
+    # config.cors.enabled -- whether to enable cors
+    enabled: false
+    # config.cors.origins: -- a list of origins to allow
+    origins: []
+    # config.cors.originRegex -- a regex to match origins to allow
+    originRegex:
+
 serviceAccount:
   # Specifies whether a service account should be created
   create: true

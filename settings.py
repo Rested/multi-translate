@@ -1,6 +1,6 @@
 from enum import Enum
 from pathlib import Path
-from typing import Optional
+from typing import Optional, Sequence
 
 import pydantic
 
@@ -22,6 +22,9 @@ class FeaturesSettings(pydantic.BaseSettings):
     rate_limits: Optional[str] = None
     redis_dsn: Optional[str] = None
     max_source_text_length: Optional[int] = None
+    cors_enabled: bool = False
+    cors_origins: Sequence[str] = ()
+    cors_origin_regex: str = None
 
 
 class DatabaseSettings(pydantic.BaseSettings):

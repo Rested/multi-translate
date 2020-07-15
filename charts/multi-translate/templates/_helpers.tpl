@@ -61,3 +61,12 @@ Create the name of the service account to use
     {{ default "default" .Values.serviceAccount.name }}
 {{- end -}}
 {{- end -}}
+
+
+{{/*
+Cors
+*/}}
+{{- define "multi-translate.corsOrigins" -}}
+{{ $lastIndex := sub (len .Values.config.cors.origins) 1 }}
+{{- if .Values.config.cors.origins }}[{{- range $index, $origin := .Values.config.cors.origins }}"{{ $origin }}"{{- if ne $index $lastIndex }},{{- end}}{{- end }}]{{- else -}}[]{{- end }}
+{{- end }}

@@ -5,7 +5,10 @@ config:
   logLevel: DEBUG
   rateLimits: "20/second"
   maxSourceTextLength: 200
-
+  cors:
+    enabled: true
+    origins: ["localhost", "rekon.uk"]
+    originRegex: .*\\.rekon\\.uk
 redis:
   enabled: true
 
