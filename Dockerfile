@@ -23,7 +23,8 @@ COPY poetry.lock pyproject.toml /code/
 
 # Project initialization:
 RUN poetry config virtualenvs.create false \
-  && poetry install $(test "$ENV" == production && echo "--no-dev") --no-interaction --no-ansi
+  && poetry install $(test "$ENV" == production && echo "--no-dev") --no-interaction --no-ansi \
+  && rm poetry.lock pyproject.toml
 
 COPY ./ ./
 

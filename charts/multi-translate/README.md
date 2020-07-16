@@ -2,7 +2,7 @@ multi-translate
 ===============
 A unified interface on top of various translate APIs providing optimal translations, persistence, fallback.
 
-Current chart version is `0.7.0`
+Current chart version is `0.8.0`
 
 
 
@@ -25,6 +25,8 @@ Current chart version is `0.7.0`
 | config.amazon.awsSecretAccessKeySecret.key | string | `nil` | The name of the k8s secret containing the aws secret access key |
 | config.amazon.awsSecretAccessKeySecret.name | string | `nil` | The name of the k8s secret containing the aws secret access key |
 | config.amazon.region | string | `nil` | The aws region your amazon translate service belongs to |
+| config.cors.enabled | bool | `false` | whether to enable cors |
+| config.cors.originRegex | string | `nil` | a regex to match origins to allow |
 | config.deepL | object | see below | Configuration related to the Deep L Translation service |
 | config.deepL.authKeySecret.key | string | `nil` | The key of the k8s secret containing the deepL auth key |
 | config.deepL.authKeySecret.name | string | `nil` | The name of the k8s secret containing the deepL auth key |
@@ -55,7 +57,7 @@ Current chart version is `0.7.0`
 | config.yandex.endpoint | string | `"https://translate.api.cloud.yandex.net/translate/v2/"` | The Yandex translation HTTP endpoint |
 | config.yandex.folderId | string | `nil` | The Yandex Cloud folder ID if a UserAccount is used for authentication |
 | fullnameOverride | string | `""` |  |
-| image | string | `"rekonuk/multi-translate:v0.6.0"` | The application docker image |
+| image | string | `"rekonuk/multi-translate:v0.7.0"` | The application docker image |
 | imagePullPolicy | string | `"IfNotPresent"` | The pull policy for the application docker image |
 | imagePullSecrets | list | `[]` | Any pull secrets required to pull the application, initContainers, or sidecars |
 | ingress.annotations | object | `{}` |  |

@@ -14,3 +14,7 @@ clients
 .github
 *.ini
 *.sh
+__pycache__
+.idea
+.importanizerc
+Dockerfile
