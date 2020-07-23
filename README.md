@@ -11,9 +11,18 @@
 Multi-translate is a unified interface on top of various translate APIs providing optimal translations :star:, 
 persistence :floppy_disk:, fallback :recycle:.
 
+It is intended as a drop in replacement in any situation where you would integrate with an external translation API.
+With Multi-Translate you integrate once and get all the best of all the external translation APIs. Additionally you 
+avoid expensive repeated requests with the built in persistence, and introduce redundancy with the ability to fallback 
+to another service when a request fails.
+
 Multi-Translate uses `FastApi` and `asyncpg` to keep things snappy :zap:, and offers `graphql` and `json` endpoints.
 
-You can check out a public demo here:
+You can have a look at the website and functional demo here:
+
+https://multi-translate.rekon.uk
+
+You can check out our public instance's api docs here:
 
 https://multi-translate-public-api.rekon.uk/docs
 
