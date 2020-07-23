@@ -18,7 +18,7 @@ to another service when a request fails.
 
 Multi-Translate uses `FastApi` and `asyncpg` to keep things snappy :zap:, and offers `graphql` and `json` endpoints.
 
-You can have a look at the website and functional demo here:
+You can have a look and play at the website and functional demo here:
 
 https://multi-translate.rekon.uk
 
